@@ -35,6 +35,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,8 +43,9 @@ import retrofit2.Response;
 import com.alibaba.fastjson.JSONObject;
 
 import com.imzoee.caikid.R;
+import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.convention.LoginConv;
-import com.imzoee.caikid.utils.api.UserServices;
+import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.UserApiInterface;
 
 
@@ -69,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    //private UserLoginTask mAuthTask = null;
     private Context context = this;
 
     // UI references.
@@ -160,9 +162,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
+/*        if (mAuthTask != null) {
             return;
-        }
+        }*/
 
         // Reset errors.
         mEmailView.setError(null);
@@ -202,21 +204,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
 
-            UserServices userServices = new UserServices();
-            UserApiInterface i = userServices.getUserApiInterface();
-            Call<JSONObject> loginCall = i.login(email,password);
+            HttpClient httpClient = new HttpClient();
+            UserApiInterface i = httpClient.getUserApiInterface();
+            //Call<JSONObject> loginCall = i.login(email,password);
+            Call<ResponseBody> loginCall = i.test();
 
-            loginCall.enqueue(new Callback<JSONObject>(){
+            loginCall.enqueue(new Callback<ResponseBody>(){
                 @Override
-                public void onResponse(Call<JSONObject> call, Response<JSONObject> response){
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response){
                     CharSequence text = "success !";
                     Toast.makeText(context, text, Toast.LENGTH_LONG).show();
-                    mEmailView.setText(response.body().getString(LoginConv.RSPKEY_STATUS));
+                    //mEmailView.setText(response.body().getString(ConstConv.HEADKEY_RESPONSTATUS));
+                    Log.i("zzzzz", response.headers().toString());
+                    //Log.i("zzzzz", response.body().toString());
                     showProgress(false);
                 }
 
                 @Override
-                public void onFailure(Call<JSONObject> call, Throwable t){
+                public void onFailure(Call<ResponseBody> call, Throwable t){
                     CharSequence text = "failed !";
                     Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
                     showProgress(false);
@@ -335,7 +340,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+/*    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -386,7 +391,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
-    }
+    }*/
 
 }
 

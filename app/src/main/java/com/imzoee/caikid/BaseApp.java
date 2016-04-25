@@ -6,12 +6,15 @@ import android.content.res.Configuration;
 import com.imzoee.caikid.dao.User;
 import com.imzoee.caikid.utils.preferences.UserPref;
 import com.imzoee.caikid.utils.preferences.Settings;
-import com.imzoee.caikid.utils.api.UserServices;
-import com.imzoee.caikid.convention.LoginConv;
+import com.imzoee.caikid.utils.api.CaikidCookieJar;
+
 /**
  * Created by zoey on 2016/4/21.
  */
 public class BaseApp extends Application {
+    private static BaseApp instance;
+
+    private CaikidCookieJar cookieJar;
     private User user;
     private boolean isLogin = false;
 
@@ -26,17 +29,20 @@ public class BaseApp extends Application {
         // TODO Auto-generated method stub
         super.onCreate();
 
+        cookieJar = new CaikidCookieJar();
+
+        instance = this;
 /*
         if( Settings.isAutoLogin(this) ){
             int id = UserPref.getPfUserId(this);
             String account = UserPref.getPfUserAccount(this);
             String pwd = UserPref.getPfUserPwd(this);
 
-            int status = UserServices.login(account, pwd);
+            int status = HttpClient.login(account, pwd);
             switch (status){
                 case LoginConv.LOGIN_SUCCESSED :
                     setLogin(true);
-                    setSessionUser(UserServices.getUser(id, account, "zoey", pwd)
+                    setSessionUser(HttpClient.getUser(id, account, "zoey", pwd)
                                  );
                     break;
                 case LoginConv.LOGIN_PWD_INCORRECT:
@@ -61,6 +67,11 @@ public class BaseApp extends Application {
         super.onTerminate();
     }
 
+
+    public CaikidCookieJar getCookieJar(){
+        return cookieJar;
+    }
+
     public User getSessionUser(){
         return user;
     }
@@ -77,5 +88,9 @@ public class BaseApp extends Application {
 
     public boolean isLogin(){
         return isLogin;
+    }
+
+    public static BaseApp getInstance(){
+        return instance;
     }
 }
