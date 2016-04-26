@@ -1,6 +1,7 @@
 package com.imzoee.caikid.fragment;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -65,7 +66,9 @@ public class OrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tab_main_order, container, false);
+        View view = inflater.inflate(R.layout.tab_main_order, container, false);
+        initData(view);
+        return view;
     }
 
     @Override
@@ -83,6 +86,17 @@ public class OrderFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        initData(getView());
+        //getView().invalidate();
+    }
+
+    private void initData(View v){
+        ((TextView)v.findViewById(R.id.tv_msg)).setText(getString(R.string.please_login_first));
     }
 
     /**

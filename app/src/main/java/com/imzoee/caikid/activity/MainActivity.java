@@ -1,6 +1,8 @@
 package com.imzoee.caikid.activity;
 
+import android.content.res.Configuration;
 import android.net.Uri;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
                                                                 MeFragment.OnMeFragmentListener {
 
     ViewPager pager = null;
+    MainPagerAdapter mainPagerAdapter = null;
     TabLayout tabLayout = null;
     public String TAG = "tag";                        // debug used
 
@@ -58,9 +61,25 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pager = null;
+        mainPagerAdapter = null;
+        tabLayout = null;
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        notifyLangChange();
+    }
+
+
     /*
-             * init the data for this activity
-             */
+     * init the data for this activity
+     */
     private void initData() {
 
     }
@@ -85,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
 
     private void initViewPager() {
 
-        pager.setAdapter(MainPagerAdapter.instantiate(this, getSupportFragmentManager()));
+        mainPagerAdapter = MainPagerAdapter.instantiate(this, getSupportFragmentManager());
+        pager.setAdapter(mainPagerAdapter);
 
         pager.addOnPageChangeListener(new OnPageChangeListener() {
             @Override
@@ -109,6 +129,16 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         tabLayout.setupWithViewPager(pager);
     }
 
+    private void notifyLangChange(){
+
+        mainPagerAdapter.notifyLangChange();
+
+    }
+
+    /*
+     * below are the override methods of the interfaces in the 3 fragement class,
+     * used to perform action from those fragments to this activity
+     */
     @Override
     public void onRecipeInteraction(Uri uri) {
         /*

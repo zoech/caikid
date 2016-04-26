@@ -20,47 +20,72 @@ import java.util.ArrayList;
  */
 public class MainPagerAdapter extends FragmentPagerAdapter{
 
-    private static MainPagerAdapter instance = null;
-    private static ArrayList<Fragment> viewContainer = null;
-    private static ArrayList<String> titleContainer = null;
+    public static final int INDEX_RECIPE = 0;
+    public static final int INDEX_ORDER = 1;
+    public static final int INDEX_ME = 2;
+
+    private Context context;
+    private ArrayList<Fragment> fragments = null;
+    private ArrayList<String> titles = null;
 
     private MainPagerAdapter(Context context,
                              FragmentManager fm){
         super(fm);
 
-        titleContainer = new ArrayList<>();
-        viewContainer = new ArrayList<>();
-        titleContainer.add(context.getString(R.string.tab_recipe));
-        titleContainer.add(context.getString(R.string.tab_order));
-        titleContainer.add(context.getString(R.string.tab_pay));
-        viewContainer.add(RecipeFragment.newInstance());
-        viewContainer.add(OrderFragment.newInstance("placeholder", "string"));
-        viewContainer.add(MeFragment.newInstance("placeholder", "string"));
+        this.context = context;
+        titles = new ArrayList<>();
+        fragments = new ArrayList<>();
+        titles.add(context.getString(R.string.tab_recipe));
+        titles.add(context.getString(R.string.tab_order));
+        titles.add(context.getString(R.string.tab_me));
+        fragments.add(RecipeFragment.newInstance());
+        fragments.add(OrderFragment.newInstance("placeholder", "string"));
+        fragments.add(MeFragment.newInstance("placeholder", "string"));
     }
 
     public static MainPagerAdapter instantiate(Context context,
                                                FragmentManager fm){
 
-        if(instance == null) {
-            instance = new MainPagerAdapter(context, fm);
-        }
-        return instance;
+        return new MainPagerAdapter(context, fm);
+    }
+
+    /* set the title from outside */
+    public void setTabTitle(int pos, String title){
+        titles.set(pos, title);
+    }
+
+    /*
+     * while the system's default language config is change,
+     * call this from outside to reset the whole acitivity's
+     * language.
+     */
+    public void notifyLangChange(){
+        /* change tab title's text */
+        titles.set(INDEX_RECIPE, context.getResources().getString(R.string.tab_recipe));
+        titles.set(INDEX_ORDER, context.getResources().getString(R.string.tab_order));
+        titles.set(INDEX_ME, context.getResources().getString(R.string.tab_me));
+
+        /* chage 3 fragments' text */
+
+
+        notifyDataSetChanged();
+
     }
 
     //viewpager中的组件数量
     @Override
     public int getCount() {
-        return viewContainer.size();
+        return fragments.size();
     }
 
     @Override
     public Fragment getItem(int position) {
-        return viewContainer.get(position);
+        return fragments.get(position);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return titleContainer.get(position);
+        return titles.get(position);
     }
 
 

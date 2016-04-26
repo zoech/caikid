@@ -2,7 +2,7 @@
     <string name="app_name">ShareDot</string>
     <string name="tab_recipe">Recipe</string>
     <string name="tab_order">Order</string>
-    <string name="tab_pay">Me</string>
+    <string name="tab_me">Me</string>
     <string name="recipe_detail">Recipe detail tab</string>
     <string name="title_activity_login">Sign in</string>
 

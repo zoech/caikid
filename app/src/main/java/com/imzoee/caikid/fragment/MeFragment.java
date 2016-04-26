@@ -2,12 +2,14 @@ package com.imzoee.caikid.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.imzoee.caikid.R;
@@ -68,7 +70,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_main_me, container, false);
-        view.findViewById(R.id.bt_plogin).setOnClickListener(this);
+        initData(view);
+        initListener(view);
         return view;
     }
 
@@ -90,6 +93,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        initData(getView());
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_plogin:
@@ -100,6 +109,16 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    private void initData(View view){
+        ((TextView)view.findViewById(R.id.tv_msg)).setText(getString(R.string.please_login_first));
+        ((Button)view.findViewById(R.id.bt_plogin)).setText(getString(R.string.login));
+    }
+
+    private void initListener(View view){
+
+        view.findViewById(R.id.bt_plogin).setOnClickListener(this);
     }
 
     /**
