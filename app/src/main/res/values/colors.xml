@@ -3,8 +3,17 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="mainBg">#a88cf2</color>
+    <!--color name="mainBg">#a88cf2</color-->
     <color name="tabDownLine">#ef6d6d</color>
+
+    <!-- color design test -->
+    <color name="mainBg">#ecf0f1</color>
+    <color name="tabLayoutBg">#3498db</color>
+    <color name="tabLayoutSelectBg">#2980b9</color>
+    <color name="tabLayoutUnderLine">#e74c3c</color>
+
+    <color name="whiteSelect">#ecf0f1</color>
+    <color name="whiteUnselectd">#bdc3c7</color>
 
     <!-- temperory added -->
 

@@ -2,13 +2,11 @@ package com.imzoee.caikid.activity;
 
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.design.widget.TabLayout;
 
 import com.imzoee.caikid.adapter.MainPagerAdapter;
@@ -107,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         mainPagerAdapter = MainPagerAdapter.instantiate(this, getSupportFragmentManager());
         pager.setAdapter(mainPagerAdapter);
 
-        pager.addOnPageChangeListener(new OnPageChangeListener() {
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
             @Override
             public void onPageScrollStateChanged(int arg0) {
                 Log.d(TAG, "--------changed:" + arg0);
@@ -121,12 +119,15 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
             }
 
             @Override
-            public void onPageSelected(int arg0) {
-                Log.d(TAG, "------selected:" + arg0);
+            public void onPageSelected(int pos) {
+                Log.d(TAG, "------selected:" + pos);
             }
         });
 
         tabLayout.setupWithViewPager(pager);
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.tabDownLine));
+        tabLayout.setTabTextColors(getResources().getColor(R.color.whiteUnselectd),
+                getResources().getColor(R.color.whiteSelect));
     }
 
     private void notifyLangChange(){
