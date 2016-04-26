@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">菜小兜</string>
-    <string name="tab_recipe">点菜</string>
+    <string name="tab_recipe">菜式</string>
     <string name="tab_order">订单</string>
-    <string name="tab_pay">支付</string>
+    <string name="tab_pay">个人</string>
     <string name="recipe_detail">菜式详情页</string>
     <string name="title_activity_login">登录</string>
 
