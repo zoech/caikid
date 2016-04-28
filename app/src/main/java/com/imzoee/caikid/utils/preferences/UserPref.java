@@ -3,6 +3,8 @@ package com.imzoee.caikid.utils.preferences;
 import android.content.SharedPreferences;
 import android.content.Context;
 
+import com.imzoee.caikid.dao.User;
+
 /**
  * Created by zoey on 2016/4/21.
  */
@@ -16,98 +18,136 @@ public class UserPref {
     private static final String KEY_PWD = "pwd";
     private static final String KEY_CREDIT = "credit";
 
-    /*
-     * used only for debug
-     */
-    private static class DebugUse{
-        public final static String account = "zoey@debug.com";
-        public final static String name = "zoey";
-        public final static int id = 1;
-        public final static String pwd = "2b||~2b?";
-    }
+    private Context context = null;
+    private User userHolder = null;
 
-    public static void setPfUserId(Context context, int id){
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
-        editor.putInt(KEY_ID, id).commit();
-    }
+    public UserPref(Context context){
 
-    public static int getPfUserId(Context context){
+        this.context = context;
+        userHolder = new User();
+
         SharedPreferences preferences = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE);
+
         int id = preferences.getInt(KEY_ID, -1);
-        return id;
-    }
-
-
-    public static void setPfUserAccount(Context context, String account){
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
-        editor.putString(KEY_ACCOUNT, account).commit();
-    }
-
-    public static String getPfUserAccount(Context context){
-        SharedPreferences preferences = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE);
         String account = preferences.getString(KEY_ACCOUNT,null);
-        return account;
-    }
-
-
-    public static void setPfUserName(Context context, String name){
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
-        editor.putString(KEY_NAME, name).commit();
-    }
-
-    public static String getPfUserName(Context context){
-        SharedPreferences preferences = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE);
         String name = preferences.getString(KEY_NAME, null);
-        return name;
-    }
-
-
-    public static void setPfUserPwd(Context context, String pwd){
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
-        editor.putString(KEY_PWD, pwd).commit();
-    }
-
-    public static String getPfUserPwd(Context context){
-        SharedPreferences preferences = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE);
         String pwd = preferences.getString(KEY_PWD, null);
-        return pwd;
-    }
-
-
-    public static void setPfUserCredit(Context context, int credit){
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
-        editor.putInt(KEY_CREDIT, credit).commit();
-    }
-
-    public static int getPfUserCredit(Context context){
-        SharedPreferences preferences = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE);
         int credit = preferences.getInt(KEY_CREDIT, -1);
-        return credit;
+
+
+        if(id >= 0) {
+            userHolder.setId(id);
+        } else {
+            userHolder.setId(-1);
+        }
+        userHolder.setAccount(account);
+        userHolder.setName(name);
+        userHolder.setPwd(pwd);
+        userHolder.setCredit(credit);
+    }
+
+    public void setPfUserId(int id){
+        if(id >= 0) {
+            userHolder.setId(id);
+            SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
+            editor.putInt(KEY_ID, id).apply();
+        }
+    }
+
+    public int getPfUserId(){
+        return userHolder.getId();
+    }
+
+
+    public void setPfUserAccount(String account){
+        if(account != null) {
+            userHolder.setAccount(account);
+            SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
+            editor.putString(KEY_ACCOUNT, account).apply();
+        }
+    }
+
+    public String getPfUserAccount(){
+        return userHolder.getAccount();
+    }
+
+
+    public void setPfUserName(String name){
+        if(name != null) {
+            userHolder.setName(name);
+            SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
+            editor.putString(KEY_NAME, name).apply();
+        }
+    }
+
+    public String getPfUserName(){
+        return userHolder.getName();
+    }
+
+
+    public void setPfUserPwd(String pwd){
+        if(pwd != null) {
+            userHolder.setPwd(pwd);
+            SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
+            editor.putString(KEY_PWD, pwd).apply();
+        }
+    }
+
+    public String getPfUserPwd(){
+        return userHolder.getPwd();
+    }
+
+
+    public void setPfUserCredit(int credit){
+        if(credit >= 0) {
+            userHolder.setCredit(credit);
+            SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
+            editor.putInt(KEY_CREDIT, credit).apply();
+        }
+    }
+
+    public int getPfUserCredit(){
+        return userHolder.getCredit();
     }
 
 
     /*
      * update the all preferences of session user at one time
      */
-    public static void setPfUser(Context context, int id, String account, String name, String pwd){
+    public void setPfUser(int id, String account, String name, String pwd, int credit){
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
 
         if (id != -1){
+            userHolder.setId(id);
             editor.putInt(KEY_ID,id);
         }
 
         if (account != null){
+            userHolder.setAccount(account);
             editor.putString(KEY_ACCOUNT,account);
         }
 
         if (name != null){
+            userHolder.setName(name);
             editor.putString(KEY_NAME,name);
         }
 
         if (pwd != null){
+            userHolder.setPwd(pwd);
             editor.putString(KEY_PWD,pwd);
         }
 
-        editor.commit();
+        if (credit != -1){
+            userHolder.setCredit(credit);
+            editor.putInt(KEY_CREDIT,credit);
+        }
+
+        editor.apply();
+    }
+
+    public void setPfUser(User user){
+        if(user != null){
+            setPfUser(user.getId(), user.getAccount(), user.getName(), user.getPwd(), user.getCredit());
+        }
     }
 }
