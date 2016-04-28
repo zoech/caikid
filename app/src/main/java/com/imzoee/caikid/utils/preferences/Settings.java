@@ -10,29 +10,36 @@ public class Settings {
 
     private static final String PREFERNAME = "settings";
 
-    private static final String KEY_ISLOGIN = "status";
+    private static final String KEY_ISLOGIN = "islogin";
     private static final String KEY_AUTOLOGIN = "autologin";
 
-    public static void setLoginStatus(Context context, boolean status){
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
-        editor.putBoolean(KEY_ISLOGIN, status).commit();
-    }
+    private Context context;
+    private boolean isLogin = false;
+    private boolean autoLogin = true;
 
-    public static boolean isLogin(Context context){
+    public Settings(Context context){
+        this.context = context;
         SharedPreferences preferences = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE);
-        boolean status = preferences.getBoolean(KEY_ISLOGIN, false);
-        return status;
+        isLogin = false; //preferences.getBoolean(KEY_ISLOGIN, false);
+        autoLogin = preferences.getBoolean(KEY_AUTOLOGIN, true);
+    }
+
+    public void setLoginStatus(boolean status){
+        isLogin = status;
+    }
+
+    public boolean isLogin(){
+        return isLogin;
     }
 
 
-    public static void setAutoLgin(Context context, boolean auto){
+    public void setAutoLgin(boolean auto){
+        autoLogin = auto;
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
-        editor.putBoolean(KEY_AUTOLOGIN, auto).commit();
+        editor.putBoolean(KEY_AUTOLOGIN, auto).apply();
     }
 
-    public static boolean isAutoLogin(Context context){
-        SharedPreferences preferences = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE);
-        boolean status = preferences.getBoolean(KEY_AUTOLOGIN, true);
-        return status;
+    public boolean isAutoLogin(){
+        return autoLogin;
     }
 }
