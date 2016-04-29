@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 
 import com.imzoee.caikid.dao.User;
+import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.preferences.UserPref;
 import com.imzoee.caikid.utils.preferences.Settings;
 import com.imzoee.caikid.utils.api.CaikidCookieJar;
@@ -14,9 +15,9 @@ import com.imzoee.caikid.utils.api.CaikidCookieJar;
 public class BaseApp extends Application {
     private static BaseApp instance;
 
-    private CaikidCookieJar cookieJar;
-    private User user;
-    private boolean isLogin = false;
+    private UserPref userPref = null;
+    private Settings settings = null;
+    private HttpClient httpClient = null;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -29,9 +30,13 @@ public class BaseApp extends Application {
         // TODO Auto-generated method stub
         super.onCreate();
 
-        cookieJar = new CaikidCookieJar();
-
         instance = this;
+
+        userPref = new UserPref(this);
+        settings = new Settings(this);
+        httpClient = new HttpClient();
+
+
 /*
         if( Settings.isAutoLogin(this) ){
             int id = UserPref.getPfUserId(this);
@@ -68,29 +73,17 @@ public class BaseApp extends Application {
     }
 
 
-    public CaikidCookieJar getCookieJar(){
-        return cookieJar;
-    }
+   /* public UserPref getUserPref(){
+        return userPref;
+    }*/
 
-    public User getSessionUser(){
-        return user;
-    }
+    public void setSessionUser(User user){ this.userPref.setPfUser(user); }
 
-    public void setSessionUser(User user){
-        this.user = user;
-        UserPref.setPfUser(this, user.getId(), user.getAccount(), user.getName(), user.getPwd());
-    }
+    public static Settings getSettings(){ return instance.settings; }
 
-    public void setLogin(boolean status){
-        isLogin = status;
-        Settings.setLoginStatus(this, status); // write into preferences
-    }
+    public static BaseApp getInstance(){ return instance; }
 
-    public boolean isLogin(){
-        return isLogin;
-    }
+    public static UserPref getUserPref(){ return instance.userPref; }
 
-    public static BaseApp getInstance(){
-        return instance;
-    }
+    public static HttpClient getHttpClient() { return instance.httpClient; }
 }
