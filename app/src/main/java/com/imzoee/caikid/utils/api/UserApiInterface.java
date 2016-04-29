@@ -4,10 +4,6 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
 import com.imzoee.caikid.convention.ConstConv;
-import com.imzoee.caikid.convention.LoginConv;
-import com.imzoee.caikid.convention.LogoutConv;
-import com.imzoee.caikid.convention.SignupConv;
-import com.imzoee.caikid.convention.VerifyConv;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -20,24 +16,20 @@ import okhttp3.ResponseBody;
  */
 public interface UserApiInterface {
     @POST("user/login")
-    Call<JSONObject> login(@Query(LoginConv.RESKEY_ACCOUNT) String account, @Query(LoginConv.RESKEY_PWD) String pwd);
+    Call<ResponseBody> login(@Query(ConstConv.RESKEY_ACCOUNT) String account,
+                             @Query(ConstConv.RESKEY_PWD) String pwd);
 
     @POST("user/verify")
-    Call<JSONObject> verify(@Query(VerifyConv.RESKEY_ACCOUNT) String account,
-                            @Query(VerifyConv.RESKEY_NAME) String name,
-                            @Query(VerifyConv.RESKEY_PWD) String pwd);
+    Call<ResponseBody> verify(@Query(ConstConv.RESKEY_ACCOUNT) String account);
 
     @POST("user/signup")
-    Call<JSONObject> signUp(@Query(SignupConv.RESKEY_ACCOUNT) String account,
-                            @Query(SignupConv.RESKEY_PWD) String pwd,
-                            @Query(SignupConv.RESKEY_NAME) String name,
-                            @Query(SignupConv.RESKEY_TOKEN) String token,
-                            @Query(SignupConv.RESKEY_VERIFYCODE) String verifyCode);
+    Call<ResponseBody> signUp(@Query(ConstConv.RESKEY_ACCOUNT) String account,
+                            @Query(ConstConv.RESKEY_PWD) String pwd,
+                            @Query(ConstConv.RESKEY_NAME) String name,
+                            @Query(ConstConv.RESKEY_VERIFYCODE) String verifyCode);
 
     @POST("user/logout")
-    Call<JSONObject> logout(@Query(LogoutConv.RESKEY_USERID) String userId,
-                            @Query(LogoutConv.RESKEY_ACCOUNT) String account,
-                            @Query(LogoutConv.RESKEY_PWD) String pwd);
+    Call<ResponseBody> logout();
 
 
 
