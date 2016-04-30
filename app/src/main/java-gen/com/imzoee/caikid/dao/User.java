@@ -12,16 +12,18 @@ public class User {
     /** Not-null value. */
     private String name;
     private Integer credit;
+    private String avatarUrl;
 
     public User() {
     }
 
-    public User(Integer id, String account, String pwd, String name, Integer credit) {
+    public User(Integer id, String account, String pwd, String name, Integer credit, String avatarUrl) {
         this.id = id;
         this.account = account;
         this.pwd = pwd;
         this.name = name;
         this.credit = credit;
+        this.avatarUrl = avatarUrl;
     }
 
     public Integer getId() {
@@ -64,6 +66,14 @@ public class User {
 
     public void setCredit(Integer credit) {
         this.credit = credit;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
 }

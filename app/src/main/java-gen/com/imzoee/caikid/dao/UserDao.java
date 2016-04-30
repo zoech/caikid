@@ -28,6 +28,7 @@ public class UserDao extends AbstractDao<User, Void> {
         public final static Property Pwd = new Property(2, String.class, "pwd", false, "PWD");
         public final static Property Name = new Property(3, String.class, "name", false, "NAME");
         public final static Property Credit = new Property(4, Integer.class, "credit", false, "CREDIT");
+        public final static Property AvatarUrl = new Property(5, String.class, "avatarUrl", false, "AVATAR_URL");
     };
 
 
@@ -47,7 +48,8 @@ public class UserDao extends AbstractDao<User, Void> {
                 "'ACCOUNT' TEXT," + // 1: account
                 "'PWD' TEXT," + // 2: pwd
                 "'NAME' TEXT NOT NULL ," + // 3: name
-                "'CREDIT' INTEGER);"); // 4: credit
+                "'CREDIT' INTEGER," + // 4: credit
+                "'AVATAR_URL' TEXT);"); // 5: avatarUrl
     }
 
     /** Drops the underlying database table. */
@@ -81,6 +83,11 @@ public class UserDao extends AbstractDao<User, Void> {
         if (credit != null) {
             stmt.bindLong(5, credit);
         }
+ 
+        String avatarUrl = entity.getAvatarUrl();
+        if (avatarUrl != null) {
+            stmt.bindString(6, avatarUrl);
+        }
     }
 
     /** @inheritdoc */
@@ -97,7 +104,8 @@ public class UserDao extends AbstractDao<User, Void> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // account
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // pwd
             cursor.getString(offset + 3), // name
-            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4) // credit
+            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // credit
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // avatarUrl
         );
         return entity;
     }
@@ -110,6 +118,7 @@ public class UserDao extends AbstractDao<User, Void> {
         entity.setPwd(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setName(cursor.getString(offset + 3));
         entity.setCredit(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
+        entity.setAvatarUrl(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     /** @inheritdoc */
