@@ -118,6 +118,10 @@ public class UserPref {
         }
     }
 
+    public String getPfAvatarUrl(){
+        return userHolder.getAvatarUrl();
+    }
+
 
     /*
      * update the all preferences of session user at one time
