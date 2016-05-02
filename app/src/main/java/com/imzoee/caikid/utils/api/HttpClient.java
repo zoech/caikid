@@ -12,7 +12,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.imzoee.caikid.utils.misc.FastJsonConverterFactory;
 
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.utils.preferences.UserPref;
@@ -39,7 +39,7 @@ public class HttpClient {
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(ConstConv.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(FastJsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
 
