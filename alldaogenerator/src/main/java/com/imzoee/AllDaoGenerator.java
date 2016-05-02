@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example;
+package com.imzoee;
 
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
-import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
-import de.greenrobot.daogenerator.ToMany;
-
-import java.util.List;
 
 /**
  * Generates entities and DAOs for the example project DaoExample.
@@ -50,6 +46,7 @@ public class AllDaoGenerator {
         user.addStringProperty("pwd");                 /* password for user */
         user.addStringProperty("name").notNull();      /* name */
         user.addIntProperty("credit");                 /* user credits */
+        user.addStringProperty("avatarUrl");           /* user avatar's url */
     }
 
     private static void addRecipe(Schema schema){

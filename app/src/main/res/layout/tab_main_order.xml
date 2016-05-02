@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/mainBg">
 
-
     <RelativeLayout
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
@@ -20,7 +19,9 @@
 
     </RelativeLayout>
 
+
     <RelativeLayout
+        android:id="@+id/rl_unlogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center">
@@ -33,6 +34,28 @@
             android:layout_gravity="center"
             android:text="@string/please_login_first" />
 
+        <Button
+            android:id="@+id/bt_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_msg"
+            android:text="test"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:text="you hava login!" />
     </RelativeLayout>
 
 </LinearLayout>
