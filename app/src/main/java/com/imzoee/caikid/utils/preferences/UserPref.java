@@ -46,7 +46,7 @@ public class UserPref {
     }
 
     public void setPfUserId(int id){
-        if(id >= 0) {
+        if(id >= 0 && id != userHolder.getId()) {
             userHolder.setId(id);
             SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
             editor.putInt(KEY_ID, id).apply();
@@ -59,7 +59,8 @@ public class UserPref {
 
 
     public void setPfUserAccount(String account){
-        if(account != null) {
+        if(userHolder.getAccount() == null
+                || ( account != null && !account.equals(userHolder.getAccount()))) {
             userHolder.setAccount(account);
             SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
             editor.putString(KEY_ACCOUNT, account).apply();
@@ -72,7 +73,8 @@ public class UserPref {
 
 
     public void setPfUserName(String name){
-        if(name != null) {
+        if(userHolder.getName() == null
+                || ( name != null && !name.equals(userHolder.getName()))) {
             userHolder.setName(name);
             SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
             editor.putString(KEY_NAME, name).apply();
@@ -85,7 +87,8 @@ public class UserPref {
 
 
     public void setPfUserPwd(String pwd){
-        if(pwd != null) {
+        if(userHolder.getPwd() == null
+                ||  ( pwd != null && !pwd.equals(userHolder.getPwd()))) {
             userHolder.setPwd(pwd);
             SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
             editor.putString(KEY_PWD, pwd).apply();
@@ -98,7 +101,7 @@ public class UserPref {
 
 
     public void setPfUserCredit(int credit){
-        if(credit >= 0) {
+        if(credit > 0 && credit != userHolder.getCredit()) {
             userHolder.setCredit(credit);
             SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
             editor.putInt(KEY_CREDIT, credit).apply();
@@ -111,7 +114,8 @@ public class UserPref {
 
 
     public void setPfAvatarUrl(String avatar){
-        if(avatar != null) {
+        if(userHolder.getAvatarUrl() == null
+                || ( avatar != null && !avatar.equals(userHolder.getAvatarUrl()))) {
             userHolder.setAvatarUrl(avatar);
             SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
             editor.putString(KEY_AVATAR, avatar).apply();
@@ -129,32 +133,36 @@ public class UserPref {
     public void setPfUser(int id, String account, String name, String pwd, int credit, String avatar){
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
 
-        if (id != -1){
+        if (id >= 0 && id != userHolder.getId()){
             userHolder.setId(id);
             editor.putInt(KEY_ID, id);
         }
 
-        if (account != null){
+        if (userHolder.getAccount() == null
+                || ( account != null && !account.equals(userHolder.getAccount()))){
             userHolder.setAccount(account);
             editor.putString(KEY_ACCOUNT, account);
         }
 
-        if (name != null){
+        if (userHolder.getName() == null
+                || ( name != null && !name.equals(userHolder.getName()))){
             userHolder.setName(name);
             editor.putString(KEY_NAME, name);
         }
 
-        if (pwd != null){
+        if (userHolder.getPwd() == null
+                ||  ( pwd != null && !pwd.equals(userHolder.getPwd()))){
             userHolder.setPwd(pwd);
             editor.putString(KEY_PWD, pwd);
         }
 
-        if (credit != -1){
+        if (credit > 0 && credit != userHolder.getCredit()){
             userHolder.setCredit(credit);
             editor.putInt(KEY_CREDIT, credit);
         }
 
-        if (avatar != null){
+        if (userHolder.getAvatarUrl() == null
+                || ( avatar != null && !avatar.equals(userHolder.getAvatarUrl()))){
             userHolder.setAvatarUrl(avatar);
             editor.putString(KEY_AVATAR, avatar);
         }
