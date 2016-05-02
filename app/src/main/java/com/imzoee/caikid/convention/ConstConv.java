@@ -13,7 +13,9 @@ public class ConstConv {
     public static final String HEADKEY_ACCOUNT = "caikid-account";
     public static final String HEADKEY_ID = "caikid-id";
     public static final String HEADKEY_PWD = "caikid-pwd";
-	
+
+
+	public static final String AVATAR_DEAFAULT = "avatar-default";
 	
 	
 	/* request key */
