@@ -6,14 +6,40 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import okhttp3.ResponseBody;
+import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import com.imzoee.caikid.dao.User;
+import com.imzoee.caikid.utils.misc.ObservablesFactory;
+import com.imzoee.caikid.utils.preferences.Settings;
+import com.imzoee.caikid.utils.preferences.UserPref;
+import com.rey.material.widget.Switch;
+import com.squareup.picasso.Picasso;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import rx.Observable;
+import rx.Subscriber;
 
 import com.imzoee.caikid.R;
+import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.activity.LoginActivity;
+import com.imzoee.caikid.convention.ConstConv;
+import com.imzoee.caikid.utils.api.HttpClient;
+import com.imzoee.caikid.utils.api.UserApiInterface;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,16 +50,29 @@ import com.imzoee.caikid.activity.LoginActivity;
  * create an instance of this fragment.
  */
 public class MeFragment extends Fragment implements View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static MeFragment instance = null;
 
     private OnMeFragmentListener mListener;
+
+    /* global preference references */
+    private UserPref userPref = null;
+    private Settings settings = null;
+    private HttpClient httpClient = null;
+
+    /* view references */
+    private View view;
+    private RelativeLayout rlBottomLayer = null;
+    private LinearLayout llUserInfo = null;
+    private ImageView avatar = null;
+    private TextView tvUnderAvatar = null;
+    private Button btRegLogout = null;
+    private TextView tvUserName = null;
+    private TextView tvCredit = null;
+    private LinearLayout llInfoCard = null;
+
+    /* setting panel view references */
+    private Switch swAutoLogin = null;
 
     public MeFragment() {
         // Required empty public constructor
@@ -43,35 +82,32 @@ public class MeFragment extends Fragment implements View.OnClickListener {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment MeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MeFragment newInstance(String param1, String param2) {
+    public static MeFragment newInstance() {
         MeFragment fragment = new MeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        instance = this;
+
+        userPref = BaseApp.getUserPref();
+        settings = BaseApp.getSettings();
+        httpClient = BaseApp.getHttpClient();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_main_me, container, false);
-        initData(view);
-        initListener(view);
+        view = inflater.inflate(R.layout.tab_main_me, container, false);
+        initView();
+        initData();
+        initListener();
         return view;
     }
 
@@ -95,15 +131,31 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        initData(getView());
+        initData();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.bt_plogin:
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
+            case R.id.iv_avatar:
+                if(settings.isLogin()) {
+                    /* if already login, we start the activity for modified user's preference */
+                } else {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                break;
+
+            case R.id.bt_register_logout:
+                if(settings.isLogin()) {
+
+                    UserApiInterface i = httpClient.getUserApiInterface();
+                    Call<ResponseBody> logoutCall = i.logout();
+                    logoutCall.enqueue(new LogoutCallBack());
+
+                } else {
+                    /* if the current state is not login, then here is the register button */
+                }
                 break;
 
             default:
@@ -111,15 +163,69 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void initData(View view){
-        ((TextView)view.findViewById(R.id.tv_msg)).setText(getString(R.string.please_login_first));
-        ((Button)view.findViewById(R.id.bt_plogin)).setText(getString(R.string.login));
+    private void initView(){
+        rlBottomLayer = (RelativeLayout) view.findViewById(R.id.rl_bottom_layer_not_login);
+        llUserInfo = (LinearLayout) view.findViewById(R.id.ll_user_info_panel);
+        avatar = (ImageView) view.findViewById(R.id.iv_avatar);
+        tvUnderAvatar = (TextView) view.findViewById(R.id.tv_underAvatar);
+        btRegLogout = (Button) view.findViewById(R.id.bt_register_logout);
+        tvUserName = (TextView) view.findViewById(R.id.tv_user_name);
+        tvCredit = (TextView) view.findViewById(R.id.tv_credit);
+        llInfoCard = (LinearLayout) view.findViewById(R.id.ll_user_info_card);
+        swAutoLogin = (Switch) view.findViewById(R.id.sw_auto_login);
     }
 
-    private void initListener(View view){
+    private void initData(){
+        if(settings.isLogin()) {
+            rlBottomLayer.setVisibility(View.GONE);
+            llUserInfo.setVisibility(View.VISIBLE);
+            tvUnderAvatar.setVisibility(View.GONE);
+            btRegLogout.setText(getString(R.string.logout));
+            tvUserName.setText(userPref.getPfUserName());
+            tvCredit.setText(String.valueOf(userPref.getPfUserCredit()));
+            llInfoCard.setVisibility(View.VISIBLE);
+            Picasso.with(getContext())
+                    .load(userPref.getPfAvatarUrl())
+                    .transform(new CropCircleTransformation())
+                    .into(avatar);
 
-        view.findViewById(R.id.bt_plogin).setOnClickListener(this);
+            swAutoLogin.setChecked(settings.isAutoLogin());
+
+        } else {
+            rlBottomLayer.setVisibility(View.VISIBLE);
+            llUserInfo.setVisibility(View.GONE);
+            tvUnderAvatar.setVisibility(View.VISIBLE);
+            btRegLogout.setText(getString(R.string.avatar_sign_up));
+            llInfoCard.setVisibility(View.GONE);
+            Picasso.with(getContext()).load(R.drawable.avatar_default)
+                    .transform(new CropCircleTransformation())
+                    .into(avatar);
+        }
+
     }
+
+    private void initListener(){
+        avatar.setOnClickListener(this);
+        btRegLogout.setOnClickListener(this);
+        swAutoLogin.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(Switch view, boolean checked) {
+                settings.setAutoLogin(checked);
+            }
+        });
+    }
+
+    private Subscriber<User> createLoginStateSubscriber(){
+        return new LoginStateSubscriber();
+    }
+
+    public static Subscriber<User> getLoginStateSubscriber(){
+        if(instance == null){
+            return null;
+        }
+        return instance.createLoginStateSubscriber();
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -134,5 +240,64 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     public interface OnMeFragmentListener {
         // TODO: Update argument type and name
         void onMeInteraction(Uri uri);
+    }
+
+
+    /**********************************************************************************************/
+    /******************************** below are some private class ********************************/
+
+    /*
+     * retrofit callback, set up in the logout request enqueue() method, invoke after request send
+     * and response is back;
+     */
+    private class LogoutCallBack implements Callback<ResponseBody> {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            Headers headers = response.headers();
+            String status = headers.get(ConstConv.HEADKEY_RESPONSTATUS);
+
+            Log.i("-----------------------", status);
+
+            if (status != null && status.equals(ConstConv.RET_STATUS_OK)) {
+                settings.setLoginStatus(false);
+
+                /* send a observable to alert logout */
+                Observable<User> logoutObservable = ObservablesFactory.loginStateObservable(null);
+                Subscriber<User> orderLogoutSubscriber = OrderFragment.getLoginStateSubscriber();
+                Subscriber<User> meLogoutSubscriber = createLoginStateSubscriber();
+                if (orderLogoutSubscriber != null){
+                    logoutObservable.subscribe(orderLogoutSubscriber);
+                }
+                logoutObservable.subscribe(meLogoutSubscriber);
+            }
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+            Toast.makeText(getContext(), getString(R.string.msg_connect_error), Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    /* rxjava's subscriber */
+    private class LoginStateSubscriber extends Subscriber<User> {
+        @Override
+        public void onCompleted() {
+            if(!isUnsubscribed()) {
+                this.unsubscribe();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Toast.makeText(getContext(), "error in observable,Mefragment", Toast.LENGTH_LONG)
+                    .show();
+            Log.i("----------------------", e.getMessage());
+        }
+
+        @Override
+        public void onNext(User user) {
+            initData();
+        }
     }
 }
