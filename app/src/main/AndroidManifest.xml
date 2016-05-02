@@ -15,7 +15,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"  >
-        <activity android:name=".activity.SplashActivity" >
+        <activity android:name=".activity.SplashActivity"
+            android:theme="@style/FullScreenTheme">
 
             <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar" -->
             <intent-filter>
