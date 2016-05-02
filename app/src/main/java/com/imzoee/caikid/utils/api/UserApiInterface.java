@@ -1,9 +1,7 @@
 package com.imzoee.caikid.utils.api;
 
-import android.util.Log;
-
-import com.alibaba.fastjson.JSONObject;
 import com.imzoee.caikid.convention.ConstConv;
+import com.imzoee.caikid.dao.User;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,8 +14,8 @@ import okhttp3.ResponseBody;
  */
 public interface UserApiInterface {
     @POST("user/login")
-    Call<ResponseBody> login(@Query(ConstConv.RESKEY_ACCOUNT) String account,
-                             @Query(ConstConv.RESKEY_PWD) String pwd);
+    Call<User> login(@Query(ConstConv.RESKEY_ACCOUNT) String account,
+                     @Query(ConstConv.RESKEY_PWD) String pwd);
 
     @POST("user/verify")
     Call<ResponseBody> verify(@Query(ConstConv.RESKEY_ACCOUNT) String account);
