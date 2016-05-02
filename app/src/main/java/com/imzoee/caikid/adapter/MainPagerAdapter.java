@@ -37,8 +37,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter{
         titles.add(context.getString(R.string.tab_order));
         titles.add(context.getString(R.string.tab_me));
         fragments.add(RecipeFragment.newInstance());
-        fragments.add(OrderFragment.newInstance("placeholder", "string"));
-        fragments.add(MeFragment.newInstance("placeholder", "string"));
+        fragments.add(OrderFragment.newInstance());
+        fragments.add(MeFragment.newInstance());
     }
 
     public static MainPagerAdapter instantiate(Context context,
