@@ -5,6 +5,7 @@ import android.content.Context;
 
 /**
  * Created by zoey on 2016/4/21.
+ *
  */
 public class Settings {
 
@@ -20,12 +21,16 @@ public class Settings {
     public Settings(Context context){
         this.context = context;
         SharedPreferences preferences = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE);
-        isLogin = false; //preferences.getBoolean(KEY_ISLOGIN, false);
+        isLogin = preferences.getBoolean(KEY_ISLOGIN, false);
         autoLogin = preferences.getBoolean(KEY_AUTOLOGIN, true);
     }
 
     public void setLoginStatus(boolean status){
-        isLogin = status;
+        if(isLogin != status) {
+            SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
+            editor.putBoolean(KEY_ISLOGIN, status).apply();
+            isLogin = status;
+        }
     }
 
     public boolean isLogin(){
@@ -33,10 +38,12 @@ public class Settings {
     }
 
 
-    public void setAutoLgin(boolean auto){
-        autoLogin = auto;
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME,Context.MODE_PRIVATE).edit();
-        editor.putBoolean(KEY_AUTOLOGIN, auto).apply();
+    public void setAutoLogin(boolean auto){
+        if(autoLogin != auto) {
+            autoLogin = auto;
+            SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
+            editor.putBoolean(KEY_AUTOLOGIN, auto).apply();
+        }
     }
 
     public boolean isAutoLogin(){
