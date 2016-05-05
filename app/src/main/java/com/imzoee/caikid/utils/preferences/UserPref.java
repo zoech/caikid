@@ -8,6 +8,10 @@ import com.imzoee.caikid.dao.User;
 
 /**
  * Created by zoey on 2016/4/21.
+ *
+ * Class used to store the login user's information.
+ * Note that there should be only one instance of this
+ * class during the whole app.
  */
 public class UserPref {
 
