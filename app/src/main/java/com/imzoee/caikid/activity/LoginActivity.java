@@ -15,7 +15,6 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -36,22 +35,15 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-
-import com.alibaba.fastjson.JSON;
 
 import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.User;
-import com.imzoee.caikid.fragment.MeFragment;
-import com.imzoee.caikid.fragment.OrderFragment;
 import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.UserApiInterface;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
@@ -337,7 +329,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if(status == null){
                 Toast.makeText(getBaseContext(),
-                        "techonology errors in server! the server havent set the status header!",
+                        getString(R.string.msg_status_header_null),
                         Toast.LENGTH_LONG).show();
             }
             else if(status.equals(ConstConv.RET_STATUS_OK)){
@@ -345,25 +337,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 final User user = response.body();
 
                 /* save the basic information to userPref and settings */
-/*                BaseApp.getUserPref().setPfUserAccount(mAccountView.getText().toString());
-                String id = headers.get(ConstConv.RESKEY_ID);
-                BaseApp.getUserPref().setPfUserId(Integer.parseInt(id));*/
                 BaseApp.getUserPref().setPfUser(user);
                 BaseApp.getSettings().setLoginStatus(true);
 
                 /* alert the relative components to update their data or view */
-                Observable<User> logoutObservable = ObservablesFactory.loginStateObservable(user);
-                Subscriber<User> orderLogoutSubscriber = OrderFragment.getLoginStateSubscriber();
-                Subscriber<User> meLogoutSubscriber = MeFragment.getLoginStateSubscriber();
-                if (orderLogoutSubscriber != null){
-                    logoutObservable.subscribe(orderLogoutSubscriber);
-                }
-                if (meLogoutSubscriber != null) {
-                    logoutObservable.subscribe(meLogoutSubscriber);
-                }
+                ObservablesFactory.loginStateObservable(user);
 
                 /* shutdown this activity */
                 finish();
+
             } else if(status.equals(ConstConv.RET_STATUS_PWDERR)){
                 /* password do not match */
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
