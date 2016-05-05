@@ -2,6 +2,8 @@ package com.imzoee.caikid.convention;
 
 /**
  * Created by zoey on 2016/4/23.
+ *
+ * These static string is some key or values related to networking.
  */
 public class ConstConv {
     /* the server ip */
