@@ -17,7 +17,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password">This password is invalid</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -40,4 +40,6 @@
     <!-- standard network connection msg -->
     <string name="msg_connect_error">Network Problems!</string>
     <string name="msg_time_out">network connect time out!</string>
+    <string name="msg_status_header_null">techonology errors in server! the server havent set the status header!</string>
+    <string name="msg_session_valid">the session is time out!</string>
 </resources>
