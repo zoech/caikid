@@ -30,7 +30,6 @@ import com.imzoee.caikid.utils.preferences.UserPref;
 import com.rey.material.widget.Switch;
 import com.squareup.picasso.Picasso;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-import rx.Observable;
 import rx.Subscriber;
 
 import com.imzoee.caikid.R;
@@ -258,17 +257,27 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
             Log.i("-----------------------", status);
 
-            if (status != null && status.equals(ConstConv.RET_STATUS_OK)) {
+            if (status == null){
+                /* if code arrived here, it means the server didn't set the status header */
+                Toast.makeText(getContext(),
+                        getString(R.string.msg_status_header_null),
+                        Toast.LENGTH_LONG).show();
+            } else if (status.equals(ConstConv.RET_STATUS_OK)) {
                 settings.setLoginStatus(false);
 
                 /* send a observable to alert logout */
-                Observable<User> logoutObservable = ObservablesFactory.loginStateObservable(null);
-                Subscriber<User> orderLogoutSubscriber = OrderFragment.getLoginStateSubscriber();
-                Subscriber<User> meLogoutSubscriber = createLoginStateSubscriber();
-                if (orderLogoutSubscriber != null){
-                    logoutObservable.subscribe(orderLogoutSubscriber);
-                }
-                logoutObservable.subscribe(meLogoutSubscriber);
+                ObservablesFactory.loginStateObservable(null);
+
+            } else if(status.equals(ConstConv.RET_STATUS_SESSIONNOTEXIST)){
+                /* the session is not valid, maybe the session is timeout, or the account login in another device */
+                Toast.makeText(getContext(),
+                        getString(R.string.msg_session_valid),
+                        Toast.LENGTH_LONG).show();
+            } else if(status.equals(ConstConv.RET_STATUS_TIMEOUT)){
+                /* the connection is time out */
+                Toast.makeText(getContext(),
+                        getString(R.string.msg_time_out),
+                        Toast.LENGTH_LONG).show();
             }
         }
 
