@@ -13,6 +13,9 @@
     <dimen name="avatarPanelHeight">200dip</dimen>
     <dimen name="credit_padding">10dip</dimen>
 
+    <!-- login activity -->
+    <dimen name="app_name_textSize">45sp</dimen>
+
 
     <!-- system default -->
     <dimen name="abc_config_prefDialogWidth">320.0dip</dimen>
