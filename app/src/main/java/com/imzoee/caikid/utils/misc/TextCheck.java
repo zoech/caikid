@@ -2,6 +2,8 @@ package com.imzoee.caikid.utils.misc;
 
 /**
  * Created by zoey on 2016/4/29.
+ *
+ * Interface related to text checking.
  */
 public class TextCheck {
     public static boolean validAccount(String account){
