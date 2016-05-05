@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ShareDot</string>
     <string name="tab_recipe">Recipe</string>
@@ -6,11 +7,13 @@
     <string name="recipe_detail">Recipe detail tab</string>
     <string name="title_activity_login">Sign in</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings related to login activity -->
     <string name="please_login_first">Please login first!</string>
     <string name="login">login</string>
     <string name="prompt_email">Email</string>
+    <string name="prompt_name">Name</string>
     <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_verify_code">Verify Code</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -20,18 +23,21 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="msg_login_user_not_exist">the user is not exist!</string>
 
-    <string name="logout">logout</string>
+    <!-- string related to login and register tabs -->
+    <string name="app_short_description">faster, and healthier platform</string>
+    <string name="forget_password">forgot password?</string>
+    <string name="register">register</string>
 
 
     <!-- me fragment string -->
     <string name="below_avatar">Touch to login</string>
     <string name="avatar_sign_up">No account?</string>
     <string name="credit">credit</string>
+    <string name="logout">logout</string>
 
-    <!-- msg -->
+    <!-- standard network connection msg -->
     <string name="msg_connect_error">Network Problems!</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="msg_time_out">network connect time out!</string>
 </resources>
