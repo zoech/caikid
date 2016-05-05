@@ -21,6 +21,11 @@
     <string name="permission_rationale">"需要提供Contacts权限才能使用邮箱。"
     </string>
 
+
+    <string name="app_short_description">更快，更健康的饮食平台</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="register">注册</string>
+
     <string name="logout">注销</string>
 
 
