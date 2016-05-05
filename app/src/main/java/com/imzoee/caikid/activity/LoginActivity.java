@@ -3,6 +3,7 @@ package com.imzoee.caikid.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -87,16 +88,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private TextView register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mAccountView = (AutoCompleteTextView) findViewById(R.id.account);
+        mAccountView = (AutoCompleteTextView) findViewById(R.id.actv_account);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = (EditText) findViewById(R.id.et_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -108,11 +110,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mSignInButton = (Button) findViewById(R.id.bt_login);
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        (findViewById(R.id.tv_register)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -172,16 +182,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-/*        if (mAuthTask != null) {
-            return;
-        }*/
 
         // Reset errors.
         mAccountView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mAccountView.getText().toString();
+        String account = mAccountView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -195,11 +202,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(account)) {
             mAccountView.setError(getString(R.string.error_field_required));
             focusView = mAccountView;
             cancel = true;
-        } else if (!TextCheck.validAccount(email)) {
+        } else if (!TextCheck.validAccount(account)) {
             mAccountView.setError(getString(R.string.error_invalid_email));
             focusView = mAccountView;
             cancel = true;
@@ -217,7 +224,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             HttpClient httpClient = BaseApp.getHttpClient();
             UserApiInterface i = httpClient.getUserApiInterface();
             //Call<JSONObject> loginCall = i.login(email,password);
-            Call<User> loginCall = i.login(email,password);
+            Call<User> loginCall = i.login(account,password);
 
             loginCall.enqueue(new LoginCallBack());
 
@@ -286,7 +293,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cursor.moveToNext();
         }
 
-        addEmailsToAutoComplete(emails);
+        addAccountToAutoComplete(emails);
     }
 
     @Override
@@ -294,7 +301,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+    private void addAccountToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(LoginActivity.this,
@@ -328,7 +335,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Headers headers = response.headers();
             String status = headers.get(ConstConv.HEADKEY_RESPONSTATUS);
 
-            if(status != null && status.equals(ConstConv.RET_STATUS_OK)){
+            if(status == null){
+                Toast.makeText(getBaseContext(),
+                        "techonology errors in server! the server havent set the status header!",
+                        Toast.LENGTH_LONG).show();
+            }
+            else if(status.equals(ConstConv.RET_STATUS_OK)){
 
                 final User user = response.body();
 
@@ -352,6 +364,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 /* shutdown this activity */
                 finish();
+            } else if(status.equals(ConstConv.RET_STATUS_PWDERR)){
+                /* password do not match */
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+            } else if(status.equals(ConstConv.RET_STATUS_USERNOTEXIST)){
+                /* the user is not register */
+                mAccountView.setError(getString(R.string.msg_login_user_not_exist));
+            } else if(status.equals(ConstConv.RET_STATUS_RELOGIN)){
+                /* the user is already login */
+            } else if(status.equals(ConstConv.RET_STATUS_TIMEOUT)){
+                /* connection time out */
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.msg_time_out),
+                        Toast.LENGTH_LONG).show();
             }
             showProgress(false);
         }
