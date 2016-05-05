@@ -10,10 +10,13 @@ import okhttp3.HttpUrl;
 
 /**
  * Created by zoey on 2016/4/25.
+ *
+ * Special CookieJar, used to handle cookie for our HttpClient.
+ * For more details, read the docs for okHttp and retrofit2.
  */
 public class CaikidCookieJar implements CookieJar{
 
-    /* curently, this client only serve for our app, which means that this httpclient may
+    /** currently, this client only serve for our app, which means that this httpclient may
      * only access our server specified by ConstConv.API_URL. And therefore we dont hava
      * to handle multi site cookie saving, we only save the cookies used by our server.
      * If some time whenever we need to used this app to access different site,change
