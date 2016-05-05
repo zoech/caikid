@@ -18,12 +18,16 @@ import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.utils.preferences.UserPref;
 
 /**
- *
  * Created by zoey on 2016/4/21.
+ *
+ * Special class related to networking interface creations.
+ * Note that there should be only one instance of HttpClient
+ * during the whole app lifecycle. If there are two or more
+ * instances, the cookieJar will not work correctly.
  */
 public class HttpClient {
 
-    //private UserApiInterface userApiInterface;
+    private static Long TIMEOUT_LENGTH = 8L;
     private Retrofit retrofit;
     private OkHttpClient okHttpClient;
     private UserPref userPref;
@@ -31,10 +35,11 @@ public class HttpClient {
     public HttpClient(){
 
         userPref = BaseApp.getUserPref();
+
         okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(caikidInterceptor)
                 .cookieJar(new CaikidCookieJar())
-                .connectTimeout(8L, TimeUnit.SECONDS)
+                .connectTimeout(TIMEOUT_LENGTH, TimeUnit.SECONDS)
                 .build();
 
         retrofit = new Retrofit.Builder()
@@ -54,6 +59,12 @@ public class HttpClient {
     }
 
 
+    /**
+     * Interceptor used to set those common header,
+     * such as user account, id, etc.
+     *
+     * For more details, refer to the okhttp and retrofit2 docs.
+     */
     private Interceptor caikidInterceptor= new Interceptor() {
         @Override
         public Response intercept(Interceptor.Chain chain) throws IOException {
