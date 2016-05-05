@@ -6,6 +6,9 @@ import android.content.Context;
 /**
  * Created by zoey on 2016/4/21.
  *
+ * Class used to store app's settings.
+ * Note that there should be only one instance of
+ * this class during the whole app.
  */
 public class Settings {
 
