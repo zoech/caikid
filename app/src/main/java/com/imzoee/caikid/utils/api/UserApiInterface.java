@@ -11,6 +11,9 @@ import okhttp3.ResponseBody;
 
 /**
  * Created by zoey on 2016/4/24.
+ *
+ * Retrofit2 interfaces related to user, such as
+ * login, logout, etc.
  */
 public interface UserApiInterface {
     @POST("user/login")
