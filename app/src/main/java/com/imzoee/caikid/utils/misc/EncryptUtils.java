@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by zoey on 2016/4/21.
+ *
+ * Interface related to encryption, such as password md5 encryption.
  */
 public class EncryptUtils {
 
