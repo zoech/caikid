@@ -2,6 +2,10 @@ package com.imzoee.caikid.utils.misc;
 
 /**
  * Created by zoey on 2016/5/1.
+ *
+ * FastJson's retrofit2 converter.
+ * For more details about retrofit2 converter, see
+ * the retrofit2 docs.
  */
 import java.io.IOException;
 import java.lang.annotation.Annotation;
