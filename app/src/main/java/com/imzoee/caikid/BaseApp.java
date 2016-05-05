@@ -7,8 +7,6 @@ import android.widget.Toast;
 
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.User;
-import com.imzoee.caikid.fragment.MeFragment;
-import com.imzoee.caikid.fragment.OrderFragment;
 import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.UserApiInterface;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
@@ -16,12 +14,9 @@ import com.imzoee.caikid.utils.preferences.UserPref;
 import com.imzoee.caikid.utils.preferences.Settings;
 
 import okhttp3.Headers;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by zoey on 2016/4/21.
@@ -112,15 +107,7 @@ public class BaseApp extends Application {
                 BaseApp.getSettings().setLoginStatus(true);
 
                 /* alert the relative components to update their data or view */
-                Observable<User> logoutObservable = ObservablesFactory.loginStateObservable(user);
-                Subscriber<User> orderLogoutSubscriber = OrderFragment.getLoginStateSubscriber();
-                Subscriber<User> meLogoutSubscriber = MeFragment.getLoginStateSubscriber();
-                if (orderLogoutSubscriber != null){
-                    logoutObservable.subscribe(orderLogoutSubscriber);
-                }
-                if (meLogoutSubscriber != null) {
-                    logoutObservable.subscribe(meLogoutSubscriber);
-                }
+                ObservablesFactory.loginStateObservable(user);
 
             } else {
                 settings.setLoginStatus(false);
