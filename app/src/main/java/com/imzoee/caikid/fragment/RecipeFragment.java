@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.imzoee.caikid.R;
 import com.imzoee.caikid.activity.RecipeDetailActivity;
 import com.imzoee.caikid.adapter.RecipeAdapter;
@@ -35,6 +37,8 @@ public class RecipeFragment extends Fragment {
 
 
     View view = null;
+    PullToRefreshListView pullToRefreshListView = null;
+    RecipeAdapter recipeAdapter = null;
 
     private OnRecipeFragmentListener mListener;
 
@@ -69,23 +73,41 @@ public class RecipeFragment extends Fragment {
 
         view = inflater.inflate(R.layout.tab_main_recipe, container, false);
 
+        initView();
         initLogic();
 
         return view;
     }
 
+    private void initView(){
+        pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.refreshlv_recipe);
+    }
 
     public void initLogic(){
 
-        ListView listView = (ListView) view.findViewById(R.id.lv_recipe);
-        RecipeAdapter adapter = new RecipeAdapter(getContext());
-        listView.setAdapter(adapter);
+        pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        //ListView listView = (ListView) view.findViewById(R.id.lv_recipe);
+        recipeAdapter = new RecipeAdapter(getContext());
+        //listView.setAdapter(adapter);
+        pullToRefreshListView.setAdapter(recipeAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        pullToRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        pullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>(){
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
             }
         });
     }
