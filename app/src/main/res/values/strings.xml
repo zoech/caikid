@@ -30,12 +30,16 @@
     <string name="forget_password">forgot password?</string>
     <string name="register">register</string>
 
+    <!-- msg string related to recipe fragment -->
+    <string name="msg_recipe_no_more">Here is the bottom! No more recipes!</string>
 
     <!-- me fragment string -->
     <string name="below_avatar">Touch to login</string>
     <string name="avatar_sign_up">No account?</string>
     <string name="credit">credit</string>
     <string name="logout">logout</string>
+
+
 
     <!-- standard network connection msg -->
     <string name="msg_connect_error">Network Problems!</string>
