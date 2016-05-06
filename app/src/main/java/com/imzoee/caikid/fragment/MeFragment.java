@@ -278,6 +278,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(),
                         getString(R.string.msg_time_out),
                         Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(),
+                        getString(R.string.msg_unknown_ret_status),
+                        Toast.LENGTH_LONG).show();
             }
         }
 
