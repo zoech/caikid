@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/CaiKid.iml" filepath="$PROJECT_DIR$/CaiKid.iml" />
       <module fileurl="file://$PROJECT_DIR$/alldaogenerator/alldaogenerator.iml" filepath="$PROJECT_DIR$/alldaogenerator/alldaogenerator.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pulltorefresh/pulltorefresh.iml" filepath="$PROJECT_DIR$/pulltorefresh/pulltorefresh.iml" />
     </modules>
   </component>
 </project>
