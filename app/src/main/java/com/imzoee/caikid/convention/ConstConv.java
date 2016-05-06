@@ -49,6 +49,7 @@ public class ConstConv {
 	public static final String RET_STATUS_NOTSIGNUPSESSION = "not-signup-session";
 	public static final String RET_STATUS_RELOGIN = "relogin";
 	public static final String RET_STATUS_USERNOTEXIST = "user-not-exist";
+	public static final String RET_STATUS_NOMORE_CONTENTS = "no-more-content";
 
     /*
      * following are some key or value used to debug. These fileds will be
