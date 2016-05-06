@@ -58,6 +58,10 @@ public class HttpClient {
         return retrofit.create(UserApiInterface.class);
     }
 
+    public RecipeApiInterface getRecipeApiInterface() {
+        return retrofit.create(RecipeApiInterface.class);
+    }
+
 
     /**
      * Interceptor used to set those common header,
