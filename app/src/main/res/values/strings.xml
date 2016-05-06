@@ -42,4 +42,5 @@
     <string name="msg_time_out">network connect time out!</string>
     <string name="msg_status_header_null">techonology errors in server! the server havent set the status header!</string>
     <string name="msg_session_valid">the session is time out!</string>
+    <string name="msg_unknown_ret_status">the status return from server is unhandled!</string>
 </resources>
