@@ -26,6 +26,10 @@ public class ConstConv {
 	public static final String RESKEY_NAME = "name";
 	public static final String RESKEY_PWD = "pwd";
 	public static final String RESKEY_VERIFYCODE = "verify-code";
+
+	/* request key related to recipe */
+    public static final String RESKEY_RECIPE_PAGE = "recipe-page";
+    public static final String RESKEY_RECIPE_TYPE = "recipe-type";
 	
 	
 	/* response status code */
