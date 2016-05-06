@@ -3,6 +3,7 @@ package com.imzoee.caikid.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.os.Bundle;
@@ -10,12 +11,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
 import com.imzoee.caikid.activity.RecipeDetailActivity;
 import com.imzoee.caikid.adapter.RecipeAdapter;
+import com.imzoee.caikid.convention.ConstConv;
+import com.imzoee.caikid.dao.Recipe;
+import com.imzoee.caikid.utils.api.HttpClient;
+import com.imzoee.caikid.utils.api.RecipeApiInterface;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,19 +41,16 @@ import com.imzoee.caikid.adapter.RecipeAdapter;
  * create an instance of this fragment.
  */
 public class RecipeFragment extends Fragment {
-/*    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;*/
-
 
     View view = null;
     PullToRefreshListView pullToRefreshListView = null;
+    ListView lvRecipe = null;
+
+    HttpClient httpClient = BaseApp.getHttpClient();
     RecipeAdapter recipeAdapter = null;
+
+    List<Recipe> recipeList = null;
+    int recipePage = 1;
 
     private OnRecipeFragmentListener mListener;
 
@@ -74,42 +86,41 @@ public class RecipeFragment extends Fragment {
         view = inflater.inflate(R.layout.tab_main_recipe, container, false);
 
         initView();
+        initData();
         initLogic();
+
+        refreshFirstPage();
 
         return view;
     }
 
     private void initView(){
         pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.refreshlv_recipe);
+        lvRecipe = pullToRefreshListView.getRefreshableView();
+    }
+
+    private void initData(){
+        recipeList = new ArrayList<>();
     }
 
     public void initLogic(){
 
         pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-        //ListView listView = (ListView) view.findViewById(R.id.lv_recipe);
-        recipeAdapter = new RecipeAdapter(getContext());
-        //listView.setAdapter(adapter);
+        recipeAdapter = new RecipeAdapter(getContext(), recipeList);
         pullToRefreshListView.setAdapter(recipeAdapter);
 
         pullToRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Recipe recipe = recipeAdapter.getItem(position);
+
                 Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
                 startActivity(intent);
             }
         });
 
-        pullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>(){
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
-            }
-        });
+        pullToRefreshListView.setOnRefreshListener(new RefreshListener());
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -135,6 +146,117 @@ public class RecipeFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
+    private class RefreshListener implements PullToRefreshBase.OnRefreshListener2<ListView> {
+        @Override
+        public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+            RecipeApiInterface i = httpClient.getRecipeApiInterface();
+            refreshFirstPage();
+
+        }
+
+        @Override
+        public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            RecipeApiInterface i = httpClient.getRecipeApiInterface();
+
+            Call<List<Recipe>> getRecipe = i.getRecipe(recipePage, "all");
+            getRecipe.enqueue(new Callback<List<Recipe>>(){
+                @Override
+                public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                    Headers headers = response.headers();
+                    String status = headers.get(ConstConv.HEADKEY_RESPONSTATUS);
+
+                    if (status == null){
+                        Toast.makeText(getContext(),
+                                getString(R.string.msg_status_header_null),
+                                Toast.LENGTH_LONG).show();
+                    } else if (status.equals(ConstConv.RET_STATUS_OK)){
+
+                        List<Recipe> recipes = response.body();
+                        recipeList.addAll(recipes);
+                        recipeAdapter.setRecipesList(recipeList);
+                        recipeAdapter.notifyDataSetChanged();
+
+                        /* don't forget to increase the page number */
+                        recipePage++;
+
+                    } else if (status.equals(ConstConv.RET_STATUS_NOMORE_CONTENTS)){
+                        Toast.makeText(getContext(),
+                                getString(R.string.msg_recipe_no_more),
+                                Toast.LENGTH_LONG).show();
+                    }
+                    else if (status.equals(ConstConv.RET_STATUS_TIMEOUT)){
+                        Toast.makeText(getContext(),
+                                getString(R.string.msg_time_out),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(),
+                                getString(R.string.msg_unknown_ret_status),
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                    pullToRefreshListView.onRefreshComplete();
+                }
+
+                @Override
+                public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                    pullToRefreshListView.onRefreshComplete();
+                    Toast.makeText(getContext(), getString(R.string.msg_connect_error), Toast.LENGTH_LONG)
+                            .show();
+                }
+            });
+
+        }
+    }
+
+    public void refreshFirstPage(){
+        RecipeApiInterface i = httpClient.getRecipeApiInterface();
+        Call<List<Recipe>> getRecipe = i.getRecipe(0, "all");
+        getRecipe.enqueue(new Callback<List<Recipe>>(){
+            @Override
+            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                Headers headers = response.headers();
+                String status = headers.get(ConstConv.HEADKEY_RESPONSTATUS);
+
+                Log.i("--------------", headers.toString());
+
+                if (status == null){
+                    Toast.makeText(getContext(),
+                            getString(R.string.msg_status_header_null),
+                            Toast.LENGTH_LONG).show();
+                } else if (status.equals(ConstConv.RET_STATUS_OK)){
+
+                    recipeList = response.body();
+                    recipeAdapter.setRecipesList(recipeList);
+                    recipeAdapter.notifyDataSetChanged();
+
+                    /* note now we need to set the page to 1 */
+                    recipePage = 1;
+
+                } else if (status.equals(ConstConv.RET_STATUS_TIMEOUT)){
+                    Toast.makeText(getContext(),
+                            getString(R.string.msg_time_out),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(),
+                            getString(R.string.msg_unknown_ret_status),
+                            Toast.LENGTH_LONG).show();
+                }
+
+                pullToRefreshListView.onRefreshComplete();
+            }
+
+            @Override
+            public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                pullToRefreshListView.onRefreshComplete();
+                Toast.makeText(getContext(), getString(R.string.msg_connect_error), Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
