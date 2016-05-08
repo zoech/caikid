@@ -152,12 +152,18 @@ public class RegisterActivity extends AppCompatActivity {
             Headers headers = response.headers();
             String status = headers.get(ConstConv.HEADKEY_RESPONSTATUS);
 
-            if(status != null && status.equals(ConstConv.RET_STATUS_OK)){
 
-                CharSequence msg = "verify send successed!";
+            if (status == null) {
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.msg_status_header_null),
+                        Toast.LENGTH_LONG).show();
+            } else if (status.equals(ConstConv.RET_STATUS_OK)){
+                CharSequence msg = getString(R.string.msg_verify_code_sent);
                 Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+            } else if (status.equals(ConstConv.RET_STATUS_ACCOUNTREGED)){
+                etAccount.setError(getString(R.string.msg_account_registered));
             } else {
-                Toast.makeText(getBaseContext(), "can not verify!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.msg_unknown_ret_status), Toast.LENGTH_LONG).show();
             }
         }
 
@@ -177,13 +183,28 @@ public class RegisterActivity extends AppCompatActivity {
             Headers headers = response.headers();
             String status = headers.get(ConstConv.HEADKEY_RESPONSTATUS);
 
-            if(status != null && status.equals(ConstConv.RET_STATUS_OK)){
-
-                CharSequence msg = "register successed!";
+            if (status == null) {
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.msg_status_header_null),
+                        Toast.LENGTH_LONG).show();
+            } else if (status.equals(ConstConv.RET_STATUS_OK)){
+                CharSequence msg = getString(R.string.msg_register_succeed);
                 Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
                 finish();
-            } else {
-                Toast.makeText(getBaseContext(), "can not register!", Toast.LENGTH_LONG).show();
+            } else if (status.equals(ConstConv.RET_STATUS_ACCOUNTNULL)){
+                etAccount.setError(getString(R.string.msg_account_null));
+            } else if (status.equals(ConstConv.RET_STATUS_PWDERR)){
+                etPwd.setError(getString(R.string.error_invalid_password));
+            } else if (status.equals(ConstConv.RET_STATUS_NAMEINVALID)){
+                etName.setError(getString(R.string.msg_name_invalid));
+            } else if (status.equals(ConstConv.RET_STATUS_ACCOUNTREGED)){
+                etAccount.setError(getString(R.string.msg_account_registered));
+            } else if (status.equals(ConstConv.RET_STATUS_VERIFYERR)){
+                etVerifyCode.setError(getString(R.string.msg_verify_code_error));
+            }
+            /* others unrecognize status code */
+            else {
+                Toast.makeText(getBaseContext(), getString(R.string.msg_unknown_ret_status), Toast.LENGTH_LONG).show();
             }
 
         }
