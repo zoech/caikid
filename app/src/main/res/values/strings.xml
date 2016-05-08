@@ -30,6 +30,12 @@
     <string name="forget_password">forgot password?</string>
     <string name="register">register</string>
     <string name="get_verify_code">verify</string>
+    <string name="msg_verify_code_sent">send verify code succeed!</string>
+    <string name="msg_register_succeed">register succeed!</string>
+    <string name="msg_account_registered">the account is already registered!</string>
+    <string name="msg_verify_code_error">the verify code is not match!</string>
+    <string name="msg_account_null">the account field is required!</string>
+    <string name="msg_name_invalid">name is invalid!</string>
 
     <!-- msg string related to recipe fragment -->
     <string name="msg_recipe_no_more">Here is the bottom! No more recipes!</string>
@@ -51,5 +57,5 @@
     <string name="msg_time_out">network connect time out!</string>
     <string name="msg_status_header_null">techonology errors in server! the server havent set the status header!</string>
     <string name="msg_session_valid">the session is time out!</string>
-    <string name="msg_unknown_ret_status">the status return from server is unhandled!</string>
+    <string name="msg_unknown_ret_status">the status return from server is unrecognized!</string>
 </resources>
