@@ -30,8 +30,8 @@ public class Settings {
 
     public void setLoginStatus(boolean status){
         if(isLogin != status) {
-            SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
-            editor.putBoolean(KEY_ISLOGIN, status).apply();
+            //SharedPreferences.Editor editor = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE).edit();
+            //editor.putBoolean(KEY_ISLOGIN, status).apply();
             isLogin = status;
         }
     }
