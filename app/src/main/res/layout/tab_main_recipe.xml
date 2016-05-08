@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainBg">
@@ -12,11 +13,15 @@
         android:gravity="center"
         android:background="@color/tabLayoutSelectBg">
 
-        <TextView
+        <com.rey.material.widget.Spinner
+            android:id="@+id/spinner_shop_address"
+            style="@style/spinner_material"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="actioh bar"
-            android:textSize="@dimen/mainActionBarTextSize"/>
+            android:minWidth="128dp"
+            android:padding="8dp"
+            android:gravity="center"
+            app:spn_label="Spinner with arrow"/>
 
     </RelativeLayout>
 <!--
