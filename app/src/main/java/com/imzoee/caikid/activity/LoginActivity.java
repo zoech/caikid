@@ -26,7 +26,6 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +38,7 @@ import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.rey.material.widget.Button;
 
 import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
