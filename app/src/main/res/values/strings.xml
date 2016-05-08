@@ -33,6 +33,10 @@
     <!-- msg string related to recipe fragment -->
     <string name="msg_recipe_no_more">Here is the bottom! No more recipes!</string>
 
+    <!-- string related to recipe detail activity -->
+    <string name="add_to_cart">add to cart</string>
+    <string name="tv_sales">sold</string>
+
     <!-- me fragment string -->
     <string name="below_avatar">Touch to login</string>
     <string name="avatar_sign_up">No account?</string>
