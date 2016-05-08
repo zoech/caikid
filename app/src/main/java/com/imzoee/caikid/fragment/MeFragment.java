@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.imzoee.caikid.activity.RegisterActivity;
 import com.imzoee.caikid.dao.User;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
 import com.imzoee.caikid.utils.preferences.Settings;
@@ -154,6 +155,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
                 } else {
                     /* if the current state is not login, then here is the register button */
+                    Intent intent = new Intent(getContext(), RegisterActivity.class);
+                    startActivity(intent);
                 }
                 break;
 
@@ -255,13 +258,14 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             Headers headers = response.headers();
             String status = headers.get(ConstConv.HEADKEY_RESPONSTATUS);
 
-            Log.i("-----------------------", status);
 
             if (status == null){
                 /* if code arrived here, it means the server didn't set the status header */
                 Toast.makeText(getContext(),
                         getString(R.string.msg_status_header_null),
                         Toast.LENGTH_LONG).show();
+
+                Log.i("-----------------------", status);
             } else if (status.equals(ConstConv.RET_STATUS_OK)) {
                 settings.setLoginStatus(false);
 
