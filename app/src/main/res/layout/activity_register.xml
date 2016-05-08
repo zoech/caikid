@@ -91,12 +91,13 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                    <Button
+                    <com.rey.material.widget.Button
                         android:id="@+id/bt_verify"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="verify code"
-                        android:layout_weight="2"/>
+                        android:text="@string/get_verify_code"
+                        android:layout_weight="2"
+                        style="@style/button_material"/>
                 </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -147,15 +148,13 @@
                 </android.support.design.widget.TextInputLayout>
 
 
-                <Button
+                <com.rey.material.widget.Button
                     android:id="@+id/bt_register"
-                    style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/flat_silver"
+                    android:text="@string/register"
                     android:layout_marginTop="2dp"
-                    android:background="@color/flat_green_sea"
-                    android:text="@string/register" />
+                    style="@style/button_material"/>
 
             </LinearLayout>
         </LinearLayout>
