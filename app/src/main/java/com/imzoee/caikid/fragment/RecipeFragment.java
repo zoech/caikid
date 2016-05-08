@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.imzoee.caikid.BaseApp;
@@ -114,8 +115,9 @@ public class RecipeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Recipe recipe = recipeAdapter.getItem(position);
-
+                String recipeJsonStr = JSON.toJSONString(recipe);
                 Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
+                intent.putExtra(RecipeDetailActivity.INTENT_KEY_RECIPE, recipeJsonStr);
                 startActivity(intent);
             }
         });
