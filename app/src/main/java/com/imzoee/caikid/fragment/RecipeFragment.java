@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Recipe;
 import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.RecipeApiInterface;
+import com.rey.material.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,7 @@ public class RecipeFragment extends Fragment {
     View view = null;
     PullToRefreshListView pullToRefreshListView = null;
     ListView lvRecipe = null;
+    Spinner shopSpinner = null;
 
     HttpClient httpClient = BaseApp.getHttpClient();
     RecipeAdapter recipeAdapter = null;
@@ -98,10 +101,20 @@ public class RecipeFragment extends Fragment {
     private void initView(){
         pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.refreshlv_recipe);
         lvRecipe = pullToRefreshListView.getRefreshableView();
+        shopSpinner = (Spinner) view.findViewById(R.id.spinner_shop_address);
     }
 
     private void initData(){
         recipeList = new ArrayList<>();
+
+        String[] items = new String[5];
+        for(int i = 0; i < 5; ++i){
+            items[i] = "shop" + i;
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner_shop, items);
+        adapter.setDropDownViewResource(R.layout.spinner_drop_down);
+        shopSpinner.setAdapter(adapter);
+
     }
 
     public void initLogic(){
