@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -19,6 +18,7 @@ import com.imzoee.caikid.R;
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.UserApiInterface;
+import com.rey.material.widget.Button;
 
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
