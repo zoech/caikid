@@ -108,37 +108,32 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_forgot"
+                    <com.rey.material.widget.Button
+                        android:id="@+id/bt_forgot"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@color/transparent"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:paddingBottom="15dp"
-                        android:clickable="true"
+                        android:text="@string/forget_password"
                         android:layout_marginTop="2dp"
                         android:paddingLeft="2dp"
                         android:paddingTop="15dp"
-                        android:text="@string/forget_password"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:paddingBottom="15dp"
+                        style="@style/button_material_flat"/>
 
-                    <TextView
-                        android:id="@+id/tv_register"
+                    <com.rey.material.widget.Button
+                        android:id="@+id/bt_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/black"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/transparent"
                         android:gravity="center"
-                        android:paddingBottom="15dp"
+                        android:text="@string/register"
+                        android:layout_marginTop="2dp"
                         android:paddingRight="2dp"
                         android:paddingTop="15dp"
-                        android:text="@string/register"
-                        android:clickable="true"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:paddingBottom="15dp"
+                        style="@style/button_material_flat"/>
+
                 </LinearLayout>
 
                 <com.rey.material.widget.Button
