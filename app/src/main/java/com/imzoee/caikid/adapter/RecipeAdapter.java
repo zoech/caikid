@@ -64,6 +64,8 @@ public class RecipeAdapter extends BaseAdapter{
             holder.ivImg = (ImageView) convertView.findViewById(R.id.iv_recipe_shortcut);
             holder.tvName = (TextView) convertView.findViewById(R.id.tv_recipe_name);
             holder.tvDesc = (TextView) convertView.findViewById(R.id.tv_recipe_desc);
+            holder.tvPrice = (TextView) convertView.findViewById(R.id.tv_recipe_price);
+            holder.tvSales = (TextView) convertView.findViewById(R.id.tv_recipe_sales);
 
             convertView.setTag(holder);
 
@@ -71,15 +73,19 @@ public class RecipeAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        /*
+
         Picasso.with(context)
-                .load(recipesList.get(position).getImg_path())
+                .load(recipe.getImg_path())
                 .fit()
                 .centerCrop()
+                .placeholder(R.drawable.ic_local_dining_black_48dp)
+                .error(R.drawable.ic_info_black_48dp)
                 .into(holder.ivImg);
-        */
+
         holder.tvName.setText(recipe.getName());
         holder.tvDesc.setText(recipe.getInfo());
+        holder.tvPrice.setText(String.valueOf(recipe.getPrice()));
+        holder.tvSales.setText(String.valueOf(recipe.getSales()));
         return convertView;
     }
 
@@ -87,5 +93,7 @@ public class RecipeAdapter extends BaseAdapter{
         public ImageView ivImg;
         public TextView tvName;
         public TextView tvDesc;
+        public TextView tvSales;
+        public TextView tvPrice;
     }
 }
