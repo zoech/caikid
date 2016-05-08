@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
@@ -26,11 +24,10 @@
             android:paddingRight="10.0dip"
             android:paddingTop="12.0dip" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:gravity="center_vertical" >
 
                 <TextView
                     android:id="@+id/tv_recipe_name"
@@ -43,21 +40,40 @@
                     android:textSize="17.0sp"
                     android:text="recipe name"/>
 
-                <LinearLayout
-                    android:id="@+id/restaurant_list_item_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingLeft="9.0dip" />
 
                 <ImageView
                     android:id="@+id/iv_recipe_favor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitStart"
-                    android:src="@drawable/food_list_favor" />
-            </LinearLayout>
+                    android:layout_alignEnd="@id/tv_recipe_name"
+                    android:layout_alignRight="@id/tv_recipe_name"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/food_list_favor"
+                    android:visibility="gone"/>
+
+                <com.rey.material.widget.LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="￥"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_recipe_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="price"/>
+
+                </com.rey.material.widget.LinearLayout>
+
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -74,7 +90,7 @@
                     android:layout_centerVertical="true"
                     android:isIndicator="true"
                     android:numStars="5"
-                    android:stepSize="0.5" />
+                    android:progress="80"/>
 
                 <TextView
                     android:id="@+id/tv_recipe_rate_numbers"
@@ -102,7 +118,7 @@
                     android:paddingRight="5.0dip"
                     android:textColor="@android:color/white"
                     android:textSize="14.0sp"
-                    android:text="\?"/>
+                    android:text="sales"/>
             </RelativeLayout>
 
             <TextView
@@ -120,12 +136,3 @@
 
         </LinearLayout>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/restaurant_list_item_mask"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/restaurant_list_item_disable"
-        android:visibility="gone" />
-
-</FrameLayout>
