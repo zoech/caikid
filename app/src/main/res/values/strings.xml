@@ -12,7 +12,7 @@
     <string name="login">login</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_name">Name</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="prompt_verify_code">Verify Code</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -29,6 +29,7 @@
     <string name="app_short_description">faster, and healthier platform</string>
     <string name="forget_password">forgot password?</string>
     <string name="register">register</string>
+    <string name="get_verify_code">verify</string>
 
     <!-- msg string related to recipe fragment -->
     <string name="msg_recipe_no_more">Here is the bottom! No more recipes!</string>
