@@ -4,6 +4,8 @@ import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.User;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -16,20 +18,23 @@ import okhttp3.ResponseBody;
  * login, logout, etc.
  */
 public interface UserApiInterface {
-    @POST("user/login")
-    Call<User> login(@Query(ConstConv.RESKEY_ACCOUNT) String account,
-                     @Query(ConstConv.RESKEY_PWD) String pwd);
+    @FormUrlEncoded
+    @POST("login.php")
+    Call<User> login(@Field(ConstConv.RESKEY_ACCOUNT) String account,
+                     @Field(ConstConv.RESKEY_PWD) String pwd);
 
-    @POST("user/verify")
-    Call<ResponseBody> verify(@Query(ConstConv.RESKEY_ACCOUNT) String account);
+    @FormUrlEncoded
+    @POST("verify.php")
+    Call<ResponseBody> verify(@Field(ConstConv.RESKEY_ACCOUNT) String account);
 
-    @POST("user/signup")
-    Call<ResponseBody> signUp(@Query(ConstConv.RESKEY_ACCOUNT) String account,
-                            @Query(ConstConv.RESKEY_PWD) String pwd,
-                            @Query(ConstConv.RESKEY_NAME) String name,
-                            @Query(ConstConv.RESKEY_VERIFYCODE) String verifyCode);
+    @FormUrlEncoded
+    @POST("register.php")
+    Call<ResponseBody> signUp(@Field(ConstConv.RESKEY_ACCOUNT) String account,
+                              @Field(ConstConv.RESKEY_PWD) String pwd,
+                              @Field(ConstConv.RESKEY_NAME) String name,
+                              @Field(ConstConv.RESKEY_VERIFYCODE) String verifyCode);
 
-    @POST("user/logout")
+    @POST("logout.php")
     Call<ResponseBody> logout();
 
 
