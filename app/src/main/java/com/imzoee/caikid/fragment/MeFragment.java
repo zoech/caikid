@@ -188,6 +188,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             llInfoCard.setVisibility(View.VISIBLE);
             Picasso.with(getContext())
                     .load(userPref.getPfAvatarUrl())
+                    .fit()
+                    .placeholder(R.drawable.avatar_default)
                     .transform(new CropCircleTransformation())
                     .into(avatar);
 
@@ -200,6 +202,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             btRegLogout.setText(getString(R.string.avatar_sign_up));
             llInfoCard.setVisibility(View.GONE);
             Picasso.with(getContext()).load(R.drawable.avatar_default)
+                    .fit()
+                    .centerCrop()
                     .transform(new CropCircleTransformation())
                     .into(avatar);
         }
