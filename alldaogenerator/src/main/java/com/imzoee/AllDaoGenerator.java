@@ -57,6 +57,7 @@ public class AllDaoGenerator {
         recipe.addStringProperty("info");              /* short description of the recipe */
         recipe.addStringProperty("img_path");          /* the  path of the image on the server */
         recipe.addDoubleProperty("price");
+        recipe.addDoubleProperty("originPrice");
         recipe.addIntProperty("stock");
         recipe.addIntProperty("sales");
         recipe.addIntProperty("status");               /* 上架 1, 下架 0 */
