@@ -15,8 +15,36 @@ import retrofit2.http.Query;
  * Retrofit2 interface related to recipe query.
  */
 public interface RecipeApiInterface {
-    @GET("recipe/get")
+
+    /**
+     * Get a list of recipe, according to the pages, type.
+     *
+     * @param page
+     * When we show a list of recipe on android, we could not
+     * show the list of the whole recipes stored in db, and
+     * therefore we show them page by page. And this parameter
+     * indicate the required page.
+     *
+     * @param type
+     * The type of recipe the user want to filter.
+     *
+     * @return
+     * List of the recipe.
+     */
+    @GET("recipe/getList")
     Call<List<Recipe>> getRecipe(@Query(ConstConv.RESKEY_RECIPE_PAGE) int page,
                                  @Query(ConstConv.RESKEY_RECIPE_TYPE) String type);
+
+    /**
+     * Access a concrete recipe by its id.
+     *
+     * @param recipeId
+     * The id of the recipe you want to get.
+     *
+     * @return
+     * The required recipe.
+     */
+    @GET("recipe/getById")
+    Call<Recipe> getRecipeById(@Query(ConstConv.RESKEY_ID) int recipeId);
 
 }
