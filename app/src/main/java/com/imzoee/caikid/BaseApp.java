@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.User;
+import com.imzoee.caikid.model.CaikidCart;
 import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.UserApiInterface;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
@@ -20,6 +21,8 @@ import retrofit2.Response;
 
 /**
  * Created by zoey on 2016/4/21.
+ *
+ * BaseApp, holds some global objects.
  */
 public class BaseApp extends Application {
     private static BaseApp instance;
@@ -27,6 +30,7 @@ public class BaseApp extends Application {
     private UserPref userPref = null;
     private Settings settings = null;
     private HttpClient httpClient = null;
+    private CaikidCart cart = null;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -44,6 +48,7 @@ public class BaseApp extends Application {
         userPref = new UserPref(this);
         settings = new Settings(this);
         httpClient = new HttpClient();
+        cart = CaikidCart.getCart(this);
 
         Log.i("--------auto-login----",String.valueOf(settings.isAutoLogin()));
 
@@ -87,6 +92,8 @@ public class BaseApp extends Application {
     public static UserPref getUserPref(){ return instance.userPref; }
 
     public static HttpClient getHttpClient() { return instance.httpClient; }
+
+    public static CaikidCart getCart(){ return instance.cart; }
 
 
     private class LoginCallBack implements Callback<User> {
