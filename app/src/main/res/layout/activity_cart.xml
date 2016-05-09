@@ -1,10 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/flat_clouds">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="cart tab"/>
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/layer_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/anchor_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="@dimen/standard_margin_left"
+            android:background="@color/flat_carrot">
+
+            <TextView
+                android:id="@+id/anchor_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="@dimen/standard_margin_left"
+                android:layout_marginLeft="@dimen/standard_margin_left"
+                android:textSize="@dimen/mainActionBarTextSize"
+                android:text="total price"/>
+
+            <TextView
+                android:id="@+id/anchor_price_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/anchor_total_price"
+                android:layout_toRightOf="@id/anchor_total_price"
+                android:textSize="@dimen/mainActionBarTextSize"
+                android:text="￥"/>
+
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/anchor_price_mark"
+                android:layout_toRightOf="@id/anchor_price_mark"
+                android:textSize="@dimen/mainActionBarTextSize"
+                android:text="8.0"/>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/bt_pay_bill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/standard_margin_left"
+                android:layout_marginRight="@dimen/standard_margin_left"
+                android:text="@string/cart_order"
+                style="@style/button_material" />
+
+        </RelativeLayout>
+
+        <com.rey.material.widget.ListView
+            android:id="@+id/lv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/anchor_pay"
+            android:layout_marginBottom="@dimen/cart_list_margin_bottom"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
