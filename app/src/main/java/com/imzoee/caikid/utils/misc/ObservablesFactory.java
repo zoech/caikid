@@ -2,7 +2,11 @@ package com.imzoee.caikid.utils.misc;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
+import com.imzoee.caikid.activity.CartActivity;
+import com.imzoee.caikid.activity.MainActivity;
 import com.imzoee.caikid.dao.User;
 import com.imzoee.caikid.fragment.MeFragment;
 import com.imzoee.caikid.fragment.OrderFragment;
@@ -67,15 +71,36 @@ public class ObservablesFactory {
                 subscriber.onCompleted();
             }
         });
-/*
-        Subscriber<User> orderLogoutSubscriber = OrderFragment.getLoginStateSubscriber();
-        Subscriber<User> meLogoutSubscriber = MeFragment.getLoginStateSubscriber();
-        if (orderLogoutSubscriber != null){
-            loginStateObservable.subscribe(orderLogoutSubscriber);
+
+        Subscriber<CaikidCart> homeSubscriber = MainActivity.getCartSubscriber();
+        Subscriber<CaikidCart> cartSubscriber = CartActivity.getCartSubscriber();
+        if (homeSubscriber != null){
+            cartObservable.subscribe(homeSubscriber);
         }
-        if (meLogoutSubscriber != null) {
-            loginStateObservable.subscribe(meLogoutSubscriber);
+        if (cartSubscriber != null){
+            cartObservable.subscribe(cartSubscriber);
         }
-        */
+    }
+
+    /**
+     * alert those components related to cart action, using
+     * the hand make observable.
+     *
+     * @param obs
+     * The observable manuel created. This method will use
+     * the obs as the observable.
+     */
+    public static void cartActionObservable(Observable<CaikidCart> obs){
+
+        obs.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+
+        Subscriber<CaikidCart> homeSubscriber = MainActivity.getCartSubscriber();
+        Subscriber<CaikidCart> cartSubscriber = CartActivity.getCartSubscriber();
+        if (homeSubscriber != null){
+            obs.subscribe(homeSubscriber);
+        }
+        if (cartSubscriber != null){
+            obs.subscribe(cartSubscriber);
+        }
     }
 }
