@@ -14,6 +14,7 @@ import com.imzoee.caikid.fragment.RecipeFragment;
 import com.imzoee.caikid.fragment.OrderFragment;
 import com.imzoee.caikid.fragment.MeFragment;
 import com.imzoee.caikid.R;
+import com.rey.material.widget.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements RecipeFragment.OnRecipeFragmentListener,
                                                                 OrderFragment.OnOrderFragmentListener,
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     ViewPager pager = null;
     MainPagerAdapter mainPagerAdapter = null;
     TabLayout tabLayout = null;
+    FloatingActionButton fbCart = null;
     public String TAG = "tag";                        // debug used
 
 
@@ -96,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
 
         pager = (ViewPager) this.findViewById(R.id.viewpager);
         tabLayout = (TabLayout) this.findViewById(R.id.tl_tab);
+        fbCart = (FloatingActionButton) this.findViewById(R.id.fb_cart);
+
+
 
         initViewPager();
     }
