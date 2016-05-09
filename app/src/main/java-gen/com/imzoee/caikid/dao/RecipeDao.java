@@ -28,10 +28,12 @@ public class RecipeDao extends AbstractDao<Recipe, Void> {
         public final static Property Info = new Property(2, String.class, "info", false, "INFO");
         public final static Property Img_path = new Property(3, String.class, "img_path", false, "IMG_PATH");
         public final static Property Price = new Property(4, Double.class, "price", false, "PRICE");
-        public final static Property Stock = new Property(5, Integer.class, "stock", false, "STOCK");
-        public final static Property Sales = new Property(6, Integer.class, "sales", false, "SALES");
-        public final static Property Status = new Property(7, Integer.class, "status", false, "STATUS");
-        public final static Property Desc = new Property(8, String.class, "desc", false, "DESC");
+        public final static Property OriginPrice = new Property(5, Double.class, "originPrice", false, "ORIGIN_PRICE");
+        public final static Property Stock = new Property(6, Integer.class, "stock", false, "STOCK");
+        public final static Property Sales = new Property(7, Integer.class, "sales", false, "SALES");
+        public final static Property Status = new Property(8, Integer.class, "status", false, "STATUS");
+        public final static Property Desc = new Property(9, String.class, "desc", false, "DESC");
+        public final static Property Number_comment = new Property(10, Integer.class, "number_comment", false, "NUMBER_COMMENT");
     };
 
 
@@ -52,10 +54,12 @@ public class RecipeDao extends AbstractDao<Recipe, Void> {
                 "'INFO' TEXT," + // 2: info
                 "'IMG_PATH' TEXT," + // 3: img_path
                 "'PRICE' REAL," + // 4: price
-                "'STOCK' INTEGER," + // 5: stock
-                "'SALES' INTEGER," + // 6: sales
-                "'STATUS' INTEGER," + // 7: status
-                "'DESC' TEXT);"); // 8: desc
+                "'ORIGIN_PRICE' REAL," + // 5: originPrice
+                "'STOCK' INTEGER," + // 6: stock
+                "'SALES' INTEGER," + // 7: sales
+                "'STATUS' INTEGER," + // 8: status
+                "'DESC' TEXT," + // 9: desc
+                "'NUMBER_COMMENT' INTEGER);"); // 10: number_comment
     }
 
     /** Drops the underlying database table. */
@@ -94,24 +98,34 @@ public class RecipeDao extends AbstractDao<Recipe, Void> {
             stmt.bindDouble(5, price);
         }
  
+        Double originPrice = entity.getOriginPrice();
+        if (originPrice != null) {
+            stmt.bindDouble(6, originPrice);
+        }
+ 
         Integer stock = entity.getStock();
         if (stock != null) {
-            stmt.bindLong(6, stock);
+            stmt.bindLong(7, stock);
         }
  
         Integer sales = entity.getSales();
         if (sales != null) {
-            stmt.bindLong(7, sales);
+            stmt.bindLong(8, sales);
         }
  
         Integer status = entity.getStatus();
         if (status != null) {
-            stmt.bindLong(8, status);
+            stmt.bindLong(9, status);
         }
  
         String desc = entity.getDesc();
         if (desc != null) {
-            stmt.bindString(9, desc);
+            stmt.bindString(10, desc);
+        }
+ 
+        Integer number_comment = entity.getNumber_comment();
+        if (number_comment != null) {
+            stmt.bindLong(11, number_comment);
         }
     }
 
@@ -130,10 +144,12 @@ public class RecipeDao extends AbstractDao<Recipe, Void> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // info
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // img_path
             cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4), // price
-            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // stock
-            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // sales
-            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // status
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // desc
+            cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5), // originPrice
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // stock
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // sales
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // status
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // desc
+            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10) // number_comment
         );
         return entity;
     }
@@ -146,10 +162,12 @@ public class RecipeDao extends AbstractDao<Recipe, Void> {
         entity.setInfo(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setImg_path(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setPrice(cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4));
-        entity.setStock(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
-        entity.setSales(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
-        entity.setStatus(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
-        entity.setDesc(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setOriginPrice(cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5));
+        entity.setStock(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setSales(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setStatus(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setDesc(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setNumber_comment(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
      }
     
     /** @inheritdoc */

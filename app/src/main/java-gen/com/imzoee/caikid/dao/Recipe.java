@@ -11,24 +11,28 @@ public class Recipe {
     private String info;
     private String img_path;
     private Double price;
+    private Double originPrice;
     private Integer stock;
     private Integer sales;
     private Integer status;
     private String desc;
+    private Integer number_comment;
 
     public Recipe() {
     }
 
-    public Recipe(Integer id, String name, String info, String img_path, Double price, Integer stock, Integer sales, Integer status, String desc) {
+    public Recipe(Integer id, String name, String info, String img_path, Double price, Double originPrice, Integer stock, Integer sales, Integer status, String desc, Integer number_comment) {
         this.id = id;
         this.name = name;
         this.info = info;
         this.img_path = img_path;
         this.price = price;
+        this.originPrice = originPrice;
         this.stock = stock;
         this.sales = sales;
         this.status = status;
         this.desc = desc;
+        this.number_comment = number_comment;
     }
 
     public Integer getId() {
@@ -71,6 +75,14 @@ public class Recipe {
         this.price = price;
     }
 
+    public Double getOriginPrice() {
+        return originPrice;
+    }
+
+    public void setOriginPrice(Double originPrice) {
+        this.originPrice = originPrice;
+    }
+
     public Integer getStock() {
         return stock;
     }
@@ -101,6 +113,14 @@ public class Recipe {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public Integer getNumber_comment() {
+        return number_comment;
+    }
+
+    public void setNumber_comment(Integer number_comment) {
+        this.number_comment = number_comment;
     }
 
 }
