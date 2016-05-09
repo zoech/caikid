@@ -30,6 +30,7 @@
             android:name=".activity.MainActivity"
             android:configChanges="locale|screenSize|keyboardHidden|orientation" />
         <activity android:name=".activity.RecipeDetailActivity" />
+        <activity android:name=".activity.CartActivity" />
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login" />
