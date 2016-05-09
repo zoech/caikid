@@ -136,14 +136,26 @@ public class RecipeFragment extends Fragment {
         });
 
         pullToRefreshListView.setOnRefreshListener(new RefreshListener());
-    }
+/*
+        shopSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(Spinner parent, View view, int position, long id) {
+                Toast.makeText(getContext(),
+                        "spinner selected!",
+                        Toast.LENGTH_LONG).show();
+            }
+        });*/
 
-    // TODO: Rename method, update argument and hook method into UI event
-/*    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onMeInteraction(uri);
-        }
-    }*/
+        shopSpinner.setOnItemClickListener(new Spinner.OnItemClickListener() {
+            @Override
+            public boolean onItemClick(Spinner parent, View view, int position, long id) {
+                Toast.makeText(getContext(),
+                        "spinner selected!",
+                        Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+    }
 
     @Override
     public void onAttach(Context context) {
