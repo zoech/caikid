@@ -1,5 +1,6 @@
 package com.imzoee.caikid.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -8,17 +9,25 @@ import android.util.Log;
 
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.TabLayout;
+import android.view.View;
+import android.widget.Toast;
 
+import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.adapter.MainPagerAdapter;
 import com.imzoee.caikid.fragment.RecipeFragment;
 import com.imzoee.caikid.fragment.OrderFragment;
 import com.imzoee.caikid.fragment.MeFragment;
 import com.imzoee.caikid.R;
+import com.imzoee.caikid.model.CaikidCart;
 import com.rey.material.widget.FloatingActionButton;
+
+import rx.Subscriber;
 
 public class MainActivity extends AppCompatActivity implements RecipeFragment.OnRecipeFragmentListener,
                                                                 OrderFragment.OnOrderFragmentListener,
                                                                 MeFragment.OnMeFragmentListener {
+
+    private static MainActivity instance = null;
 
     ViewPager pager = null;
     MainPagerAdapter mainPagerAdapter = null;
@@ -30,10 +39,13 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
 
-        initData();
+        setContentView(R.layout.activity_main);
+
         initView();
-
+        initData();
+        initListener();
     }
 
     @Override
@@ -67,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         pager = null;
         mainPagerAdapter = null;
         tabLayout = null;
+        fbCart = null;
     }
 
 
@@ -76,33 +89,43 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         notifyLangChange();
     }
 
-
-    /*
-     * init the data for this activity
-     */
-    private void initData() {
-
+    private Subscriber<CaikidCart> createCartActionSubscriber(){
+        return new CartActionSubscriber();
     }
 
+    public static Subscriber<CaikidCart> getCartSubscriber(){
+        if(instance == null){
+            return null;
+        }
+        return instance.createCartActionSubscriber();
+    }
 
-    /*
-     * init the view for this activity
-     *
-     * include
-     * 1. viewpager
-     * 2. tablayout
-     *
-     */
+    private void initData() {
+        if(BaseApp.getCart().getItemCount() == 0){
+            fbCart.setVisibility(View.GONE);
+        } else {
+            fbCart.setVisibility(View.VISIBLE);
+        }
+
+        initViewPager();
+    }
+
     private void initView() {
-        setContentView(R.layout.activity_main);
 
         pager = (ViewPager) this.findViewById(R.id.viewpager);
         tabLayout = (TabLayout) this.findViewById(R.id.tl_tab);
         fbCart = (FloatingActionButton) this.findViewById(R.id.fb_cart);
 
+    }
 
-
-        initViewPager();
+    private void initListener(){
+        fbCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initViewPager() {
@@ -160,5 +183,33 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     @Override
     public void onMeInteraction(Uri uri) {
 
+    }
+
+    /* rxjava's subscriber */
+    private class CartActionSubscriber extends Subscriber<CaikidCart> {
+        @Override
+        public void onCompleted() {
+            if(!isUnsubscribed()) {
+                this.unsubscribe();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Toast.makeText(getBaseContext(), "error in observable,Mefragment", Toast.LENGTH_LONG)
+                    .show();
+            Log.i("----------------------", e.getMessage());
+        }
+
+        @Override
+        public void onNext(CaikidCart cart) {
+            // adapter.notifyDataSetChanged();
+            if(cart.getItemCount() == 0){
+                /* the cart is empty */
+                fbCart.setVisibility(View.GONE);
+            } else {
+                fbCart.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }
