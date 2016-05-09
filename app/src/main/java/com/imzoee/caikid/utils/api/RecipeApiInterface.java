@@ -31,7 +31,7 @@ public interface RecipeApiInterface {
      * @return
      * List of the recipe.
      */
-    @GET("recipe/getList")
+    @GET("getRecipeList")
     Call<List<Recipe>> getRecipe(@Query(ConstConv.RESKEY_RECIPE_PAGE) int page,
                                  @Query(ConstConv.RESKEY_RECIPE_TYPE) String type);
 
@@ -44,7 +44,7 @@ public interface RecipeApiInterface {
      * @return
      * The required recipe.
      */
-    @GET("recipe/getById")
+    @GET("getRecipeById")
     Call<Recipe> getRecipeById(@Query(ConstConv.RESKEY_ID) int recipeId);
 
 }
