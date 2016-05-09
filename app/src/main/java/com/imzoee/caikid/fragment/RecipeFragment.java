@@ -166,10 +166,7 @@ public class RecipeFragment extends Fragment {
     private class RefreshListener implements PullToRefreshBase.OnRefreshListener2<ListView> {
         @Override
         public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
-            RecipeApiInterface i = httpClient.getRecipeApiInterface();
             refreshFirstPage();
-
         }
 
         @Override
