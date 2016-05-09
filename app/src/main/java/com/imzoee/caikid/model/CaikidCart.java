@@ -53,6 +53,10 @@ public class CaikidCart {
         this.httpClient = BaseApp.getHttpClient();
     }
 
+    public List<CartItem> getItemList(){
+        return this.itemList;
+    }
+
     public int getItemCount(){
         return this.itemList.size();
     }
