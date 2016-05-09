@@ -6,6 +6,7 @@ import rx.Subscriber;
 import com.imzoee.caikid.dao.User;
 import com.imzoee.caikid.fragment.MeFragment;
 import com.imzoee.caikid.fragment.OrderFragment;
+import com.imzoee.caikid.model.CaikidCart;
 
 /**
  * Created by zoey on 2016/5/1.
@@ -21,7 +22,7 @@ import com.imzoee.caikid.fragment.OrderFragment;
 public class ObservablesFactory {
 
     /**
-     * alert those component related to user information.
+     * alert those components related to user information.
      * currently these components include:
      * 1. OrderFragment
      * 2. MeFragment
@@ -50,5 +51,31 @@ public class ObservablesFactory {
         if (meLogoutSubscriber != null) {
             loginStateObservable.subscribe(meLogoutSubscriber);
         }
+    }
+
+    /**
+     * alert those components related to cart action.
+     *
+     * @param cart
+     * CaijkidCart object, representing the current cart status.
+     */
+    public static void cartActionObservable(final CaikidCart cart){
+        Observable<CaikidCart> cartObservable = Observable.create(new Observable.OnSubscribe<CaikidCart>(){
+            @Override
+            public void call(Subscriber<? super CaikidCart> subscriber) {
+                subscriber.onNext(cart);
+                subscriber.onCompleted();
+            }
+        });
+/*
+        Subscriber<User> orderLogoutSubscriber = OrderFragment.getLoginStateSubscriber();
+        Subscriber<User> meLogoutSubscriber = MeFragment.getLoginStateSubscriber();
+        if (orderLogoutSubscriber != null){
+            loginStateObservable.subscribe(orderLogoutSubscriber);
+        }
+        if (meLogoutSubscriber != null) {
+            loginStateObservable.subscribe(meLogoutSubscriber);
+        }
+        */
     }
 }
