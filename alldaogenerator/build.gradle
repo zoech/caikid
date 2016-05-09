@@ -11,7 +11,7 @@ project(':alldaogenerator') {
     apply plugin: 'application'
     apply plugin: 'java'
 
-    mainClassName = "com.example.AllDaoGenerator"
+    mainClassName = "com.imzoee.AllDaoGenerator"
     // edit output direction
     def outputDir = "../app/src/main/java-gen"
 
