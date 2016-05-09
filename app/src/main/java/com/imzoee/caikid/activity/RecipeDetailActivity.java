@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.imzoee.caikid.BaseApp;
@@ -77,6 +78,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 BaseApp.getCart().addItem(recipe);
                 ObservablesFactory.cartActionObservable(BaseApp.getCart());
+                Toast.makeText(getBaseContext(),
+                        getString(R.string.msg_recipe_added_to_cart),
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
