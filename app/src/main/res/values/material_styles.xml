@@ -23,6 +23,11 @@
         <item name="android:textColor">@color/flat_peter_river</item>
     </style>
 
+    <style name="button_material_float" parent="Material.Widget.FloatingActionButton.Light">
+        <item name="rd_rippleColor">#33000000</item>
+        <item name="fab_backgroundColor">@color/flat_pumpkin</item>
+    </style>
+
     <!-- progress bar styles -->
 
     <!-- spinners styles -->
