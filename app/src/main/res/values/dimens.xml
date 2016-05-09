@@ -5,6 +5,12 @@
     <dimen name="app_tab_height">50dip</dimen>
     <dimen name="standard_margin_left">10dip</dimen>
 
+    <!-- size related to cart item -->
+    <dimen name="cart_item_name_text_size">20sp</dimen>
+    <dimen name="cart_item_name_width">200dip</dimen>
+    <dimen name="cart_item_button_width">48dip</dimen>
+    <dimen name="cart_list_margin_bottom">20dip</dimen>
+
     <!-- home action bar dimens -->
     <dimen name="mainActionBarHeight">48dip</dimen>
     <dimen name="mainActionBarTextSize">18sp</dimen>
