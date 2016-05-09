@@ -51,6 +51,8 @@
     <string name="logout">logout</string>
 
 
+    <!-- standard cart action msg -->
+    <string name="msg_recipe_added_to_cart">the recipe had added to cart successfully!</string>
 
     <!-- standard network connection msg -->
     <string name="msg_connect_error">Network Problems!</string>
