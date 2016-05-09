@@ -44,6 +44,9 @@
     <string name="add_to_cart">add to cart</string>
     <string name="tv_sales">sold</string>
 
+    <!-- string related to cart activity -->
+    <string name="cart_order">order</string>
+
     <!-- me fragment string -->
     <string name="below_avatar">Touch to login</string>
     <string name="avatar_sign_up">No account?</string>
