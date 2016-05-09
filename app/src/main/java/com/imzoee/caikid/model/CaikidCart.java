@@ -2,15 +2,23 @@ package com.imzoee.caikid.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.dao.Recipe;
 import com.imzoee.caikid.utils.api.HttpClient;
+import com.imzoee.caikid.utils.api.RecipeApiInterface;
+import com.imzoee.caikid.utils.misc.ObservablesFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import retrofit2.Call;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by zoey on 2016/5/9.
@@ -43,6 +51,14 @@ public class CaikidCart {
         totallPrice = 0;
         this.context = context;
         this.httpClient = BaseApp.getHttpClient();
+    }
+
+    public int getItemCount(){
+        return this.itemList.size();
+    }
+
+    public double getTotallPrice(){
+        return this.totallPrice;
     }
 
     public void addItem(Recipe recipe){
@@ -82,7 +98,44 @@ public class CaikidCart {
      * Init the cart from the sharepreference.
      */
     public void initFromSPF(){
+        SharedPreferences preferences = context.getSharedPreferences(PREFERNAME, Context.MODE_PRIVATE);
+        String jstr = preferences.getString(KEYCART,null);
+        if (jstr == null){
+            return;
+        }
 
+        final List<Integer> idList = JSON.parseArray(jstr, Integer.class);
+
+        Observable<CaikidCart> obs = Observable.create(new Observable.OnSubscribe<CaikidCart>(){
+            @Override
+            public void call(Subscriber<? super CaikidCart> subscriber) {
+                Iterator<Integer> iterator = idList.iterator();
+                while(iterator.hasNext()){
+
+                    int rid = iterator.next();
+
+                    RecipeApiInterface i = httpClient.getRecipeApiInterface();
+                    Call<Recipe> getRecipeById = i.getRecipeById(rid);
+
+                    Recipe recipe = null;
+                    try {
+                        recipe = getRecipeById.execute().body();
+                    } catch (IOException e){
+                        Log.i("----------", "the getRecipeById api connect return exception,in CaikidCart.obtainRecipe(" + rid + ")");
+                    }
+
+                    if(recipe != null){
+                        CartItem item = new CartItem(recipe);
+                        itemList.add(item);
+                    }
+                }
+
+                subscriber.onNext(CaikidCart.this);
+                subscriber.onCompleted();
+            }
+        });
+
+        ObservablesFactory.cartActionObservable(obs);
     }
 
     /**
@@ -116,12 +169,6 @@ public class CaikidCart {
 
         public CartItem(Recipe recipe){
             this.id = recipe.getId();
-            this.recipeHolder = recipe;
-            this.count = 1;
-        }
-
-        public CartItem(int id, Recipe recipe){
-            this.id = id;
             this.recipeHolder = recipe;
             this.count = 1;
         }
