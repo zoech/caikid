@@ -3,12 +3,16 @@ package com.imzoee.caikid.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
 import com.imzoee.caikid.dao.Recipe;
+import com.imzoee.caikid.utils.misc.ObservablesFactory;
+import com.rey.material.widget.Button;
 import com.squareup.picasso.Picasso;
 
 public class RecipeDetailActivity extends AppCompatActivity {
@@ -19,6 +23,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     /* view reference */
     ImageView ivRecipe = null;
+    Button btAddCart = null;
     TextView tvName = null;
     TextView tvDesc = null;
     TextView tvSold = null;
@@ -47,6 +52,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     public void initView(){
         ivRecipe = (ImageView) findViewById(R.id.iv_recipe);
+        btAddCart = (Button) findViewById(R.id.bt_add_to_cart);
         tvName = (TextView) findViewById(R.id.tv_recipe_name);
         tvSold = (TextView) findViewById(R.id.tv_recipe_sales);
         tvDesc = (TextView) findViewById(R.id.tv_recipe_desc);
@@ -66,7 +72,13 @@ public class RecipeDetailActivity extends AppCompatActivity {
     }
 
     public void initListener(){
-
+        btAddCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseApp.getCart().addItem(recipe);
+                ObservablesFactory.cartActionObservable(BaseApp.getCart());
+            }
+        });
     }
 
 }
