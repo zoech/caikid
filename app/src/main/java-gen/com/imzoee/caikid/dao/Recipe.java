@@ -14,14 +14,14 @@ public class Recipe {
     private Double originPrice;
     private Integer stock;
     private Integer sales;
-    private Integer status;
+    private Boolean status;
     private Integer number_comment;
     private Double score;
 
     public Recipe() {
     }
 
-    public Recipe(Integer id, String name, String info, String img_path, Double price, Double originPrice, Integer stock, Integer sales, Integer status, Integer number_comment, Double score) {
+    public Recipe(Integer id, String name, String info, String img_path, Double price, Double originPrice, Integer stock, Integer sales, Boolean status, Integer number_comment, Double score) {
         this.id = id;
         this.name = name;
         this.info = info;
@@ -99,11 +99,11 @@ public class Recipe {
         this.sales = sales;
     }
 
-    public Integer getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
