@@ -15,13 +15,13 @@ public class Recipe {
     private Integer stock;
     private Integer sales;
     private Integer status;
-    private String desc;
     private Integer number_comment;
+    private Double score;
 
     public Recipe() {
     }
 
-    public Recipe(Integer id, String name, String info, String img_path, Double price, Double originPrice, Integer stock, Integer sales, Integer status, String desc, Integer number_comment) {
+    public Recipe(Integer id, String name, String info, String img_path, Double price, Double originPrice, Integer stock, Integer sales, Integer status, Integer number_comment, Double score) {
         this.id = id;
         this.name = name;
         this.info = info;
@@ -31,8 +31,8 @@ public class Recipe {
         this.stock = stock;
         this.sales = sales;
         this.status = status;
-        this.desc = desc;
         this.number_comment = number_comment;
+        this.score = score;
     }
 
     public Integer getId() {
@@ -107,20 +107,20 @@ public class Recipe {
         this.status = status;
     }
 
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
     public Integer getNumber_comment() {
         return number_comment;
     }
 
     public void setNumber_comment(Integer number_comment) {
         this.number_comment = number_comment;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 
 }
