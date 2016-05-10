@@ -68,7 +68,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 .into(ivRecipe);
         tvName.setText(recipe.getName());
         tvSold.setText(String.valueOf(recipe.getSales()));
-        tvDesc.setText(recipe.getDesc());
+        tvDesc.setText(recipe.getInfo());
         tvPrice.setText(String.valueOf(recipe.getPrice()));
     }
 
