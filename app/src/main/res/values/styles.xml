@@ -19,4 +19,12 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="CartPopUpTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowTitleStyle">@style/CartPopTitleTheme</item>
+    </style>
+
+    <style name="CartPopTitleTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">@color/flat_clouds</item>
+    </style>
+
 </resources>
