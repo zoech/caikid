@@ -15,6 +15,9 @@
     <dimen name="mainActionBarHeight">48dip</dimen>
     <dimen name="mainActionBarTextSize">18sp</dimen>
 
+    <!-- recipe fragment -->
+    <dimen name="recipe_name_max_width">300dip</dimen>
+
     <!-- me fragment -->
     <dimen name="avatarSize">100dip</dimen>
     <dimen name="avatarPanelHeight">200dip</dimen>
