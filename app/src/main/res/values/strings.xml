@@ -6,6 +6,7 @@
     <string name="tab_me">Me</string>
     <string name="recipe_detail">Recipe detail tab</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="cart_pop_up_title">CART</string>
 
     <!-- Strings related to login activity -->
     <string name="please_login_first">Please login first!</string>
