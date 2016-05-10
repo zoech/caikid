@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:includeFontPadding="false"
-                android:maxWidth="300dip"
+                android:maxWidth="@dimen/recipe_name_max_width"
                 android:singleLine="true"
                 android:textColor="#ff494c5b"
                 android:textSize="17.0sp"
