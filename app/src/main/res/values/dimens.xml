@@ -7,7 +7,7 @@
 
     <!-- size related to cart item -->
     <dimen name="cart_item_name_text_size">20sp</dimen>
-    <dimen name="cart_item_name_width">200dip</dimen>
+    <dimen name="cart_item_name_width">250dip</dimen>
     <dimen name="cart_item_button_width">48dip</dimen>
     <dimen name="cart_list_margin_bottom">20dip</dimen>
 
