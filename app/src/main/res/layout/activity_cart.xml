@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/flat_clouds">
+    android:layout_height="300dip"
+    android:background="@color/transparent">
 
     <RelativeLayout
         android:id="@+id/layer_content"
@@ -10,11 +10,10 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/anchor_pay"
+            android:id="@+id/anchor_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:padding="@dimen/standard_margin_left"
             android:background="@color/flat_carrot">
 
             <TextView
@@ -62,12 +61,19 @@
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/anchor_order">
+
         <com.rey.material.widget.ListView
             android:id="@+id/lv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/anchor_pay"
-            android:layout_marginBottom="@dimen/cart_list_margin_bottom"/>
+            android:divider="@drawable/line_divider_cart_item"
+            android:dividerHeight="1dip"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
