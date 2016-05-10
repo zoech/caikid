@@ -53,8 +53,13 @@ public class ConstConv {
 	public static final String RET_STATUS_RELOGIN = "relogin";
 	public static final String RET_STATUS_USERNOTEXIST = "user-not-exist";
 	public static final String RET_STATUS_NOMORE_CONTENTS = "no-more-content";
-
 	public static final String RET_STATUS_PAGE_OUT = "page-out";
+
+
+    /* request code for recipe list access */
+    public static final String RESRECIPE_TYPECODE_ALL = "all";
+    public static final String RESRECIPE_ORDERBYCODE_NONE = "default";
+
 
     /*
      * following are some key or value used to debug. These fileds will be
