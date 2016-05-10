@@ -24,16 +24,21 @@ public interface RecipeApiInterface {
      * show the list of the whole recipes stored in db, and
      * therefore we show them page by page. And this parameter
      * indicate the required page.
-     *
+     * @param address
+     * The shop address, pass "all" if don't care about this.
      * @param type
      * The type of recipe the user want to filter.
+     * @param orderBy
+     * Define what should be the key to order this recipe list.
      *
      * @return
      * List of the recipe.
      */
     @GET("getRecipeList.php")
     Call<List<Recipe>> getRecipe(@Query(ConstConv.RESKEY_RECIPE_PAGE) int page,
-                                 @Query(ConstConv.RESKEY_RECIPE_TYPE) String type);
+                                 @Query(ConstConv.RESKEY_SHOP_ADDR) String address,
+                                 @Query(ConstConv.RESKEY_RECIPE_TYPE) String type,
+                                 @Query(ConstConv.RESKEY_ORDER_BY) String orderBy);
 
     /**
      * Access a concrete recipe by its id.
