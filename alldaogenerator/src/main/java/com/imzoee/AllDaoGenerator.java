@@ -60,7 +60,7 @@ public class AllDaoGenerator {
         recipe.addDoubleProperty("originPrice");
         recipe.addIntProperty("stock");
         recipe.addIntProperty("sales");
-        recipe.addIntProperty("status");               /* 上架 1, 下架 0 */
+        recipe.addBooleanProperty("status");               /* 上架 1, 下架 0 */
         //recipe.addStringProperty("desc");              /* full descirption of the recipe */
         recipe.addIntProperty("number_comment");       /* number of comments */
         recipe.addDoubleProperty("score");
