@@ -61,8 +61,9 @@ public class AllDaoGenerator {
         recipe.addIntProperty("stock");
         recipe.addIntProperty("sales");
         recipe.addIntProperty("status");               /* 上架 1, 下架 0 */
-        recipe.addStringProperty("desc");              /* full descirption of the recipe */
+        //recipe.addStringProperty("desc");              /* full descirption of the recipe */
         recipe.addIntProperty("number_comment");       /* number of comments */
+        recipe.addDoubleProperty("score");
         /* score, the heat average */
         /* list of the comments' id */
         /* type of this recipe */
