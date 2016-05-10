@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
 import com.imzoee.caikid.dao.Recipe;
+import com.imzoee.caikid.utils.misc.ObservablesFactory;
+import com.rey.material.widget.Button;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -55,7 +58,7 @@ public class RecipeAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
-        Recipe recipe = recipesList.get(position);
+        final Recipe recipe = recipesList.get(position);
 
         if (convertView == null){
             convertView = inflater.inflate(R.layout.item_recipe,null);
@@ -66,6 +69,8 @@ public class RecipeAdapter extends BaseAdapter{
             holder.tvDesc = (TextView) convertView.findViewById(R.id.tv_recipe_desc);
             holder.tvPrice = (TextView) convertView.findViewById(R.id.tv_recipe_price);
             holder.tvSales = (TextView) convertView.findViewById(R.id.tv_recipe_sales);
+            holder.tvCommentsNum = (TextView) convertView.findViewById(R.id.tv_comment_number);
+            holder.btCart = (Button) convertView.findViewById(R.id.bt_add_to_cart);
 
             convertView.setTag(holder);
 
@@ -86,6 +91,14 @@ public class RecipeAdapter extends BaseAdapter{
         holder.tvDesc.setText(recipe.getInfo());
         holder.tvPrice.setText(String.valueOf(recipe.getPrice()));
         holder.tvSales.setText(String.valueOf(recipe.getSales()));
+        //holder.tvCommentsNum.setText();
+        holder.btCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseApp.getCart().addItem(recipe);
+                ObservablesFactory.cartActionObservable(BaseApp.getCart());
+            }
+        });
         return convertView;
     }
 
@@ -95,5 +108,7 @@ public class RecipeAdapter extends BaseAdapter{
         public TextView tvDesc;
         public TextView tvSales;
         public TextView tvPrice;
+        public TextView tvCommentsNum;
+        public Button btCart;
     }
 }
