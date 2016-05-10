@@ -55,6 +55,9 @@ public class RecipeFragment extends Fragment {
 
     List<Recipe> recipeList = null;
     int recipePage = 1;
+    String obtainAddress = null;
+    String obtainType = null;
+    String obtainOrderBy = null;
 
     private OnRecipeFragmentListener mListener;
 
@@ -88,6 +91,9 @@ public class RecipeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.tab_main_recipe, container, false);
+        obtainAddress = "all";
+        obtainType = ConstConv.RESRECIPE_TYPECODE_ALL;
+        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_NONE;
 
         initView();
         initData();
@@ -185,7 +191,7 @@ public class RecipeFragment extends Fragment {
         public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
             RecipeApiInterface i = httpClient.getRecipeApiInterface();
 
-            Call<List<Recipe>> getRecipe = i.getRecipe(recipePage, "all");
+            Call<List<Recipe>> getRecipe = i.getRecipe(recipePage, obtainAddress, obtainType, obtainOrderBy);
             getRecipe.enqueue(new Callback<List<Recipe>>(){
                 @Override
                 public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
@@ -217,7 +223,7 @@ public class RecipeFragment extends Fragment {
                                 Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getContext(),
-                                getString(R.string.msg_unknown_ret_status),
+                                getString(R.string.msg_unknown_ret_status) + status,
                                 Toast.LENGTH_LONG).show();
                     }
 
@@ -237,7 +243,7 @@ public class RecipeFragment extends Fragment {
 
     public void refreshFirstPage(){
         RecipeApiInterface i = httpClient.getRecipeApiInterface();
-        Call<List<Recipe>> getRecipe = i.getRecipe(0, "all");
+        Call<List<Recipe>> getRecipe = i.getRecipe(0, obtainAddress, obtainType, obtainOrderBy);
         getRecipe.enqueue(new Callback<List<Recipe>>(){
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
@@ -263,7 +269,13 @@ public class RecipeFragment extends Fragment {
                     Toast.makeText(getContext(),
                             getString(R.string.msg_time_out),
                             Toast.LENGTH_LONG).show();
-                } else {
+                } else if (status.equals(ConstConv.RET_STATUS_NOMORE_CONTENTS)){
+                    Toast.makeText(getContext(),
+                            getString(R.string.msg_recipe_no_more),
+                            Toast.LENGTH_LONG).show();
+                }
+
+                else {
                     Toast.makeText(getContext(),
                             getString(R.string.msg_unknown_ret_status),
                             Toast.LENGTH_LONG).show();
@@ -275,8 +287,15 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 pullToRefreshListView.onRefreshComplete();
-                Toast.makeText(getContext(), getString(R.string.msg_connect_error), Toast.LENGTH_LONG)
-                        .show();
+
+                if(t instanceof java.net.ConnectException){
+                    CharSequence msg = getString(R.string.msg_connect_error);
+                    Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.i("+++++++++++++++++++++++", t.toString());
+                    t.printStackTrace();
+                }
             }
         });
     }
