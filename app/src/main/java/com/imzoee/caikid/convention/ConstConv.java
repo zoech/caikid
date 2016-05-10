@@ -31,6 +31,8 @@ public class ConstConv {
 	/* request key related to recipe */
     public static final String RESKEY_RECIPE_PAGE = "recipe-page";
     public static final String RESKEY_RECIPE_TYPE = "recipe-type";
+	public static final String RESKEY_ORDER_BY = "recipe-order";
+	public static final String RESKEY_SHOP_ADDR= "recipe-shop";
 	
 	
 	/* response status code */
@@ -51,6 +53,8 @@ public class ConstConv {
 	public static final String RET_STATUS_RELOGIN = "relogin";
 	public static final String RET_STATUS_USERNOTEXIST = "user-not-exist";
 	public static final String RET_STATUS_NOMORE_CONTENTS = "no-more-content";
+
+	public static final String RET_STATUS_PAGE_OUT = "page-out";
 
     /*
      * following are some key or value used to debug. These fileds will be
