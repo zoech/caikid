@@ -10,18 +10,39 @@
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/mainActionBarHeight"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:background="@color/tabLayoutSelectBg">
+
+        <com.rey.material.widget.Button
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_marginLeft="@dimen/standard_margin_left"
+            android:layout_marginStart="@dimen/standard_margin_left"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/ic_action_filter_48dp"
+            style="@style/button_material_flat" />
 
         <com.rey.material.widget.Spinner
             android:id="@+id/spinner_shop_address"
             style="@style/spinner_material"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:minWidth="128dp"
             android:padding="8dp"
             android:gravity="center"
             app:spn_label="Spinner with arrow"/>
+
+        <com.rey.material.widget.Button
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/standard_margin_left"
+            android:layout_marginEnd="@dimen/standard_margin_left"
+            android:background="@drawable/ic_action_sort_1_48dp"
+            style="@style/button_material_flat" />
 
     </RelativeLayout>
 <!--
