@@ -9,9 +9,9 @@
     </style>
 
     <style name="RatingBar.Grey" parent="@android:style/Widget.RatingBar">
-        <item name="android:maxHeight">11.0dip</item>
+        <item name="android:maxHeight">15.0dip</item>
         <item name="android:progressDrawable">@drawable/rating_bar_grey_bg</item>
-        <item name="android:minHeight">11.0dip</item>
+        <item name="android:minHeight">15.0dip</item>
     </style>
 
     <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
