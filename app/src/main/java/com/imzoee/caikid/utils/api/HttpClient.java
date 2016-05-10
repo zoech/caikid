@@ -88,6 +88,7 @@ public class HttpClient {
 
             /* debug used log information */
             Log.i("------------interceptor",request.headers().toString());
+            Log.i("---------------------", request.toString());
 
 
 
