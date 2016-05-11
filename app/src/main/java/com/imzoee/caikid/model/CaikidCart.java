@@ -36,7 +36,6 @@ public class CaikidCart {
     private Context context = null;
     private HttpClient httpClient = null;
 
-    private double totallPrice = 0;
     List<CartItem> itemList = null;
 
     public static CaikidCart getCart(Context context){
@@ -48,7 +47,6 @@ public class CaikidCart {
 
     private CaikidCart(Context context){
         itemList = new ArrayList<>();
-        totallPrice = 0;
         this.context = context;
         this.httpClient = BaseApp.getHttpClient();
     }
@@ -61,8 +59,14 @@ public class CaikidCart {
         return this.itemList.size();
     }
 
-    public double getTotallPrice(){
-        return this.totallPrice;
+    public Double getTotallPrice(){
+        Double totallPrice = 0.0;
+        Iterator<CartItem> iterator = itemList.iterator();
+        while(iterator.hasNext()){
+            CartItem item = iterator.next();
+            totallPrice += item.getPrice();
+        }
+        return totallPrice;
     }
 
     public void addItem(Recipe recipe){
@@ -75,18 +79,15 @@ public class CaikidCart {
 
         CartItem item = new CartItem(recipe);
         this.itemList.add(item);
-        this.totallPrice += item.getRecipe().getPrice();
     }
 
     public void increaseItem(int pos){
         CartItem i = itemList.get(pos);
         i.increase();
-        this.totallPrice += i.getRecipe().getPrice();
     }
 
     public void decreaseItem(int pos){
         CartItem i = itemList.get(pos);
-        this.totallPrice -= i.getRecipe().getPrice();
         i.decrease();
         if(i.getCount() == 0){
             this.itemList.remove(pos);
@@ -94,7 +95,6 @@ public class CaikidCart {
     }
 
     public void removeItem(int pos){
-        this.totallPrice -= this.itemList.get(pos).getPrice();
         this.itemList.remove(pos);
     }
 
@@ -189,7 +189,7 @@ public class CaikidCart {
             return this.count;
         }
 
-        public double getPrice(){
+        public Double getPrice(){
             return this.recipeHolder.getPrice() * this.count;
         }
 
