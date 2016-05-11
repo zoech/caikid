@@ -8,10 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="RatingBar.Grey" parent="@android:style/Widget.RatingBar">
-        <item name="android:maxHeight">15.0dip</item>
-        <item name="android:progressDrawable">@drawable/rating_bar_grey_bg</item>
-        <item name="android:minHeight">15.0dip</item>
+    <style name="RatingBar.Red_16dp" parent="@android:style/Widget.RatingBar">
+        <item name="android:maxHeight">16.0dip</item>
+        <item name="android:progressDrawable">@drawable/rating_bar_red_bg_16dp</item>
+        <item name="android:minHeight">16.0dip</item>
     </style>
 
     <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
