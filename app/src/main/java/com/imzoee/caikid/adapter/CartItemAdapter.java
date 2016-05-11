@@ -13,6 +13,7 @@ import com.imzoee.caikid.R;
 import com.imzoee.caikid.model.CaikidCart;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
 import com.rey.material.widget.Button;
+import com.rey.material.widget.LinearLayout;
 
 import java.util.List;
 
@@ -67,10 +68,11 @@ public class CartItemAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             holder.tvRecipeName = (TextView) convertView.findViewById(R.id.tv_recipe_name);
+            holder.tvRecipePrice = (TextView) convertView.findViewById(R.id.tv_recipe_price);
             holder.tvItemCount = (TextView) convertView.findViewById(R.id.tv_item_count);
             holder.btDecrease = (Button) convertView.findViewById(R.id.bt_decrease);
             holder.btIncrease = (Button) convertView.findViewById(R.id.bt_increase);
-            holder.btRemove = (Button) convertView.findViewById(R.id.bt_item_remove);
+            holder.llRemove = (LinearLayout) convertView.findViewById(R.id.ll_item_remove);
 
             convertView.setTag(holder);
 
@@ -79,6 +81,10 @@ public class CartItemAdapter extends BaseAdapter {
         }
 
         holder.tvRecipeName.setText(item.getRecipe().getName());
+
+        java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+        holder.tvRecipePrice.setText(df.format(item.getRecipe().getPrice()));
+
         holder.tvItemCount.setText(String.valueOf(item.getCount()));
         holder.btDecrease.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +101,7 @@ public class CartItemAdapter extends BaseAdapter {
                 ObservablesFactory.cartActionObservable(cart);
             }
         });
-        holder.btRemove.setOnClickListener(new View.OnClickListener() {
+        holder.llRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cart.removeItem(position);
@@ -107,9 +113,10 @@ public class CartItemAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView tvRecipeName;
+        TextView tvRecipePrice;
         TextView tvItemCount;
         Button btDecrease;
         Button btIncrease;
-        Button btRemove;
+        LinearLayout llRemove;
     }
 }
