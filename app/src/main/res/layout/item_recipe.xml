@@ -21,26 +21,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/pic_hanbao2"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dip">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_chat_black_18dp"/>
-
-            <TextView
-                android:id="@+id/tv_comment_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dip"
-                android:layout_marginLeft="5dip"
-                android:text="220"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 
@@ -59,20 +40,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical" >
 
-            <TextView
-                android:id="@+id/tv_recipe_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:includeFontPadding="false"
-                android:maxWidth="@dimen/recipe_name_max_width"
-                android:singleLine="true"
-                android:textColor="#ff494c5b"
-                android:textSize="17.0sp"
-                android:text="recipe name"/>
-
-
-            <com.rey.material.widget.LinearLayout
+            <LinearLayout
+                android:id="@+id/anchor_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -81,6 +50,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/flat_carrot"
                     android:text="￥"/>
 
@@ -89,10 +59,27 @@
                     android:id="@+id/tv_recipe_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/flat_carrot"
                     android:text="10"/>
 
-            </com.rey.material.widget.LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_recipe_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@id/anchor_price"
+                android:layout_toStartOf="@id/anchor_price"
+                android:includeFontPadding="false"
+                android:maxWidth="@dimen/recipe_name_max_width"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="#ff494c5b"
+                android:textSize="17.0sp"
+                android:text="recipe name"/>
 
 
         </RelativeLayout>
@@ -105,13 +92,13 @@
 
             <RatingBar
                 android:id="@+id/rbar_recipe_rate"
-                style="@style/RatingBar.Grey"
+                style="@style/RatingBar.Red_16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:progress="80"/>
+                android:progress="75"/>
 
             <TextView
                 android:id="@+id/tv_recipe_rate_numbers"
@@ -168,26 +155,61 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dip">
-        <TextView
-            android:id="@+id/tv_recipe_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10.0dip"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:textColor="#ff999999"
-            android:textSize="12.0sp"
-            android:text="recipe desc"/>
 
-        <com.rey.material.widget.Button
-            android:id="@+id/bt_add_to_cart"
-            android:layout_width="24dip"
-            android:layout_height="24dip"
-            android:layout_alignParentRight="true"
-            style="@style/button_material_flat"
-            android:background="@drawable/ic_add_shopping_cart_black_24dp"/>
+            <LinearLayout
+                android:id="@+id/anchor_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dip">
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_action_monolog_puple_24dp"/>
+
+                <TextView
+                    android:id="@+id/tv_comment_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_gravity="center_vertical"
+                    android:text="220"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_recipe_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/anchor_comment"
+                android:layout_toEndOf="@id/anchor_comment"
+                android:layout_toLeftOf="@id/bt_add_to_cart"
+                android:layout_toStartOf="@id/bt_add_to_cart"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginStart="10.0dip"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="#ff999999"
+                android:textSize="12.0sp"
+                android:text="recipe desc"/>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/bt_add_to_cart"
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                style="@style/button_material_flat"
+                android:background="@drawable/ic_action_cart_red_32dp"/>
 
         </RelativeLayout>
 
