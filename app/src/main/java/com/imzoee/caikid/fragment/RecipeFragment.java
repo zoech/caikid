@@ -2,8 +2,10 @@ package com.imzoee.caikid.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -12,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -25,6 +28,9 @@ import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Recipe;
 import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.RecipeApiInterface;
+import com.rey.material.widget.CompoundButton;
+import com.rey.material.widget.LinearLayout;
+import com.rey.material.widget.RadioButton;
 import com.rey.material.widget.Spinner;
 
 import java.util.ArrayList;
@@ -45,10 +51,15 @@ import retrofit2.Response;
  */
 public class RecipeFragment extends Fragment {
 
+    PopupWindow popOrderRule = null;
+    PopupWindow popTypeFilter = null;
+
     View view = null;
     PullToRefreshListView pullToRefreshListView = null;
     ListView lvRecipe = null;
     Spinner shopSpinner = null;
+    LinearLayout llTypeFilter = null;
+    LinearLayout llOrderRule = null;
 
     HttpClient httpClient = BaseApp.getHttpClient();
     RecipeAdapter recipeAdapter = null;
@@ -108,6 +119,8 @@ public class RecipeFragment extends Fragment {
         pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.refreshlv_recipe);
         lvRecipe = pullToRefreshListView.getRefreshableView();
         shopSpinner = (Spinner) view.findViewById(R.id.spinner_shop_address);
+        llTypeFilter = (LinearLayout) view.findViewById(R.id.ll_recipe_type_filter);
+        llOrderRule = (LinearLayout) view.findViewById(R.id.ll_recipe_order_rule);
     }
 
     private void initData(){
@@ -142,15 +155,6 @@ public class RecipeFragment extends Fragment {
         });
 
         pullToRefreshListView.setOnRefreshListener(new RefreshListener());
-/*
-        shopSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(Spinner parent, View view, int position, long id) {
-                Toast.makeText(getContext(),
-                        "spinner selected!",
-                        Toast.LENGTH_LONG).show();
-            }
-        });*/
 
         shopSpinner.setOnItemClickListener(new Spinner.OnItemClickListener() {
             @Override
@@ -161,6 +165,110 @@ public class RecipeFragment extends Fragment {
                 return true;
             }
         });
+
+
+        llTypeFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(), "filter touch!", Toast.LENGTH_LONG).show();
+                showFilterPopUp();
+            }
+        });
+
+        llOrderRule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(), "order touch!", Toast.LENGTH_LONG).show();
+                showOrderPopUp();
+            }
+        });
+    }
+
+    /**
+     * init and show the order rule popup window
+     */
+    private void showOrderPopUp(){
+        View popView = LayoutInflater.from(getContext()).inflate(R.layout.pop_type_filter,null);
+/*        popView.findViewById(R.id.bt_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"click!", Toast.LENGTH_LONG).show();
+            }
+        });*/
+        popOrderRule = new PopupWindow(popView,
+                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
+
+
+        popOrderRule.setBackgroundDrawable(getResources().getDrawable(R.drawable.abc_popup_background_mtrl_mult));
+        //popOrderRule.setBackgroundDrawable(new ColorDrawable(0x00000000));
+
+        final RadioButton rbDefOrder = (RadioButton) popView.findViewById(R.id.rb_order_default);
+        final RadioButton rbSalesOrder = (RadioButton) popView.findViewById(R.id.rb_order_sales);
+        final RadioButton rbScoreOrder = (RadioButton) popView.findViewById(R.id.rb_order_score);
+        final RadioButton rbPriceOrder = (RadioButton) popView.findViewById(R.id.rb_order_price);
+
+        CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked){
+                    rbDefOrder.setChecked(rbDefOrder == buttonView);
+                    rbSalesOrder.setChecked(rbSalesOrder == buttonView);
+                    rbScoreOrder.setChecked(rbScoreOrder == buttonView);
+                    rbPriceOrder.setChecked(rbPriceOrder == buttonView);
+
+                    if(rbDefOrder == buttonView){
+                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_NONE;
+                    } else if(rbSalesOrder == buttonView){
+                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_SALES;
+                    } else if(rbScoreOrder == buttonView){
+                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_SCORE;
+                    } else if(rbPriceOrder == buttonView){
+                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_PRICE;
+                    } else {
+                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_NONE;
+                    }
+
+                    refreshFirstPage();
+                }
+
+            }
+        };
+
+        rbDefOrder.setOnCheckedChangeListener(listener);
+        rbSalesOrder.setOnCheckedChangeListener(listener);
+        rbScoreOrder.setOnCheckedChangeListener(listener);
+        rbPriceOrder.setOnCheckedChangeListener(listener);
+
+        /*
+        popOrderRule.setTouchable(true);
+
+        popOrderRule.setTouchInterceptor(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                Log.i("mengdd", "onTouch : ");
+                popOrderRule.dismiss();
+                popOrderRule = null;
+
+                Toast.makeText(getContext(),"touch!", Toast.LENGTH_LONG).show();
+
+                return false;
+            }
+        });
+*/
+
+        popOrderRule.showAsDropDown(llOrderRule);
+
+    }
+
+    /**
+     * init and show the type filter popup window
+     */
+    private void showFilterPopUp(){
+
     }
 
     @Override
