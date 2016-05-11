@@ -2,7 +2,6 @@ package com.imzoee.caikid.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.WindowManager;
@@ -85,9 +84,6 @@ public class RecipeFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static RecipeFragment newInstance() {
         RecipeFragment fragment = new RecipeFragment();
-/*        Bundle args = new Bundle();
-
-        fragment.setArguments(args);*/
 
         return fragment;
     }
@@ -133,6 +129,8 @@ public class RecipeFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner_shop, items);
         adapter.setDropDownViewResource(R.layout.spinner_drop_down);
         shopSpinner.setAdapter(adapter);
+        //shopSpinner.setBackgroundColor(getResources().getColor(R.color.flat_peter_river));
+        shopSpinner.setDrawingCacheBackgroundColor(getResources().getColor(R.color.flat_peter_river));
 
     }
 
@@ -240,25 +238,6 @@ public class RecipeFragment extends Fragment {
         rbSalesOrder.setOnCheckedChangeListener(listener);
         rbScoreOrder.setOnCheckedChangeListener(listener);
         rbPriceOrder.setOnCheckedChangeListener(listener);
-
-        /*
-        popOrderRule.setTouchable(true);
-
-        popOrderRule.setTouchInterceptor(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                Log.i("mengdd", "onTouch : ");
-                popOrderRule.dismiss();
-                popOrderRule = null;
-
-                Toast.makeText(getContext(),"touch!", Toast.LENGTH_LONG).show();
-
-                return false;
-            }
-        });
-*/
 
         popOrderRule.showAsDropDown(llOrderRule);
 
