@@ -49,7 +49,8 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void initData(){
-        tvTotalPrice.setText(String.valueOf(cart.getTotallPrice()));
+        java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+        tvTotalPrice.setText(df.format(cart.getTotallPrice()));
         cartItemAdapter = new CartItemAdapter(getBaseContext());
         lvContent.setAdapter(cartItemAdapter);
     }
@@ -100,7 +101,8 @@ public class CartActivity extends AppCompatActivity {
 
             }
 
-            tvTotalPrice.setText(String.valueOf(cart.getTotallPrice()));
+            java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+            tvTotalPrice.setText(df.format(cart.getTotallPrice()));
             cartItemAdapter.notifyDataSetChanged();
         }
     }
