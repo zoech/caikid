@@ -6,10 +6,12 @@ import android.widget.BaseAdapter;
 import android.view.View;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
+import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Recipe;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
 import com.rey.material.widget.Button;
@@ -71,6 +73,8 @@ public class RecipeAdapter extends BaseAdapter{
             holder.tvSales = (TextView) convertView.findViewById(R.id.tv_recipe_sales);
             holder.tvCommentsNum = (TextView) convertView.findViewById(R.id.tv_comment_number);
             holder.btCart = (Button) convertView.findViewById(R.id.bt_add_to_cart);
+            holder.ratingBar = (RatingBar) convertView.findViewById(R.id.rbar_recipe_rate);
+            holder.tvRating = (TextView) convertView.findViewById(R.id.tv_recipe_rate_numbers);
 
             convertView.setTag(holder);
 
@@ -80,18 +84,18 @@ public class RecipeAdapter extends BaseAdapter{
 
 
         Picasso.with(context)
-                .load(recipe.getImg_path())
+                .load(ConstConv.IMGPATH_URLPREFIX + recipe.getImg_path())
                 .fit()
                 .centerCrop()
-                .placeholder(R.drawable.ic_local_dining_black_48dp)
-                .error(R.drawable.ic_info_black_48dp)
+                .placeholder(R.drawable.ic_default_img_place_holder)
+                .error(R.drawable.ic_default_img_place_holder)
                 .into(holder.ivImg);
 
         holder.tvName.setText(recipe.getName());
         holder.tvDesc.setText(recipe.getInfo());
         holder.tvPrice.setText(String.valueOf(recipe.getPrice()));
         holder.tvSales.setText(String.valueOf(recipe.getSales()));
-        //holder.tvCommentsNum.setText();
+        holder.tvCommentsNum.setText(String.valueOf(recipe.getNumber_comment()));
         holder.btCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +103,12 @@ public class RecipeAdapter extends BaseAdapter{
                 ObservablesFactory.cartActionObservable(BaseApp.getCart());
             }
         });
+
+        holder.ratingBar.setRating( recipe.getScore().floatValue()  );
+
+        java.text.DecimalFormat df = new java.text.DecimalFormat("0.0");
+        holder.tvRating.setText(df.format(recipe.getScore()));
+
         return convertView;
     }
 
@@ -110,5 +120,7 @@ public class RecipeAdapter extends BaseAdapter{
         public TextView tvPrice;
         public TextView tvCommentsNum;
         public Button btCart;
+        public RatingBar ratingBar;
+        public TextView tvRating;
     }
 }
