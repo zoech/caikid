@@ -7,8 +7,11 @@ package com.imzoee.caikid.convention;
  */
 public class ConstConv {
     /* the server ip */
-    public static final String API_URL = "http://110.64.86.208:8080/caikid/app/";
-	//public static final String API_URL = "http://192.168.1.119/app/";
+    //public static final String API_URL = "http://110.64.86.208:8080/caikid/app/";
+	public static final String API_URL = "http://192.168.1.119/app/";
+
+	/* the image storing server ip, when use the img url to obtain img, use this ip as prefix */
+	public static final String IMGPATH_URLPREFIX = "http://192.168.1.119/";
 
     //public static final String HEADKEY_SESSIONID = "Caikid-SessionID";
     public static final String HEADKEY_RESPONSTATUS = "Caikid-ResponseStatus";
