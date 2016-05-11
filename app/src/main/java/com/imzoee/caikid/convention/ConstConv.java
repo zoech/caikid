@@ -62,6 +62,9 @@ public class ConstConv {
     /* request code for recipe list access */
     public static final String RESRECIPE_TYPECODE_ALL = "all";
     public static final String RESRECIPE_ORDERBYCODE_NONE = "default";
+    public static final String RESRECIPE_ORDERBYCODE_SALES = "sales";
+    public static final String RESRECIPE_ORDERBYCODE_SCORE = "score";
+    public static final String RESRECIPE_ORDERBYCODE_PRICE = "price";
 
 
     /*
