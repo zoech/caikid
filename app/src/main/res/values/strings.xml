@@ -41,6 +41,12 @@
     <!-- msg string related to recipe fragment -->
     <string name="msg_recipe_no_more">Here is the bottom! No more recipes!</string>
     <string name="msg_recipe_nothing">Nothing to Show!</string>
+    <string name="msg_cannot_access_shop_list">Can not access the shop address!</string>
+
+    <string name="recipe_order_by_default">Default</string>
+    <string name="recipe_order_by_sales">Sales</string>
+    <string name="recipe_order_by_score">Score</string>
+    <string name="recipe_order_by_price">Price</string>
 
     <!-- string related to recipe detail activity -->
     <string name="add_to_cart">add to cart</string>
