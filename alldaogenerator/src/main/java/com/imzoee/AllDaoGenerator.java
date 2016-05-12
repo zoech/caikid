@@ -34,6 +34,7 @@ public class AllDaoGenerator {
 
         addUser(schema);
         addRecipe(schema);
+        addRecipeComments(schema);
 
         new DaoGenerator().generateAll(schema,args[0]);
     }
@@ -67,5 +68,16 @@ public class AllDaoGenerator {
         /* score, the heat average */
         /* list of the comments' id */
         /* type of this recipe */
+    }
+
+    private static void addRecipeComments(Schema schema){
+        Entity comment = schema.addEntity("Comment");
+
+        comment.addIntProperty("commentId");
+        comment.addIntProperty("productId");
+        comment.addStringProperty("userName");
+        comment.addDoubleProperty("score");
+        comment.addStringProperty("content");
+        comment.addDateProperty("date");
     }
 }
