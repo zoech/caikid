@@ -36,6 +36,8 @@ public class ConstConv {
     public static final String RESKEY_RECIPE_TYPE = "recipe-type";
 	public static final String RESKEY_ORDER_BY = "recipe-order";
 	public static final String RESKEY_SHOP_ADDR= "recipe-shop";
+	public static final String RESKEY_COMMENT_RECIPEID = "productId";
+	public static final String RESKEY_COMMENT_PAGE = "page";
 	
 	
 	/* response status code */
