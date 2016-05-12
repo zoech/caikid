@@ -124,23 +124,46 @@
 
         </RelativeLayout>
 
-        <RatingBar
-            android:id="@+id/rbar_recipe_rate"
-            style="@style/RatingBar.Red_16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <RelativeLayout
+            android:id="@+id/anchor_rating"
             android:layout_below="@id/ll_recipe_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/recipe_detail_infoTab_marginLeft"
-            android:layout_marginLeft="@dimen/recipe_detail_infoTab_marginLeft"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:progress="75"/>
+            android:layout_marginLeft="@dimen/recipe_detail_infoTab_marginLeft">
+
+            <RatingBar
+                android:id="@+id/rbar_recipe_rate"
+                style="@style/RatingBar.Red_16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progress="75"/>
+
+            <TextView
+                android:id="@+id/tv_recipe_rate_numbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5.0dip"
+                android:layout_marginStart="5.0dip"
+                android:layout_toRightOf="@id/rbar_recipe_rate"
+                android:layout_toEndOf="@id/rbar_recipe_rate"
+                android:includeFontPadding="false"
+                android:textColor="@color/gray_txt"
+                android:textSize="12.0sp"
+                android:text="4.0"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_recipe_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rbar_recipe_rate"
+            android:layout_below="@id/anchor_rating"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_vertical_margin"
