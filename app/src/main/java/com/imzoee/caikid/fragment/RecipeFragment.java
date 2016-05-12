@@ -355,8 +355,14 @@ public class RecipeFragment extends Fragment {
                 @Override
                 public void onFailure(Call<List<Recipe>> call, Throwable t) {
                     pullToRefreshListView.onRefreshComplete();
-                    Toast.makeText(getContext(), getString(R.string.msg_connect_error), Toast.LENGTH_LONG)
-                            .show();
+                    if(t instanceof java.net.ConnectException){
+                        CharSequence msg = getString(R.string.msg_connect_error);
+                        Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.i("+++++++++++++++++++++++", t.toString());
+                        t.printStackTrace();
+                    }
                 }
             });
 
