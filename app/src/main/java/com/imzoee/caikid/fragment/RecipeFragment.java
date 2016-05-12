@@ -26,6 +26,7 @@ import com.imzoee.caikid.activity.RecipeDetailActivity;
 import com.imzoee.caikid.adapter.RecipeAdapter;
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Recipe;
+import com.imzoee.caikid.model.RecipeType;
 import com.imzoee.caikid.model.ShopAddr;
 import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.RecipeApiInterface;
@@ -52,6 +53,7 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class RecipeFragment extends Fragment {
+    private final static int AUTO_RROBTAIN_INTERVAL = 3000;
 
     PopupWindow popOrderRule = null;
     PopupWindow popTypeFilter = null;
@@ -67,6 +69,7 @@ public class RecipeFragment extends Fragment {
     RecipeAdapter recipeAdapter = null;
 
     List<Recipe> recipeList = null;
+    List<String> recipeTypeList = null;
     int recipePage = 1;
     String obtainAddress = null;
     String obtainType = null;
@@ -125,10 +128,17 @@ public class RecipeFragment extends Fragment {
     private void initData(){
         recipeList = new ArrayList<>();
 
+        /* berfore we have obtain the type and addr list, we hide these two view to avoid user input */
+        shopSpinner.setVisibility(View.GONE);
+        llTypeFilter.setVisibility(View.GONE);
+
         RecipeApiInterface i = httpClient.getRecipeApiInterface();
         Call<List<ShopAddr>> getShopAddrList = i.getShopAddrList();
         getShopAddrList.enqueue(getAddrListCallback);
 
+        recipeTypeList = new ArrayList<>();
+        Call<List<RecipeType>> getRecipeTypeList = i.getRecipeTypeList();
+        getRecipeTypeList.enqueue(getTypeListCallback);
     }
 
     public void initLogic(){
@@ -187,7 +197,7 @@ public class RecipeFragment extends Fragment {
      * init and show the order rule popup window
      */
     private void showOrderPopUp(){
-        View popView = LayoutInflater.from(getContext()).inflate(R.layout.pop_type_filter,null);
+        View popView = LayoutInflater.from(getContext()).inflate(R.layout.pop_orderby_filter,null);
 
         popOrderRule = new PopupWindow(popView,
                 WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
@@ -243,55 +253,36 @@ public class RecipeFragment extends Fragment {
      * init and show the type filter popup window
      */
     private void showFilterPopUp(){
-        View popView = LayoutInflater.from(getContext()).inflate(R.layout.pop_type_filter,null);
 
-        popOrderRule = new PopupWindow(popView,
+        if (recipeTypeList == null){
+            return;
+        }
+
+        View popView = LayoutInflater.from(getContext()).inflate(R.layout.pop_type_filter,null);
+        com.rey.material.widget.ListView lvContent = (com.rey.material.widget.ListView) popView.findViewById(R.id.lv_content);
+        final ArrayAdapter<String> typeListAdapter = new ArrayAdapter<>(getContext(), R.layout.item_pop_list, recipeTypeList);
+        lvContent.setAdapter(typeListAdapter);
+
+        lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    obtainType = ConstConv.RESRECIPE_TYPECODE_ALL;
+                } else {
+                    obtainType = (String) typeListAdapter.getItem(position);
+                }
+                refreshFirstPage();
+            }
+        });
+
+        popTypeFilter = new PopupWindow(popView,
                 WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
 
 
-        popOrderRule.setBackgroundDrawable(getResources().getDrawable(R.drawable.abc_popup_background_mtrl_mult));
-        //popOrderRule.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popTypeFilter.setBackgroundDrawable(getResources().getDrawable(R.drawable.abc_popup_background_mtrl_mult));
 
-        final RadioButton rbDefOrder = (RadioButton) popView.findViewById(R.id.rb_order_default);
-        final RadioButton rbSalesOrder = (RadioButton) popView.findViewById(R.id.rb_order_sales);
-        final RadioButton rbScoreOrder = (RadioButton) popView.findViewById(R.id.rb_order_score);
-        final RadioButton rbPriceOrder = (RadioButton) popView.findViewById(R.id.rb_order_price);
 
-        CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
-
-                if(isChecked){
-                    rbDefOrder.setChecked(rbDefOrder == buttonView);
-                    rbSalesOrder.setChecked(rbSalesOrder == buttonView);
-                    rbScoreOrder.setChecked(rbScoreOrder == buttonView);
-                    rbPriceOrder.setChecked(rbPriceOrder == buttonView);
-
-                    if(rbDefOrder == buttonView){
-                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_NONE;
-                    } else if(rbSalesOrder == buttonView){
-                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_SALES;
-                    } else if(rbScoreOrder == buttonView){
-                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_SCORE;
-                    } else if(rbPriceOrder == buttonView){
-                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_PRICE;
-                    } else {
-                        obtainOrderBy = ConstConv.RESRECIPE_ORDERBYCODE_NONE;
-                    }
-
-                    refreshFirstPage();
-                }
-
-            }
-        };
-
-        rbDefOrder.setOnCheckedChangeListener(listener);
-        rbSalesOrder.setOnCheckedChangeListener(listener);
-        rbScoreOrder.setOnCheckedChangeListener(listener);
-        rbPriceOrder.setOnCheckedChangeListener(listener);
-
-        popOrderRule.showAsDropDown(llOrderRule);
+        popTypeFilter.showAsDropDown(llTypeFilter);
     }
 
     @Override
@@ -454,19 +445,8 @@ public class RecipeFragment extends Fragment {
     Callback<List<ShopAddr>> getAddrListCallback = new Callback<List<ShopAddr>>(){
         @Override
         public void onResponse(Call<List<ShopAddr>> call, Response<List<ShopAddr>> response) {
-            List<String> addrStrList = new ArrayList<>();
-            addrStrList.add(getString(R.string.recipe_shop_addr_all));
-            Iterator<ShopAddr> iterator = response.body().iterator();
-            while(iterator.hasNext()){
-                ShopAddr shopAddr = iterator.next();
-                if(shopAddr.getAddrFlag()){
-                    addrStrList.add(shopAddr.getAddrName());
-                }
-            }
 
             if(response.body().size() == 0) {
-                String jstr = JSON.toJSONString(response.body());
-                Log.i("----------------------", jstr);
                 Toast.makeText(getContext(),getString(R.string.msg_cannot_access_shop_list), Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable()
                 {
@@ -477,11 +457,23 @@ public class RecipeFragment extends Fragment {
                         Call<List<ShopAddr>> getShopAddrList = i.getShopAddrList();
                         getShopAddrList.enqueue(getAddrListCallback);
                     }
-                }, 3000);
+                }, AUTO_RROBTAIN_INTERVAL);
             } else {
+                List<String> addrStrList = new ArrayList<>();
+                addrStrList.add(getString(R.string.recipe_shop_addr_all));
+                Iterator<ShopAddr> iterator = response.body().iterator();
+                while(iterator.hasNext()){
+                    ShopAddr shopAddr = iterator.next();
+                    if(shopAddr.getAddrFlag()){
+                        addrStrList.add(shopAddr.getAddrName());
+                    }
+                }
+
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner_shop, addrStrList);
                 adapter.setDropDownViewResource(R.layout.spinner_drop_down);
                 shopSpinner.setAdapter(adapter);
+
+                shopSpinner.setVisibility(View.VISIBLE);
             }
 
         }
@@ -498,7 +490,51 @@ public class RecipeFragment extends Fragment {
                     Call<List<ShopAddr>> getShopAddrList = i.getShopAddrList();
                     getShopAddrList.enqueue(getAddrListCallback);
                 }
-            }, 3000);
+            }, AUTO_RROBTAIN_INTERVAL);
+        }
+    };
+
+    Callback<List<RecipeType>> getTypeListCallback = new Callback<List<RecipeType>>(){
+        @Override
+        public void onResponse(Call<List<RecipeType>> call, Response<List<RecipeType>> response) {
+
+            if(response.body().size() == 0) {
+                Toast.makeText(getContext(),getString(R.string.msg_cannot_access_type_list), Toast.LENGTH_LONG).show();
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        RecipeApiInterface i = httpClient.getRecipeApiInterface();
+                        Call<List<RecipeType>> getRecipeTypeList = i.getRecipeTypeList();
+                        getRecipeTypeList.enqueue(getTypeListCallback);
+                    }
+                }, AUTO_RROBTAIN_INTERVAL);
+            } else {
+                recipeTypeList.add(getString(R.string.recipe_type_all));
+                Iterator<RecipeType> iterator = response.body().iterator();
+                while(iterator.hasNext()){
+                    recipeTypeList.add(iterator.next().getName());
+                }
+
+                llTypeFilter.setVisibility(View.VISIBLE);
+            }
+
+        }
+
+        @Override
+        public void onFailure(Call<List<RecipeType>> call, Throwable t) {
+            Toast.makeText(getContext(),getString(R.string.msg_cannot_access_shop_list), Toast.LENGTH_LONG).show();
+            new Handler().postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    RecipeApiInterface i = httpClient.getRecipeApiInterface();
+                    Call<List<ShopAddr>> getShopAddrList = i.getShopAddrList();
+                    getShopAddrList.enqueue(getAddrListCallback);
+                }
+            }, AUTO_RROBTAIN_INTERVAL);
         }
     };
 }
