@@ -2,6 +2,7 @@ package com.imzoee.caikid.utils.api;
 
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Recipe;
+import com.imzoee.caikid.model.RecipeType;
 import com.imzoee.caikid.model.ShopAddr;
 
 import java.util.List;
@@ -60,5 +61,8 @@ public interface RecipeApiInterface {
      */
     @GET("getAllAddr.php")
     Call<List<ShopAddr>> getShopAddrList();
+
+    @GET("getAllType.php")
+    Call<List<RecipeType>> getRecipeTypeList();
 
 }
