@@ -53,7 +53,7 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class RecipeFragment extends Fragment {
-    private final static int AUTO_RROBTAIN_INTERVAL = 3000;
+    private final static int AUTO_RROBTAIN_INTERVAL = 10000;
 
     PopupWindow popOrderRule = null;
     PopupWindow popTypeFilter = null;
