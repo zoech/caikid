@@ -2,16 +2,102 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_test"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:text="zzzz"/>
+        android:paddingLeft="5dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#"/>
+
+        <TextView
+            android:id="@+id/tv_floor_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip">
+
+        <RelativeLayout
+            android:id="@+id/anchor_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dip"
+            android:layout_marginEnd="5dip">
+
+
+            <RatingBar
+                android:id="@+id/rbar_recipe_rate"
+                style="@style/RatingBar.Red_16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progress="75"/>
+
+            <TextView
+                android:id="@+id/tv_recipe_rate_numbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5.0dip"
+                android:layout_marginStart="5.0dip"
+                android:layout_toRightOf="@id/rbar_recipe_rate"
+                android:layout_toEndOf="@id/rbar_recipe_rate"
+                android:includeFontPadding="false"
+                android:textColor="@color/gray_txt"
+                android:textSize="12.0sp"
+                android:text="4.0"/>
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dip"
+            android:layout_marginStart="5dip"
+            android:text="user name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@id/tv_user_name"
+            android:layout_toEndOf="@id/tv_user_name"
+            android:layout_toLeftOf="@id/anchor_rating"
+            android:layout_toStartOf="@id/anchor_rating"
+            android:text=" :"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="20sp"
+        android:text="hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"/>
+
+
 
 </LinearLayout>
