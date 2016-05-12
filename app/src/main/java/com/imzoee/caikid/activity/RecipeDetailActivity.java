@@ -3,32 +3,46 @@ package com.imzoee.caikid.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
+import com.imzoee.caikid.adapter.RecipeCommentsAdapter;
+import com.imzoee.caikid.convention.ConstConv;
+import com.imzoee.caikid.dao.Comment;
 import com.imzoee.caikid.dao.Recipe;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
-import com.rey.material.widget.Button;
+import com.rey.material.widget.LinearLayout;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeDetailActivity extends AppCompatActivity {
     public static final String INTENT_KEY_RECIPE = "recipe";
 
     /* the recipe we show in this activity */
     Recipe recipe = null;
+    List<Comment> commentsList = null;
 
     /* view reference */
+    ListView lvContent = null;
+    View llHeaderView = null;
     ImageView ivRecipe = null;
-    Button btAddCart = null;
+    LinearLayout llAddCart = null;
     TextView tvName = null;
     TextView tvDesc = null;
     TextView tvSold = null;
     TextView tvPrice = null;
+    RatingBar rbarScore = null;
+    TextView tvCommentsNum = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +59,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 return;
             }
         }
+        commentsList = new ArrayList<>();
 
         initView();
         initData();
@@ -52,17 +67,25 @@ public class RecipeDetailActivity extends AppCompatActivity {
     }
 
     public void initView(){
-        ivRecipe = (ImageView) findViewById(R.id.iv_recipe);
-        btAddCart = (Button) findViewById(R.id.bt_add_to_cart);
-        tvName = (TextView) findViewById(R.id.tv_recipe_name);
-        tvSold = (TextView) findViewById(R.id.tv_recipe_sales);
-        tvDesc = (TextView) findViewById(R.id.tv_recipe_desc);
-        tvPrice = (TextView) findViewById(R.id.tv_recipe_price);
+        lvContent = (ListView) findViewById(R.id.lv_recipe_content);
+        llHeaderView = LayoutInflater.from(this).inflate(R.layout.header_recipe_detail, lvContent, false);
+        ivRecipe = (ImageView) llHeaderView.findViewById(R.id.iv_recipe);
+        llAddCart = (LinearLayout) llHeaderView.findViewById(R.id.ll_add_to_cart);
+        tvName = (TextView) llHeaderView.findViewById(R.id.tv_recipe_name);
+        tvSold = (TextView) llHeaderView.findViewById(R.id.tv_recipe_sales);
+        tvDesc = (TextView) llHeaderView.findViewById(R.id.tv_recipe_desc);
+        tvPrice = (TextView) llHeaderView.findViewById(R.id.tv_recipe_price);
+        rbarScore = (RatingBar) llHeaderView.findViewById(R.id.rbar_recipe_rate);
+        tvCommentsNum = (TextView) llHeaderView.findViewById(R.id.tv_comment_number);
     }
 
     public void initData(){
+        lvContent.addHeaderView(llHeaderView);
+        RecipeCommentsAdapter commentsAdapter = new RecipeCommentsAdapter(getBaseContext(), commentsList);
+        lvContent.setAdapter(commentsAdapter);
+
         Picasso.with(getBaseContext())
-                .load(recipe.getImg_path())
+                .load(ConstConv.IMGPATH_URLPREFIX + recipe.getImg_path())
                 .fit()
                 .centerCrop()
                 .into(ivRecipe);
@@ -70,10 +93,12 @@ public class RecipeDetailActivity extends AppCompatActivity {
         tvSold.setText(String.valueOf(recipe.getSales()));
         tvDesc.setText(recipe.getInfo());
         tvPrice.setText(String.valueOf(recipe.getPrice()));
+        rbarScore.setRating( recipe.getScore().floatValue() );
+        tvCommentsNum.setText(String.valueOf(recipe.getNumber_comment()));
     }
 
     public void initListener(){
-        btAddCart.setOnClickListener(new View.OnClickListener() {
+        llAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BaseApp.getCart().addItem(recipe);
