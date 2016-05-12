@@ -42,8 +42,10 @@
     <string name="msg_recipe_no_more">Here is the bottom! No more recipes!</string>
     <string name="msg_recipe_nothing">Nothing to Show!</string>
     <string name="msg_cannot_access_shop_list">Can not access the shop address!</string>
+    <string name="msg_cannot_access_type_list">Can not access the recipe types!</string>
 
-    <string name="recipe_shop_addr_all">all shops</string>
+    <string name="recipe_shop_addr_all">All shops</string>
+    <string name="recipe_type_all">All category</string>
     <string name="recipe_order_by_default">Default</string>
     <string name="recipe_order_by_sales">Sales</string>
     <string name="recipe_order_by_score">Score</string>
