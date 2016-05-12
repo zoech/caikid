@@ -1,6 +1,7 @@
 package com.imzoee.caikid.utils.api;
 
 import com.imzoee.caikid.convention.ConstConv;
+import com.imzoee.caikid.dao.Comment;
 import com.imzoee.caikid.dao.Recipe;
 import com.imzoee.caikid.model.RecipeType;
 import com.imzoee.caikid.model.ShopAddr;
@@ -64,5 +65,9 @@ public interface RecipeApiInterface {
 
     @GET("getAllType.php")
     Call<List<RecipeType>> getRecipeTypeList();
+
+    @GET("getComment.php")
+    Call<List<Comment>> getCommentList(@Query(ConstConv.RESKEY_COMMENT_RECIPEID) int recipeId,
+                                       @Query(ConstConv.RESKEY_COMMENT_PAGE) int page);
 
 }
