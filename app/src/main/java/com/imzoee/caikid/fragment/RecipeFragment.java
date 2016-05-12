@@ -71,6 +71,7 @@ public class RecipeFragment extends Fragment {
     List<Recipe> recipeList = null;
     List<String> recipeTypeList = null;
     int recipePage = 1;
+    boolean firstObtain = true;
     String obtainAddress = null;
     String obtainType = null;
     String obtainOrderBy = null;
@@ -452,8 +453,12 @@ public class RecipeFragment extends Fragment {
         @Override
         public void onResponse(Call<List<ShopAddr>> call, Response<List<ShopAddr>> response) {
 
-            if(response.body().size() == 0) {
-                Toast.makeText(getContext(),getString(R.string.msg_cannot_access_shop_list), Toast.LENGTH_LONG).show();
+            List<ShopAddr> shopList = response.body();
+            if(shopList == null || shopList.size() == 0) {
+                if(firstObtain) {
+                    Toast.makeText(getContext(), getString(R.string.msg_cannot_access_shop_list), Toast.LENGTH_LONG).show();
+                    firstObtain = false;
+                }
                 new Handler().postDelayed(new Runnable()
                 {
                     @Override
@@ -467,7 +472,7 @@ public class RecipeFragment extends Fragment {
             } else {
                 List<String> addrStrList = new ArrayList<>();
                 addrStrList.add(getString(R.string.recipe_shop_addr_all));
-                Iterator<ShopAddr> iterator = response.body().iterator();
+                Iterator<ShopAddr> iterator = shopList.iterator();
                 while(iterator.hasNext()){
                     ShopAddr shopAddr = iterator.next();
                     if(shopAddr.getAddrFlag()){
@@ -486,7 +491,10 @@ public class RecipeFragment extends Fragment {
 
         @Override
         public void onFailure(Call<List<ShopAddr>> call, Throwable t) {
-            Toast.makeText(getContext(),getString(R.string.msg_cannot_access_shop_list), Toast.LENGTH_LONG).show();
+            if(firstObtain) {
+                Toast.makeText(getContext(), getString(R.string.msg_cannot_access_shop_list), Toast.LENGTH_LONG).show();
+                firstObtain = false;
+            }
             new Handler().postDelayed(new Runnable()
             {
                 @Override
@@ -504,8 +512,12 @@ public class RecipeFragment extends Fragment {
         @Override
         public void onResponse(Call<List<RecipeType>> call, Response<List<RecipeType>> response) {
 
-            if(response.body().size() == 0) {
-                Toast.makeText(getContext(),getString(R.string.msg_cannot_access_type_list), Toast.LENGTH_LONG).show();
+            List<RecipeType> types = response.body();
+            if(types == null || types.size() == 0) {
+                if(firstObtain) {
+                    Toast.makeText(getContext(), getString(R.string.msg_cannot_access_type_list), Toast.LENGTH_LONG).show();
+                    firstObtain = false;
+                }
                 new Handler().postDelayed(new Runnable()
                 {
                     @Override
@@ -530,7 +542,10 @@ public class RecipeFragment extends Fragment {
 
         @Override
         public void onFailure(Call<List<RecipeType>> call, Throwable t) {
-            Toast.makeText(getContext(),getString(R.string.msg_cannot_access_shop_list), Toast.LENGTH_LONG).show();
+            if(firstObtain) {
+                Toast.makeText(getContext(), getString(R.string.msg_cannot_access_shop_list), Toast.LENGTH_LONG).show();
+                firstObtain = false;
+            }
             new Handler().postDelayed(new Runnable()
             {
                 @Override
