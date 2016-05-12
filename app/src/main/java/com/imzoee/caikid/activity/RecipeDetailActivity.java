@@ -42,6 +42,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     TextView tvSold = null;
     TextView tvPrice = null;
     RatingBar rbarScore = null;
+    TextView tvRating = null;
     TextView tvCommentsNum = null;
 
     @Override
@@ -76,6 +77,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         tvDesc = (TextView) llHeaderView.findViewById(R.id.tv_recipe_desc);
         tvPrice = (TextView) llHeaderView.findViewById(R.id.tv_recipe_price);
         rbarScore = (RatingBar) llHeaderView.findViewById(R.id.rbar_recipe_rate);
+        tvRating = (TextView) llHeaderView.findViewById(R.id.tv_recipe_rate_numbers);
         tvCommentsNum = (TextView) llHeaderView.findViewById(R.id.tv_comment_number);
     }
 
@@ -94,6 +96,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
         tvDesc.setText(recipe.getInfo());
         tvPrice.setText(String.valueOf(recipe.getPrice()));
         rbarScore.setRating( recipe.getScore().floatValue() );
+        java.text.DecimalFormat df = new java.text.DecimalFormat("0.0");
+        tvRating.setText(df.format(recipe.getScore()));
         tvCommentsNum.setText(String.valueOf(recipe.getNumber_comment()));
     }
 
