@@ -3,8 +3,10 @@ package com.imzoee.caikid.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -18,6 +20,8 @@ import com.imzoee.caikid.adapter.RecipeCommentsAdapter;
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Comment;
 import com.imzoee.caikid.dao.Recipe;
+import com.imzoee.caikid.utils.api.HttpClient;
+import com.imzoee.caikid.utils.api.RecipeApiInterface;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
 import com.rey.material.widget.LinearLayout;
 import com.squareup.picasso.Picasso;
@@ -25,12 +29,21 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RecipeDetailActivity extends AppCompatActivity {
     public static final String INTENT_KEY_RECIPE = "recipe";
 
     /* the recipe we show in this activity */
     Recipe recipe = null;
     List<Comment> commentsList = null;
+
+    RecipeCommentsAdapter commentsAdapter = null;
+
+    private int commentPage = 0;
 
     /* view reference */
     ListView lvContent = null;
@@ -61,6 +74,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
             }
         }
         commentsList = new ArrayList<>();
+        commentPage = 0;
 
         initView();
         initData();
@@ -83,8 +97,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     public void initData(){
         lvContent.addHeaderView(llHeaderView);
-        RecipeCommentsAdapter commentsAdapter = new RecipeCommentsAdapter(getBaseContext(), commentsList);
+        commentsAdapter = new RecipeCommentsAdapter(getBaseContext(), commentsList);
         lvContent.setAdapter(commentsAdapter);
+        getNewPageComment();
 
         Picasso.with(getBaseContext())
                 .load(ConstConv.IMGPATH_URLPREFIX + recipe.getImg_path())
@@ -112,6 +127,85 @@ public class RecipeDetailActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+
+        lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView tvComment = (TextView) view.findViewById(R.id.tv_comment_content);
+/*                Paint paint = tvComment.getPaint();
+                float width = paint.measureText(tvComment.getText().toString());
+                float space = tvComment.getWidth() - tvComment.getPaddingLeft() - tvComment.getPaddingRight();*/
+                if (position < 1){
+                    return;
+                }
+                Toast.makeText(getBaseContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
+                if(tvComment.getLineCount() > 2){
+                    tvComment.setMaxLines(2);
+                } else {
+                    tvComment.setMaxLines(50);
+                }
+                //tvComment.setEllipsize(null);
+            }
+        });
     }
 
+    private void getNewPageComment(){
+        HttpClient httpClient = BaseApp.getHttpClient();
+        RecipeApiInterface i = httpClient.getRecipeApiInterface();
+        Call<List<Comment>> getCommentList = i.getCommentList(recipe.getId(), commentPage);
+        getCommentList.enqueue(new Callback<List<Comment>>(){
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                Headers headers = response.headers();
+                String status = headers.get(ConstConv.HEADKEY_RESPONSTATUS);
+
+                if (status == null){
+                    Toast.makeText(getBaseContext(),
+                            getString(R.string.msg_status_header_null),
+                            Toast.LENGTH_LONG).show();
+                } else if (status.equals(ConstConv.RET_STATUS_OK)){
+
+                    List<Comment> comments = response.body();
+                    commentsList.addAll(comments);
+                    //commentsAdapter.setCommentList(commentsList);
+                    commentsAdapter.notifyDataSetChanged();
+
+                        /* don't forget to increase the page number */
+                    commentPage++;
+
+                } else if (status.equals(ConstConv.RET_STATUS_NOMORE_CONTENTS)){
+                    if(commentPage == 0) {
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.msg_comment_nothing),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getBaseContext(),
+                                getString(R.string.msg_comment_no_more),
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+                else if (status.equals(ConstConv.RET_STATUS_TIMEOUT)){
+                    Toast.makeText(getBaseContext(),
+                            getString(R.string.msg_time_out),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getBaseContext(),
+                            getString(R.string.msg_unknown_ret_status) + status,
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                if(t instanceof java.net.ConnectException){
+                    CharSequence msg = getString(R.string.msg_connect_error);
+                    Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.i("+++++++++++++++++++++++", t.toString());
+                    t.printStackTrace();
+                }
+            }
+        });
+    }
 }
