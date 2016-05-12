@@ -55,6 +55,7 @@
     <string name="add_to_cart">add to cart</string>
     <string name="tv_sales">sold</string>
     <string name="msg_comment_no_more">No more comments!</string>
+    <string name="msg_comment_nothing">There is still no comments!</string>
 
     <!-- string related to cart activity -->
     <string name="cart_order">order</string>
