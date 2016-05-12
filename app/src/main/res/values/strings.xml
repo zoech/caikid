@@ -43,6 +43,7 @@
     <string name="msg_recipe_nothing">Nothing to Show!</string>
     <string name="msg_cannot_access_shop_list">Can not access the shop address!</string>
 
+    <string name="recipe_shop_addr_all">all shops</string>
     <string name="recipe_order_by_default">Default</string>
     <string name="recipe_order_by_sales">Sales</string>
     <string name="recipe_order_by_score">Score</string>
