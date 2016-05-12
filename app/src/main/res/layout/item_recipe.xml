@@ -184,6 +184,16 @@
 
             </LinearLayout>
 
+            <com.rey.material.widget.Button
+                android:id="@+id/bt_add_to_cart"
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                style="@style/button_material_flat"
+                android:background="@drawable/ic_action_cart_red_32dp"/>
+
             <TextView
                 android:id="@+id/tv_recipe_desc"
                 android:layout_width="wrap_content"
@@ -203,15 +213,6 @@
                 android:textSize="12.0sp"
                 android:text="recipe desc"/>
 
-            <com.rey.material.widget.Button
-                android:id="@+id/bt_add_to_cart"
-                android:layout_width="32dip"
-                android:layout_height="32dip"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                style="@style/button_material_flat"
-                android:background="@drawable/ic_action_cart_red_32dp"/>
 
         </RelativeLayout>
 
