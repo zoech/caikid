@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="default"
+        android:text="@string/recipe_order_by_default"
         android:checked="true"
         style="@style/LightRadioButtonDrawable"/>
 
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="sales"
+        android:text="@string/recipe_order_by_sales"
         android:checked="false"
         style="@style/LightRadioButtonDrawable"/>
 
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="score"
+        android:text="@string/recipe_order_by_score"
         android:checked="false"
         style="@style/LightRadioButtonDrawable"/>
 
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="price"
+        android:text="@string/recipe_order_by_price"
         android:checked="false"
         style="@style/LightRadioButtonDrawable"/>
 
