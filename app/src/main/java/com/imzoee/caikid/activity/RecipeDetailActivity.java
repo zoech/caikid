@@ -23,6 +23,7 @@ import com.imzoee.caikid.dao.Recipe;
 import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.RecipeApiInterface;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
+import com.rey.material.widget.FloatingActionButton;
 import com.rey.material.widget.LinearLayout;
 import com.squareup.picasso.Picasso;
 
@@ -50,6 +51,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     View llHeaderView = null;
     View llFooterView = null;
     ImageView ivRecipe = null;
+    FloatingActionButton fbBack = null;
     LinearLayout llAddCart = null;
     TextView tvName = null;
     TextView tvDesc = null;
@@ -58,6 +60,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
     RatingBar rbarScore = null;
     TextView tvRating = null;
     TextView tvCommentsNum = null;
+
+    LinearLayout llFrameComment = null;
+    LinearLayout llFrameNothing = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         llHeaderView = LayoutInflater.from(this).inflate(R.layout.header_recipe_detail, lvContent, false);
         llFooterView = LayoutInflater.from(this).inflate(R.layout.footer_recipe_detail, lvContent, false);
         ivRecipe = (ImageView) llHeaderView.findViewById(R.id.iv_recipe);
+        fbBack = (FloatingActionButton) llHeaderView.findViewById(R.id.fb_back);
         llAddCart = (LinearLayout) llHeaderView.findViewById(R.id.ll_add_to_cart);
         tvName = (TextView) llHeaderView.findViewById(R.id.tv_recipe_name);
         tvSold = (TextView) llHeaderView.findViewById(R.id.tv_recipe_sales);
@@ -95,6 +101,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
         rbarScore = (RatingBar) llHeaderView.findViewById(R.id.rbar_recipe_rate);
         tvRating = (TextView) llHeaderView.findViewById(R.id.tv_recipe_rate_numbers);
         tvCommentsNum = (TextView) llHeaderView.findViewById(R.id.tv_comment_number);
+
+        llFrameComment = (LinearLayout) llHeaderView.findViewById(R.id.anchor_comment);
+        llFrameNothing = (LinearLayout) llHeaderView.findViewById(R.id.ll_frame_no_comment);
+
     }
 
     public void initData(){
@@ -124,6 +134,15 @@ public class RecipeDetailActivity extends AppCompatActivity {
         java.text.DecimalFormat df = new java.text.DecimalFormat("0.0");
         tvRating.setText(df.format(recipe.getScore()));
         tvCommentsNum.setText(String.valueOf(recipe.getNumber_comment()));
+
+        if(recipe.getNumber_comment() == 0){
+            llFrameComment.setVisibility(View.GONE);
+            llFrameNothing.setVisibility(View.VISIBLE);
+            llFooterView.setVisibility(View.GONE);
+        } else {
+            llFrameComment.setVisibility(View.VISIBLE);
+            llFrameNothing.setVisibility(View.GONE);
+        }
     }
 
     public void initListener(){
@@ -135,6 +154,13 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(),
                         getString(R.string.msg_recipe_added_to_cart),
                         Toast.LENGTH_LONG).show();
+            }
+        });
+
+        fbBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -157,6 +183,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get a new page of comments of this recipe. The page is indicated by the commentPage
+     * field of this activity.
+     */
     private void getNewPageComment(){
         HttpClient httpClient = BaseApp.getHttpClient();
         RecipeApiInterface i = httpClient.getRecipeApiInterface();
@@ -182,18 +212,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
                     commentPage++;
 
                 } else if (status.equals(ConstConv.RET_STATUS_NOMORE_CONTENTS)){
-                    if(commentPage == 0) {
-                        Toast.makeText(getBaseContext(),
-                                getString(R.string.msg_comment_nothing),
-                                Toast.LENGTH_LONG).show();
-                    } else {
-/*                        Toast.makeText(getBaseContext(),
-                                getString(R.string.msg_comment_no_more),
-                                Toast.LENGTH_LONG).show();*/
-
-                        llFooterView.findViewById(R.id.tv_frame_no_more).setVisibility(View.VISIBLE);
-                        llFooterView.findViewById(R.id.ll_load_more).setVisibility(View.GONE);
-                    }
+                    llFooterView.findViewById(R.id.tv_frame_no_more).setVisibility(View.VISIBLE);
+                    llFooterView.findViewById(R.id.ll_load_more).setVisibility(View.GONE);
                 }
                 else if (status.equals(ConstConv.RET_STATUS_TIMEOUT)){
                     Toast.makeText(getBaseContext(),
