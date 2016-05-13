@@ -60,6 +60,7 @@
 
     <!-- string related to cart activity -->
     <string name="cart_order">order</string>
+    <string name="login_to_order">Please login before order!</string>
 
     <!-- me fragment string -->
     <string name="below_avatar">Touch to login</string>
