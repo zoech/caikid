@@ -21,7 +21,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_cancel_red_48dp"/>
+                android:src="@drawable/ic_action_trash_bean_grey_48dp"/>
 
         </com.rey.material.widget.LinearLayout>
 
