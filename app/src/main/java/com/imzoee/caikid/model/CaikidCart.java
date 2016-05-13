@@ -99,6 +99,25 @@ public class CaikidCart {
     }
 
     /**
+     * Get a json string that used to send to server in an "order" request.
+     * Here, we save only the recipe id and the count, discard the recipe
+     * entity.
+     *
+     * @return
+     * The JSON string that can send to server in an "order" request.
+     */
+    public String getApiUseJSONString(){
+        List<ItemToJSONHolder> iList = new ArrayList<>();
+        Iterator<CartItem> iterator = itemList.iterator();
+        while(iterator.hasNext()){
+            ItemToJSONHolder item = new ItemToJSONHolder(iterator.next());
+            iList.add(item);
+        }
+
+        return JSON.toJSONString(iList);
+    }
+
+    /**
      * Init the cart from the sharepreference.
      */
     public void initFromSPF(){
@@ -201,7 +220,28 @@ public class CaikidCart {
             this.count--;
         }
 
+    }
 
+    private class ItemToJSONHolder{
+        private int id;
+        private int count;
 
+        public ItemToJSONHolder(CartItem cartItem){
+            this.id = cartItem.getRecipeId();
+            this.count = cartItem.getCount();
+        }
+
+        public int getId(){
+            return id;
+        }
+        public void setId(int id){
+            this.id = id;
+        }
+        public int getCount(){
+            return count;
+        }
+        public void setCount(int count){
+            this.count = count;
+        }
     }
 }
