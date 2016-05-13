@@ -61,6 +61,17 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/tv_not_login_arlert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/anchor_order"
+            android:gravity="center"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:background="@color/flat_silver"
+            android:text="@string/login_to_order"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
