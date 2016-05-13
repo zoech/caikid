@@ -38,10 +38,16 @@ public class ConstConv {
 	public static final String RESKEY_SHOP_ADDR= "recipe-shop";
 	public static final String RESKEY_COMMENT_RECIPEID = "productId";
 	public static final String RESKEY_COMMENT_PAGE = "page";
-	
-	
+
+	/* request key related to order */
+	public static final String RESKEY_ORDER_CART = "cart";
+	public static final String RESKEY_ORDER_ADDR = "addr";
+	public static final String RESKEY_ORDER_PHONE = "phone";
+	public static final String RESKEY_ORDER_NAME = "name";
+	public static final String RESKEY_ORDER_RECIEVETIME = "recieveTime";
+
 	/* response status code */
-	public static final String RET_STATUS_SESSIONNOTEXIST = "session-not-exist";
+	public static final String RET_STATUS_SESSIONNOTEXIST = "session-invalid";
 	public static final String RET_STATUS_OK = "ok";
 	public static final String RET_STATUS_IDNULL = "id-null";
 	public static final String RET_STATUS_ACCOUNTNULL = "account-null";
