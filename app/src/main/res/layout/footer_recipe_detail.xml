@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="80dip"
+    android:gravity="center_horizontal">
+
+    <com.rey.material.widget.LinearLayout
+        android:id="@+id/ll_load_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        style="@style/button_material_flat">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/flat_peter_river"
+            android:text="@string/tv_comment_load_more"/>
+
+    </com.rey.material.widget.LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_frame_no_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/flat_silver"
+        android:text="@string/msg_comment_no_more"/>
+
+</LinearLayout>
