@@ -552,8 +552,8 @@ public class RecipeFragment extends Fragment {
                 public void run()
                 {
                     RecipeApiInterface i = httpClient.getRecipeApiInterface();
-                    Call<List<ShopAddr>> getShopAddrList = i.getShopAddrList();
-                    getShopAddrList.enqueue(getAddrListCallback);
+                    Call<List<RecipeType>> getRecipeTypeList = i.getRecipeTypeList();
+                    getRecipeTypeList.enqueue(getTypeListCallback);
                 }
             }, AUTO_RROBTAIN_INTERVAL);
         }
