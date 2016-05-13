@@ -62,6 +62,10 @@
     <string name="cart_order">order</string>
     <string name="login_to_order">Please login before order!</string>
 
+    <!-- string related to order activity -->
+    <string name="order_recipe_price">Price</string>
+    <string name="order_recipe_copies">Copies</string>
+
     <!-- me fragment string -->
     <string name="below_avatar">Touch to login</string>
     <string name="avatar_sign_up">No account?</string>
