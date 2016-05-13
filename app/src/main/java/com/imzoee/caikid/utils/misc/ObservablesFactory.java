@@ -30,6 +30,7 @@ public class ObservablesFactory {
      * currently these components include:
      * 1. OrderFragment
      * 2. MeFragment
+     * 3. CartActivity
      *
      * @param user
      * User object of the new login user. If it is null,
@@ -47,13 +48,17 @@ public class ObservablesFactory {
             }
         });
 
-        Subscriber<User> orderLogoutSubscriber = OrderFragment.getLoginStateSubscriber();
-        Subscriber<User> meLogoutSubscriber = MeFragment.getLoginStateSubscriber();
-        if (orderLogoutSubscriber != null){
-            loginStateObservable.subscribe(orderLogoutSubscriber);
+        Subscriber<User> orderLoginSubscriber = OrderFragment.getLoginStateSubscriber();
+        Subscriber<User> meLoginSubscriber = MeFragment.getLoginStateSubscriber();
+        Subscriber<User> cartLoginSubscriber = CartActivity.getLoginSubscriber();
+        if (orderLoginSubscriber != null){
+            loginStateObservable.subscribe(orderLoginSubscriber);
         }
-        if (meLogoutSubscriber != null) {
-            loginStateObservable.subscribe(meLogoutSubscriber);
+        if (meLoginSubscriber != null) {
+            loginStateObservable.subscribe(meLoginSubscriber);
+        }
+        if (cartLoginSubscriber != null){
+            loginStateObservable.subscribe(cartLoginSubscriber);
         }
     }
 
