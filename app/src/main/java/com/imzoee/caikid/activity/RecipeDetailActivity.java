@@ -48,6 +48,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     /* view reference */
     ListView lvContent = null;
     View llHeaderView = null;
+    View llFooterView = null;
     ImageView ivRecipe = null;
     LinearLayout llAddCart = null;
     TextView tvName = null;
@@ -84,6 +85,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     public void initView(){
         lvContent = (ListView) findViewById(R.id.lv_recipe_content);
         llHeaderView = LayoutInflater.from(this).inflate(R.layout.header_recipe_detail, lvContent, false);
+        llFooterView = LayoutInflater.from(this).inflate(R.layout.footer_recipe_detail, lvContent, false);
         ivRecipe = (ImageView) llHeaderView.findViewById(R.id.iv_recipe);
         llAddCart = (LinearLayout) llHeaderView.findViewById(R.id.ll_add_to_cart);
         tvName = (TextView) llHeaderView.findViewById(R.id.tv_recipe_name);
@@ -97,9 +99,17 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     public void initData(){
         lvContent.addHeaderView(llHeaderView);
+        lvContent.addFooterView(llFooterView);
+        llFooterView.findViewById(R.id.tv_frame_no_more).setVisibility(View.GONE);
         commentsAdapter = new RecipeCommentsAdapter(getBaseContext(), commentsList);
         lvContent.setAdapter(commentsAdapter);
         getNewPageComment();
+        llFooterView.findViewById(R.id.ll_load_more).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getNewPageComment();
+            }
+        });
 
         Picasso.with(getBaseContext())
                 .load(ConstConv.IMGPATH_URLPREFIX + recipe.getImg_path())
@@ -131,20 +141,18 @@ public class RecipeDetailActivity extends AppCompatActivity {
         lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tvComment = (TextView) view.findViewById(R.id.tv_comment_content);
 /*                Paint paint = tvComment.getPaint();
                 float width = paint.measureText(tvComment.getText().toString());
                 float space = tvComment.getWidth() - tvComment.getPaddingLeft() - tvComment.getPaddingRight();*/
-                if (position < 1){
+                if (position < lvContent.getHeaderViewsCount() || position >= lvContent.getHeaderViewsCount() + commentsAdapter.getCount()){
                     return;
                 }
-                Toast.makeText(getBaseContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
+                TextView tvComment = (TextView) view.findViewById(R.id.tv_comment_content);
                 if(tvComment.getLineCount() > 2){
                     tvComment.setMaxLines(2);
                 } else {
-                    tvComment.setMaxLines(50);
+                    tvComment.setMaxLines(100);
                 }
-                //tvComment.setEllipsize(null);
             }
         });
     }
@@ -179,9 +187,12 @@ public class RecipeDetailActivity extends AppCompatActivity {
                                 getString(R.string.msg_comment_nothing),
                                 Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getBaseContext(),
+/*                        Toast.makeText(getBaseContext(),
                                 getString(R.string.msg_comment_no_more),
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_LONG).show();*/
+
+                        llFooterView.findViewById(R.id.tv_frame_no_more).setVisibility(View.VISIBLE);
+                        llFooterView.findViewById(R.id.ll_load_more).setVisibility(View.GONE);
                     }
                 }
                 else if (status.equals(ConstConv.RET_STATUS_TIMEOUT)){
