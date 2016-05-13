@@ -28,6 +28,11 @@
         <item name="fab_backgroundColor">@color/flat_pumpkin</item>
     </style>
 
+    <style name="button_material_float_back" parent="Material.Widget.FloatingActionButton.Light">
+        <item name="rd_rippleColor">#ff3498db</item>
+        <item name="fab_backgroundColor">#553498db</item>
+    </style>
+
     <!-- progress bar styles -->
 
     <!-- spinners styles -->
