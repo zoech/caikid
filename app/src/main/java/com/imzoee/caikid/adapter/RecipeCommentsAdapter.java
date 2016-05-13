@@ -24,8 +24,6 @@ public class RecipeCommentsAdapter extends BaseAdapter {
     private LayoutInflater inflater;
 
     private List<Comment> commentList = null;
-    private int headerCount = 0;
-    private int footerCount = 0;
 
     public RecipeCommentsAdapter(Context context, List<Comment> commentsList){
         this.context = context;
@@ -35,14 +33,6 @@ public class RecipeCommentsAdapter extends BaseAdapter {
 
     public void setCommentList(List<Comment> commentList){
         this.commentList = commentList;
-    }
-
-    public void setHeaderCount(int count){
-        headerCount = count;
-    }
-
-    public void setFooterCount(int count){
-        footerCount = count;
     }
 
     @Override
@@ -73,6 +63,7 @@ public class RecipeCommentsAdapter extends BaseAdapter {
 
             holder.tvFloor = (TextView) convertView.findViewById(R.id.tv_floor_number);
             holder.tvUserName = (TextView) convertView.findViewById(R.id.tv_user_name);
+            holder.tvDate = (TextView) convertView.findViewById(R.id.tv_comment_date);
             holder.rbarScore = (RatingBar) convertView.findViewById(R.id.rbar_recipe_rate);
             holder.tvScore = (TextView) convertView.findViewById(R.id.tv_recipe_rate_numbers);
             holder.tvComment = (TextView) convertView.findViewById(R.id.tv_comment_content);
@@ -85,6 +76,8 @@ public class RecipeCommentsAdapter extends BaseAdapter {
 
         holder.tvFloor.setText(String.valueOf(position + 1));
         holder.tvUserName.setText(comment.getUserName());
+        //(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(comment.getDate());
+        holder.tvDate.setText(java.text.DateFormat.getDateInstance(java.text.DateFormat.DEFAULT).format(comment.getDate()));
         holder.rbarScore.setRating( comment.getScore().floatValue() );
         java.text.DecimalFormat df = new java.text.DecimalFormat("0.0");
         holder.tvScore.setText(df.format(comment.getScore()));
@@ -96,6 +89,7 @@ public class RecipeCommentsAdapter extends BaseAdapter {
     private class ViewHolder {
         public TextView tvFloor;
         public TextView tvUserName;
+        public TextView tvDate;
         public RatingBar rbarScore;
         public TextView tvScore;
         public TextView tvComment;
