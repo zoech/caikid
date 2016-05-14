@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="5dip">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginStart="10dip"
+        android:text="@string/info_please_complete_your_information"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dip">
 
         <AutoCompleteTextView
             android:id="@+id/actv_name"
@@ -20,7 +32,8 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dip">
 
         <AutoCompleteTextView
             android:id="@+id/actv_addr"
@@ -35,7 +48,8 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dip">
 
         <AutoCompleteTextView
             android:id="@+id/actv_phone"
@@ -51,7 +65,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip">
+        android:layout_margin="8dip">
 
         <com.rey.material.widget.TextView
             android:layout_width="wrap_content"
@@ -69,10 +83,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
+            android:layout_marginStart="10dip"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
             android:text="@string/prompt_input_receive_time"
             style="@style/button_material_flat"
             android:textColor="@color/flat_silver"/>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:layout_marginLeft="5dip"
+        android:layout_marginStart="5dip"
+        android:text="@string/label_order_list_detail"/>
 
 </LinearLayout>
