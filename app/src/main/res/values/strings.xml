@@ -65,6 +65,9 @@
     <!-- string related to order activity -->
     <string name="order_recipe_price">Price</string>
     <string name="order_recipe_copies">Copies</string>
+    <string name="prompt_receiver_name">Name</string>
+    <string name="prompt_receiver_phone">Phone</string>
+    <string name="prompt_receiver_addr">Address</string>
 
     <!-- me fragment string -->
     <string name="below_avatar">Touch to login</string>
