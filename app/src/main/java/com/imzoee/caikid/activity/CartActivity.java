@@ -56,7 +56,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void initData(){
-        java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
+        java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
         tvTotalPrice.setText(df.format(cart.getTotallPrice()));
         cartItemAdapter = new CartItemAdapter(getBaseContext());
         lvContent.setAdapter(cartItemAdapter);
