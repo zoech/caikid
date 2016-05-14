@@ -44,7 +44,7 @@ public class ConstConv {
 	public static final String RESKEY_ORDER_ADDR = "addr";
 	public static final String RESKEY_ORDER_PHONE = "phone";
 	public static final String RESKEY_ORDER_NAME = "name";
-	public static final String RESKEY_ORDER_RECIEVETIME = "recieveTime";
+	public static final String RESKEY_ORDER_RECIEVETIME = "receiveTime";
 
 	/* response status code */
 	public static final String RET_STATUS_SESSIONNOTEXIST = "session-invalid";
