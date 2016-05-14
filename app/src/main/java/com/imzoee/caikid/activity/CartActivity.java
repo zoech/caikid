@@ -89,6 +89,7 @@ public class CartActivity extends AppCompatActivity {
                 if(BaseApp.getSettings().isLogin()){
                     Intent intent = new Intent(CartActivity.this, OrderActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Intent intent = new Intent(CartActivity.this, LoginActivity.class);
                     startActivity(intent);
