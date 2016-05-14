@@ -78,7 +78,7 @@
     <string name="msg_name_null">The name is required!</string>
     <string name="msg_addr_null">The address is required!</string>
     <string name="msg_phone_null">The phone is required!</string>
-    <string name="msg_time_null">You haven't selelct the receive time!</string>
+    <string name="msg_receive_time_null">"You haven't select the receive time!"</string>
 
     <!-- me fragment string -->
     <string name="below_avatar">Touch to login</string>
