@@ -61,4 +61,16 @@
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Body1</item>
         <item name="android:textColor">#FF000000</item>
     </style>
+
+    <!-- dialog style -->
+    <style name="dialog_date_picker" parent="Material.App.Dialog.DatePicker.Light">
+        <item name="dp_textColor">@color/abc_primary_text_material_light</item>
+        <item name="dp_textHighlightColor">#FFFFFFFF</item>
+        <item name="dp_selectionColor">@color/flat_peter_river</item>
+        <item name="dp_textLabelColor">@color/abc_secondary_text_material_light</item>
+        <item name="dp_textDisableColor">@color/abc_secondary_text_material_light</item>
+        <item name="dp_headerPrimaryColor">@color/flat_peter_river</item>
+        <item name="dp_headerSecondaryColor">@color/flat_belize_hole</item>
+        <item name="di_actionTextColor">@color/flat_peter_river</item>
+    </style>
 </resources>
