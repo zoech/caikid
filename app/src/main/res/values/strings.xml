@@ -71,7 +71,7 @@
     <string name="prompt_receive_time">Receive time</string>
     <string name="prompt_input_receive_time">Input receive time</string>
     <string name="info_please_complete_your_information">Please complete your information:</string>
-    <string name="button_OK">OK</string>
+    <string name="button_ok">OK</string>
     <string name="button_cancel">CANCEL</string>
 
     <!-- me fragment string -->
