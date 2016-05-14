@@ -4,29 +4,51 @@
     android:layout_height="match_parent">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/anchor_bottom_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:background="@color/flat_carrot">
 
         <com.rey.material.widget.Button
-            android:id="@+id/bt_order"
-            android:layout_width="wrap_content"
+            android:id="@+id/bt_cancel"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="@dimen/standard_margin_left"
-            android:layout_marginRight="@dimen/standard_margin_left"
-            android:text="@string/cart_order"
+            android:layout_weight="1"
+            android:text="@string/button_cancel"
             style="@style/button_material_flat" />
-    </RelativeLayout>
 
-    <ListView
-        android:id="@+id/lv_cart_content"
+        <LinearLayout
+            android:layout_width="0.5dip"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dip"
+            android:layout_marginBottom="4dip"
+            android:background="@color/flat_silver" />
+
+        <com.rey.material.widget.Button
+            android:id="@+id/bt_ok"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_ok"
+            style="@style/button_material_flat" />
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:layout_above="@id/anchor_bottom_panel">
+
+        <ListView
+            android:id="@+id/lv_cart_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:layout_alignParentTop="true"/>
+
+    </RelativeLayout>
 
 
 </RelativeLayout>
