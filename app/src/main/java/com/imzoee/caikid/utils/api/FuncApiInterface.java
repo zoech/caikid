@@ -19,7 +19,7 @@ import retrofit2.http.POST;
 public interface FuncApiInterface {
     @FormUrlEncoded
     @POST("makeOrder")
-    Call<ResponseBody> order(@Field(ConstConv.RESKEY_ORDER_CART) String account,
+    Call<ResponseBody> order(@Field(ConstConv.RESKEY_ORDER_CART) String cartContent,
                              @Field(ConstConv.RESKEY_ORDER_ADDR) String addr,
                              @Field(ConstConv.RESKEY_ORDER_PHONE) String phone,
                              @Field(ConstConv.RESKEY_ORDER_NAME) String name,
