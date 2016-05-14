@@ -38,7 +38,7 @@
                 android:layout_marginStart="@dimen/standard_margin_left"
                 android:layout_marginLeft="@dimen/standard_margin_left"
                 android:textSize="@dimen/mainActionBarTextSize"
-                android:text="total price"/>
+                android:text="@string/label_order_total_price"/>
 
             <TextView
                 android:id="@+id/anchor_price_mark"
