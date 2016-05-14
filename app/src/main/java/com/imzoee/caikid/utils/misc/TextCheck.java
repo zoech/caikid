@@ -19,7 +19,8 @@ public class TextCheck {
      * True if str is a valid password, otherwise false.
      */
     public static boolean validPwd(String str){
-        Pattern pattern = Pattern.compile("^[a-zA-Z]\\w{5,17}$");
+        //Pattern pattern = Pattern.compile("^[a-zA-Z]\\w{5,17}$");
+        Pattern pattern = Pattern.compile("^(\\w|\\p{Graph}){6,18}$");
         Matcher m = pattern.matcher(str);
         return m.matches();
     }
