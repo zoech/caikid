@@ -189,9 +189,22 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             Picasso.with(getContext())
                     .load(userPref.getPfAvatarUrl())
                     .fit()
-                    .placeholder(R.drawable.avatar_default)
                     .transform(new CropCircleTransformation())
-                    .into(avatar);
+                    .into(avatar, new com.squareup.picasso.Callback(){
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext())
+                                    .load(R.drawable.avatar_default)
+                                    .fit()
+                                    .transform(new CropCircleTransformation())
+                                    .into(avatar);
+                        }
+                    });
 
             swAutoLogin.setChecked(settings.isAutoLogin());
 
