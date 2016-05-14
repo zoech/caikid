@@ -73,4 +73,12 @@
         <item name="dp_headerSecondaryColor">@color/flat_belize_hole</item>
         <item name="di_actionTextColor">@color/flat_peter_river</item>
     </style>
+
+    <style name="dialog_time_picker" parent="Material.App.Dialog.TimePicker.Light">
+        <item name="tp_selectionColor">@color/flat_peter_river</item>
+        <item name="tp_textColor">@color/abc_primary_text_material_light</item>
+        <item name="tp_textHighlightColor">#FFFFFFFF</item>
+        <item name="tp_textTimeColor">#90FFFFFF</item>
+        <item name="di_actionTextColor">@color/flat_peter_river</item>
+    </style>
 </resources>
