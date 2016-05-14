@@ -3,8 +3,18 @@ package com.imzoee.caikid.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ListView;
 
 import com.imzoee.caikid.R;
+import com.imzoee.caikid.adapter.OrderCartAdapter;
+import com.rey.material.app.DatePickerDialog;
+import com.rey.material.app.Dialog;
+import com.rey.material.app.DialogFragment;
+import com.rey.material.widget.TextView;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Created by zoey on 2016/5/9.
@@ -13,6 +23,10 @@ import com.imzoee.caikid.R;
  */
 public class OrderActivity extends AppCompatActivity {
     private static OrderActivity instance = null;
+
+    private View llHeader = null;
+    private ListView lvCart = null;
+    private TextView tvDate = null;
 /*
     private CaikidCart cart = null;
     private CartItemAdapter cartItemAdapter = null;
@@ -34,50 +48,48 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        /*
-        lvContent = (ListView) findViewById(R.id.lv_content);
-        tvTotalPrice = (TextView) findViewById(R.id.tv_total_price);
-        btOrder = (Button) findViewById(R.id.bt_order);
-        tvNotLogin = (TextView) findViewById(R.id.tv_not_login_arlert);
-        */
+        lvCart = (ListView) findViewById(R.id.lv_cart_content);
+        llHeader = LayoutInflater.from(getBaseContext()).inflate(R.layout.header_order_activity, lvCart, false);
+        tvDate = (TextView) llHeader.findViewById(R.id.tv_receive_time);
     }
 
     private void initData(){
-        /*
-        java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
-        tvTotalPrice.setText(df.format(cart.getTotallPrice()));
-        cartItemAdapter = new CartItemAdapter(getBaseContext());
-        lvContent.setAdapter(cartItemAdapter);
-        if(BaseApp.getSettings().isLogin()){
-            tvNotLogin.setVisibility(View.GONE);
-            btOrder.setText(getString(R.string.cart_order));
-        } else {
-            tvNotLogin.setVisibility(View.VISIBLE);
-            btOrder.setText(R.string.login);
-        }
-        */
+        lvCart.addHeaderView(llHeader);
+        OrderCartAdapter adapter = new OrderCartAdapter(getBaseContext());
+        lvCart.setAdapter(adapter);
     }
 
     private void initListener(){
-        /*
-        lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            }
-        });
-
-        btOrder.setOnClickListener(new View.OnClickListener() {
+        tvDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(BaseApp.getSettings().isLogin()){
+                Dialog.Builder builder = null;
+                builder = new DatePickerDialog.Builder(R.style.Material_App_Dialog_DatePicker_Light){
+                    @Override
+                    public void onPositiveActionClicked(DialogFragment fragment) {
+                        DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
+                        String date = dialog.getFormattedDate(SimpleDateFormat.getDateInstance());
+                        tvDate.setText(date);
+                        tvDate.setTextColor(getResources().getColor(R.color.flat_peter_river));
+                        //Toast.makeText(mActivity, "Date is " + date, Toast.LENGTH_SHORT).show();
+                        super.onPositiveActionClicked(fragment);
+                    }
 
-                } else {
-                    Intent intent = new Intent(CartActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
+                    @Override
+                    public void onNegativeActionClicked(DialogFragment fragment) {
+                        //Toast.makeText(mActivity, "Cancelled" , Toast.LENGTH_SHORT).show();
+                        super.onNegativeActionClicked(fragment);
+                    }
+                };
+
+                builder.positiveAction("OK")
+                        .negativeAction("CANCEL");
+
+                DialogFragment fragment = DialogFragment.newInstance(builder);
+                fragment.show(getSupportFragmentManager(), null);
             }
         });
-        */
+
     }
 }
