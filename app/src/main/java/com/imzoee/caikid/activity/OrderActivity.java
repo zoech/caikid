@@ -18,11 +18,13 @@ import com.imzoee.caikid.convention.ConstConv;
 import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
+import com.rey.material.app.TimePickerDialog;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.TextView;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import okhttp3.Headers;
@@ -37,9 +39,16 @@ import retrofit2.Response;
  * Cart activity
  */
 public class OrderActivity extends AppCompatActivity {
+
+    /* this int define the max time (in days) the user can
+     * select to get the recipe
+     */
+    public static final int MAX_DAYS_INTERNAL_RECEIVE = 7;
+
+
     private static OrderActivity instance = null;
 
-    private Date receiveDate = null;
+    private Calendar receiveDate = null;
 
     /* views */
     private View llHeader = null;
@@ -100,30 +109,7 @@ public class OrderActivity extends AppCompatActivity {
         tvDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog.Builder builder = null;
-                builder = new DatePickerDialog.Builder(R.style.dialog_date_picker){
-                    @Override
-                    public void onPositiveActionClicked(DialogFragment fragment) {
-                        DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
-                        String date = dialog.getFormattedDate(SimpleDateFormat.getDateInstance());
-                        tvDate.setText(date);
-                        tvDate.setTextColor(getResources().getColor(R.color.flat_peter_river));
-                        receiveDate = dialog.getCalendar().getTime();
-                        super.onPositiveActionClicked(fragment);
-                    }
-
-                    @Override
-                    public void onNegativeActionClicked(DialogFragment fragment) {
-                        //Toast.makeText(mActivity, "Cancelled" , Toast.LENGTH_SHORT).show();
-                        super.onNegativeActionClicked(fragment);
-                    }
-                };
-
-                builder.positiveAction("OK")
-                        .negativeAction("CANCEL");
-
-                DialogFragment fragment = DialogFragment.newInstance(builder);
-                fragment.show(getSupportFragmentManager(), null);
+                pickDate();
             }
         });
 
@@ -177,6 +163,96 @@ public class OrderActivity extends AppCompatActivity {
             }
         }
     };
+
+    private int lastPickYear = -1;
+    private int lastPickMonth = -1;
+    private int lastPickDate = -1;
+    private void pickDate(){
+        DatePickerDialog.Builder builder = new DatePickerDialog.Builder(R.style.dialog_date_picker){
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
+
+                int hour = 0;
+                int minute = 0;
+                if(receiveDate != null) {
+                    hour = receiveDate.get(Calendar.HOUR);
+                    minute = receiveDate.get(Calendar.MINUTE);
+                    lastPickYear = receiveDate.get(Calendar.YEAR);
+                    lastPickMonth = receiveDate.get(Calendar.MONTH);
+                    lastPickDate = receiveDate.get(Calendar.DATE);
+                }
+
+                receiveDate = dialog.getCalendar();
+                receiveDate.set(Calendar.HOUR, hour);
+                receiveDate.set(Calendar.MINUTE, minute);
+                pickTime();
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                //Toast.makeText(mActivity, "Cancelled" , Toast.LENGTH_SHORT).show();
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        Calendar cal = Calendar.getInstance();
+        long minTime = cal.getTimeInMillis();
+        cal.add(Calendar.DATE, MAX_DAYS_INTERNAL_RECEIVE);
+        long maxTime = cal.getTimeInMillis();
+
+        builder.dateRange(minTime, maxTime);
+
+        if(lastPickYear != -1 && receiveDate != null){
+            builder.date(receiveDate.getTime().getTime());
+        }
+
+        builder.positiveAction(getString(R.string.button_ok))
+                .negativeAction(getString(R.string.button_cancel));
+
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getSupportFragmentManager(), null);
+    }
+
+    private void pickTime(){
+        TimePickerDialog.Builder builder = new TimePickerDialog.Builder(R.style.dialog_time_picker, 24, 00){
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                TimePickerDialog dialog = (TimePickerDialog)fragment.getDialog();
+
+                int hour = dialog.getHour();
+                int minute = dialog.getMinute();
+
+                receiveDate.set(Calendar.HOUR, hour);
+                receiveDate.set(Calendar.MINUTE, minute);
+
+                java.text.DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm");
+                tvDate.setText(format.format(receiveDate.getTime()));
+                tvDate.setTextColor(getResources().getColor(R.color.flat_peter_river));
+
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                receiveDate.set(Calendar.YEAR, lastPickYear);
+                receiveDate.set(Calendar.MONTH, lastPickMonth);
+                receiveDate.set(Calendar.DATE, lastPickDate);
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        if(receiveDate != null){
+            builder.hour(receiveDate.get(Calendar.HOUR)).minute(receiveDate.get(Calendar.MINUTE));
+        }
+
+        builder.positiveAction(getString(R.string.button_ok))
+                .negativeAction(getString(R.string.button_cancel));
+
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getSupportFragmentManager(), null);
+    }
 
     private Callback<ResponseBody> orderCallback = new Callback<ResponseBody>(){
         @Override
