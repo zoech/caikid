@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layer_content"
     android:layout_width="match_parent"
     android:layout_height="300dip"
     android:background="@color/transparent">
 
-    <RelativeLayout
-        android:id="@+id/layer_content"
+    <LinearLayout
+        android:id="@+id/anchor_order"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
 
-        <RelativeLayout
-            android:id="@+id/anchor_order"
+        <TextView
+            android:id="@+id/tv_not_login_arlert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:background="@color/flat_silver"
+            android:text="@string/login_to_order"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/flat_carrot">
 
             <TextView
@@ -61,21 +73,14 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_not_login_arlert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/anchor_order"
-            android:gravity="center"
-            android:paddingTop="5dip"
-            android:paddingBottom="5dip"
-            android:background="@color/flat_silver"
-            android:text="@string/login_to_order"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/anchor_order">
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/anchor_order">
 
         <com.rey.material.widget.ListView
             android:id="@+id/lv_content"
@@ -84,9 +89,6 @@
             android:divider="@drawable/line_divider_cart_item"
             android:dividerHeight="1dip"/>
 
-        </LinearLayout>
-
-    </RelativeLayout>
-
+    </LinearLayout>
 
 </RelativeLayout>
