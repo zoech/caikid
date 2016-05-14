@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <RelativeLayout
+        android:id="@+id/anchor_bottom_panel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="order activity"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/flat_carrot">
 
-</LinearLayout>
+        <com.rey.material.widget.Button
+            android:id="@+id/bt_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/standard_margin_left"
+            android:layout_marginRight="@dimen/standard_margin_left"
+            android:text="@string/cart_order"
+            style="@style/button_material_flat" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_cart_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>
