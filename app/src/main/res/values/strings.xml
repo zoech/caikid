@@ -68,6 +68,8 @@
     <string name="prompt_receiver_name">Name</string>
     <string name="prompt_receiver_phone">Phone</string>
     <string name="prompt_receiver_addr">Address</string>
+    <string name="prompt_receive_time">Receive time</string>
+    <string name="prompt_input_receive_time">Input receive time</string>
 
     <!-- me fragment string -->
     <string name="below_avatar">Touch to login</string>
