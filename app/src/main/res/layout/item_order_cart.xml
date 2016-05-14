@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip">
+
+        <TextView
+            android:id="@+id/tv_item_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/standard_margin_left"
+            android:layout_marginLeft="@dimen/standard_margin_left"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxWidth="@dimen/cart_item_name_width"
+            android:singleLine="true"
+            android:textSize="@dimen/cart_item_name_text_size"
+            android:text="1" />
+
+        <TextView
+            android:id="@+id/anchor_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_item_number"
+            android:layout_toEndOf="@id/tv_item_number"
+            android:layout_centerVertical="true"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textSize="@dimen/cart_item_name_text_size"
+            android:text="." />
+
+
+        <TextView
+            android:id="@+id/tv_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/anchor_point"
+            android:layout_toEndOf="@id/anchor_point"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/standard_margin_left"
+            android:layout_marginLeft="@dimen/standard_margin_left"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxWidth="@dimen/cart_item_name_width"
+            android:singleLine="true"
+            android:textSize="@dimen/cart_item_name_text_size"
+            android:text="recipe name" />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
+        android:paddingLeft="10dip"
+        android:paddingStart="10dip"
+        android:gravity="center_vertical">
+
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_margin_left"
+                android:layout_marginLeft="@dimen/standard_margin_left"
+                android:text="@string/order_recipe_price"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_margin_left"
+                android:layout_marginLeft="@dimen/standard_margin_left"
+                android:text="￥"/>
+
+            <TextView
+                android:id="@+id/tv_recipe_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="100000000000000000000000000000000000000000000"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_margin_left"
+                android:layout_marginLeft="@dimen/standard_margin_left"
+                android:text="@string/order_recipe_copies"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"/>
+
+            <TextView
+                android:id="@+id/tv_recipe_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_margin_left"
+                android:layout_marginLeft="@dimen/standard_margin_left"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="10"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
