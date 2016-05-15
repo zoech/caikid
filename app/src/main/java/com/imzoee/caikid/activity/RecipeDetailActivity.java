@@ -20,6 +20,7 @@ import com.imzoee.caikid.adapter.RecipeCommentsAdapter;
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Comment;
 import com.imzoee.caikid.dao.Recipe;
+import com.imzoee.caikid.model.CaikidCart;
 import com.imzoee.caikid.utils.api.HttpClient;
 import com.imzoee.caikid.utils.api.RecipeApiInterface;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
@@ -150,7 +151,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BaseApp.getCart().addItem(recipe);
-                ObservablesFactory.cartActionObservable(BaseApp.getCart());
+                ObservablesFactory.cartActionObservable(CaikidCart.OBSERVE_ADDITEM);
                 Toast.makeText(getBaseContext(),
                         getString(R.string.msg_recipe_added_to_cart),
                         Toast.LENGTH_LONG).show();
