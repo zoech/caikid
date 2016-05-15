@@ -1,5 +1,6 @@
 package com.imzoee.caikid.activity;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.ClipData;
@@ -294,21 +295,39 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
             if(opt.equals(CaikidCart.OBSERVE_ADDITEM)){
                 if (cart.getItemCount() == 1){
                     fbCart.setVisibility(View.VISIBLE);
-                    CaikidAnimation.bounceInAnimate(fbCart);
+                    CaikidAnimation.bounceInAnimate(fbCart).start();
                 } else {
-                    CaikidAnimation.tadaAnimate(fbCart);
+                    CaikidAnimation.tadaAnimator(fbCart);
                 }
             } else if (opt.equals(CaikidCart.OBSERVE_DELITEM)){
                 if (cart.getItemCount() == 0){
-                    CaikidAnimation.zoomOutAnimate(fbCart);
-                    fbCart.setVisibility(View.GONE);
+                    AnimatorSet animatorSet = CaikidAnimation.zoomOutAnimator(fbCart);
+                    animatorSet.addListener(
+
+                            new Animator.AnimatorListener() {
+
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    fbCart.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onAnimationStart(Animator animation) {}
+                                @Override
+                                public void onAnimationCancel(Animator animation) {}
+                                @Override
+                                public void onAnimationRepeat(Animator animation) {}
+
+                            });
+
+                    animatorSet.start();
+
                 } else {
-                    CaikidAnimation.tadaAnimate(fbCart);
+                    CaikidAnimation.tadaAnimator(fbCart).start();
                 }
             }
 
         }
     }
-
 
 }
