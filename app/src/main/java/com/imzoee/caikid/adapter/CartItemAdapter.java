@@ -91,21 +91,21 @@ public class CartItemAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //Toast.makeText(context,"decrease item in pos:" + position, Toast.LENGTH_LONG).show();
                 cart.decreaseItem(position);
-                ObservablesFactory.cartActionObservable(cart);
+                ObservablesFactory.cartActionObservable(CaikidCart.OBSERVE_DELITEM);
             }
         });
         holder.btIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cart.increaseItem(position);
-                ObservablesFactory.cartActionObservable(cart);
+                ObservablesFactory.cartActionObservable(CaikidCart.OBSERVE_ADDITEM);
             }
         });
         holder.llRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cart.removeItem(position);
-                ObservablesFactory.cartActionObservable(cart);
+                ObservablesFactory.cartActionObservable(CaikidCart.OBSERVE_DELITEM);
             }
         });
         return convertView;
