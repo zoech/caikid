@@ -27,6 +27,10 @@ import rx.Subscriber;
  */
 public class CaikidCart {
 
+    /* this strings is used as the string in rxJava observable */
+    public static final String OBSERVE_ADDITEM = "add";
+    public static final String OBSERVE_DELITEM = "del";
+
     /* the same preference as the userPreference. */
     private final static String PREFERNAME = "userPreferences";
     private final static String KEYCART = "caikidcart";
@@ -129,9 +133,9 @@ public class CaikidCart {
 
         final List<Integer> idList = JSON.parseArray(jstr, Integer.class);
 
-        Observable<CaikidCart> obs = Observable.create(new Observable.OnSubscribe<CaikidCart>(){
+        Observable<String> obs = Observable.create(new Observable.OnSubscribe<String>(){
             @Override
-            public void call(Subscriber<? super CaikidCart> subscriber) {
+            public void call(Subscriber<? super String> subscriber) {
                 Iterator<Integer> iterator = idList.iterator();
                 while(iterator.hasNext()){
 
@@ -153,7 +157,7 @@ public class CaikidCart {
                     }
                 }
 
-                subscriber.onNext(CaikidCart.this);
+                subscriber.onNext(OBSERVE_ADDITEM);
                 subscriber.onCompleted();
             }
         });
