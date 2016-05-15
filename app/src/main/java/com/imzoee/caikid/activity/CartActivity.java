@@ -98,11 +98,11 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    private Subscriber<CaikidCart> createCartActionSubscriber(){
+    private Subscriber<String> createCartActionSubscriber(){
         return new CartActionSubscriber();
     }
 
-    public static Subscriber<CaikidCart> getCartSubscriber(){
+    public static Subscriber<String> getCartSubscriber(){
         if(instance == null){
             return null;
         }
@@ -121,7 +121,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     /* rxjava's subscriber */
-    private class CartActionSubscriber extends Subscriber<CaikidCart> {
+    private class CartActionSubscriber extends Subscriber<String> {
         @Override
         public void onCompleted() {
             if(!isUnsubscribed()) {
@@ -137,7 +137,7 @@ public class CartActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onNext(CaikidCart cart) {
+        public void onNext(String opt) {
             // adapter.notifyDataSetChanged();
             if(cart.getItemCount() == 0){
                 /* the cart is empty */
