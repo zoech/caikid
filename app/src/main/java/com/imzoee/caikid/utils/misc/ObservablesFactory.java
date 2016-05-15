@@ -68,17 +68,17 @@ public class ObservablesFactory {
      * @param cart
      * CaijkidCart object, representing the current cart status.
      */
-    public static void cartActionObservable(final CaikidCart cart){
-        Observable<CaikidCart> cartObservable = Observable.create(new Observable.OnSubscribe<CaikidCart>(){
+    public static void cartActionObservable(final String opt){
+        Observable<String> cartObservable = Observable.create(new Observable.OnSubscribe<String>(){
             @Override
-            public void call(Subscriber<? super CaikidCart> subscriber) {
-                subscriber.onNext(cart);
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext(opt);
                 subscriber.onCompleted();
             }
         });
 
-        Subscriber<CaikidCart> homeSubscriber = MainActivity.getCartSubscriber();
-        Subscriber<CaikidCart> cartSubscriber = CartActivity.getCartSubscriber();
+        Subscriber<String> homeSubscriber = MainActivity.getCartSubscriber();
+        Subscriber<String> cartSubscriber = CartActivity.getCartSubscriber();
         if (homeSubscriber != null){
             cartObservable.subscribe(homeSubscriber);
         }
@@ -95,12 +95,12 @@ public class ObservablesFactory {
      * The observable manuel created. This method will use
      * the obs as the observable.
      */
-    public static void cartActionObservable(Observable<CaikidCart> obs){
+    public static void cartActionObservable(Observable<String> obs){
 
         obs.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
 
-        Subscriber<CaikidCart> homeSubscriber = MainActivity.getCartSubscriber();
-        Subscriber<CaikidCart> cartSubscriber = CartActivity.getCartSubscriber();
+        Subscriber<String> homeSubscriber = MainActivity.getCartSubscriber();
+        Subscriber<String> cartSubscriber = CartActivity.getCartSubscriber();
         if (homeSubscriber != null){
             obs.subscribe(homeSubscriber);
         }
