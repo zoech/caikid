@@ -13,6 +13,7 @@ import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Recipe;
+import com.imzoee.caikid.model.CaikidCart;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
 import com.rey.material.widget.Button;
 import com.squareup.picasso.Picasso;
@@ -100,7 +101,7 @@ public class RecipeAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 BaseApp.getCart().addItem(recipe);
-                ObservablesFactory.cartActionObservable(BaseApp.getCart());
+                ObservablesFactory.cartActionObservable(CaikidCart.OBSERVE_ADDITEM);
             }
         });
 
