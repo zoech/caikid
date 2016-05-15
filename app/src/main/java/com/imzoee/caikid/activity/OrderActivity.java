@@ -178,9 +178,6 @@ public class OrderActivity extends AppCompatActivity {
                 if(receiveDate != null) {
                     hour = receiveDate.get(Calendar.HOUR);
                     minute = receiveDate.get(Calendar.MINUTE);
-                    lastPickYear = receiveDate.get(Calendar.YEAR);
-                    lastPickMonth = receiveDate.get(Calendar.MONTH);
-                    lastPickDate = receiveDate.get(Calendar.DATE);
                 }
 
                 receiveDate = dialog.getCalendar();
@@ -226,6 +223,10 @@ public class OrderActivity extends AppCompatActivity {
 
                 receiveDate.set(Calendar.HOUR, hour);
                 receiveDate.set(Calendar.MINUTE, minute);
+
+                lastPickYear = receiveDate.get(Calendar.YEAR);
+                lastPickMonth = receiveDate.get(Calendar.MONTH);
+                lastPickDate = receiveDate.get(Calendar.DATE);
 
                 java.text.DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm");
                 tvDate.setText(format.format(receiveDate.getTime()));
