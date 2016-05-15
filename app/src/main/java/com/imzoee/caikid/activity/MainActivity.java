@@ -1,7 +1,12 @@
 package com.imzoee.caikid.activity;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +14,10 @@ import android.util.Log;
 
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.TabLayout;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.imzoee.caikid.BaseApp;
@@ -19,6 +27,7 @@ import com.imzoee.caikid.fragment.OrderFragment;
 import com.imzoee.caikid.fragment.MeFragment;
 import com.imzoee.caikid.R;
 import com.imzoee.caikid.model.CaikidCart;
+import com.imzoee.caikid.utils.misc.CaikidAnimation;
 import com.rey.material.widget.FloatingActionButton;
 
 import rx.Subscriber;
@@ -33,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     MainPagerAdapter mainPagerAdapter = null;
     TabLayout tabLayout = null;
     FloatingActionButton fbCart = null;
+
+    /* this field is need to use in the drag listener */
+    View rlTop = null;
+
+
     public String TAG = "tag";                        // debug used
 
 
@@ -80,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         mainPagerAdapter = null;
         tabLayout = null;
         fbCart = null;
+        rlTop = null;
     }
 
 
@@ -89,11 +104,11 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         notifyLangChange();
     }
 
-    private Subscriber<CaikidCart> createCartActionSubscriber(){
+    private Subscriber<String> createCartActionSubscriber(){
         return new CartActionSubscriber();
     }
 
-    public static Subscriber<CaikidCart> getCartSubscriber(){
+    public static Subscriber<String> getCartSubscriber(){
         if(instance == null){
             return null;
         }
@@ -115,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         pager = (ViewPager) this.findViewById(R.id.viewpager);
         tabLayout = (TabLayout) this.findViewById(R.id.tl_tab);
         fbCart = (FloatingActionButton) this.findViewById(R.id.fb_cart);
+        rlTop = this.findViewById(R.id.rl_top);
 
     }
 
@@ -126,6 +142,75 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
                 startActivity(intent);
             }
         });
+
+        fbCart.setTag("Cart View");
+        fbCart.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipData.Item item = new ClipData.Item((CharSequence)v.getTag());
+
+                String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
+                ClipData dragData = new ClipData(v.getTag().toString(),
+                        mimeTypes, item);
+
+                // Instantiates the drag shadow builder.
+                View.DragShadowBuilder myShadow = new View.DragShadowBuilder(fbCart);
+
+                // Starts the drag
+                v.startDrag(dragData,  // the data to be dragged
+                        myShadow,  // the drag shadow builder
+                        null,      // no need to use local data
+                        0          // flags (not currently used, set to 0)
+                );
+                return true;
+            }
+        });
+
+        final String msg = "########################";
+        rlTop.setOnDragListener( new View.OnDragListener(){
+            @Override
+            public boolean onDrag(View v,  DragEvent event){
+
+                switch(event.getAction())
+                {
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_STARTED");
+                        return true;
+                    case DragEvent.ACTION_DRAG_ENTERED:
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENTERED");
+                        return true;
+                    case DragEvent.ACTION_DRAG_EXITED :
+
+                        return true;
+                    case DragEvent.ACTION_DRAG_LOCATION  :
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_LOCATION");
+                        return true;
+                    case DragEvent.ACTION_DRAG_ENDED   :
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENDED");
+                        return true;
+                    case DragEvent.ACTION_DROP:
+                        Log.d(msg, "ACTION_DROP event");
+                        fbCart.setX(event.getX() - fbCart.getWidth()/2);
+                        fbCart.setY(event.getY() - fbCart.getHeight()/2);
+                        return true;
+                    default: break;
+                }
+                return false;
+            }
+        });
+/*
+        final Rect rect = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        fbCart.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                fbCart.setX(event.getX() - fbCart.getWidth()/2);
+                fbCart.setY(event.getY() - fbCart.getHeight()/2 - rect.top);
+                return false;
+            }
+        });
+        */
+
     }
 
     private void initViewPager() {
@@ -186,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     }
 
     /* rxjava's subscriber */
-    private class CartActionSubscriber extends Subscriber<CaikidCart> {
+    private class CartActionSubscriber extends Subscriber<String> {
         @Override
         public void onCompleted() {
             if(!isUnsubscribed()) {
@@ -202,14 +287,28 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
         }
 
         @Override
-        public void onNext(CaikidCart cart) {
+        public void onNext(String opt) {
             // adapter.notifyDataSetChanged();
-            if(cart.getItemCount() == 0){
-                /* the cart is empty */
-                fbCart.setVisibility(View.GONE);
-            } else {
-                fbCart.setVisibility(View.VISIBLE);
+            CaikidCart cart = BaseApp.getCart();
+
+            if(opt.equals(CaikidCart.OBSERVE_ADDITEM)){
+                if (cart.getItemCount() == 1){
+                    fbCart.setVisibility(View.VISIBLE);
+                    CaikidAnimation.bounceInAnimate(fbCart);
+                } else {
+                    CaikidAnimation.tadaAnimate(fbCart);
+                }
+            } else if (opt.equals(CaikidCart.OBSERVE_DELITEM)){
+                if (cart.getItemCount() == 0){
+                    CaikidAnimation.zoomOutAnimate(fbCart);
+                    fbCart.setVisibility(View.GONE);
+                } else {
+                    CaikidAnimation.tadaAnimate(fbCart);
+                }
             }
+
         }
     }
+
+
 }
