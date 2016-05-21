@@ -40,7 +40,8 @@ public class CaikidCart {
     private Context context = null;
     private HttpClient httpClient = null;
 
-    List<CartItem> itemList = null;
+    private List<CartItem> itemList = null;
+    private int totalCount = 0;
 
     public static CaikidCart getCart(Context context){
         if(instance == null) {
@@ -53,14 +54,19 @@ public class CaikidCart {
         itemList = new ArrayList<>();
         this.context = context;
         this.httpClient = BaseApp.getHttpClient();
+        this.totalCount = 0;
     }
 
     public List<CartItem> getItemList(){
         return this.itemList;
     }
 
-    public int getItemCount(){
+/*    public int getItemCount(){
         return this.itemList.size();
+    }*/
+
+    public int getTotalCount(){
+        return this.totalCount;
     }
 
     public Double getTotallPrice(){
@@ -83,11 +89,13 @@ public class CaikidCart {
 
         CartItem item = new CartItem(recipe);
         this.itemList.add(item);
+        totalCount++;
     }
 
     public void increaseItem(int pos){
         CartItem i = itemList.get(pos);
         i.increase();
+        totalCount++;
     }
 
     public void decreaseItem(int pos){
@@ -96,9 +104,11 @@ public class CaikidCart {
         if(i.getCount() == 0){
             this.itemList.remove(pos);
         }
+        totalCount--;
     }
 
     public void removeItem(int pos){
+        totalCount -= itemList.get(pos).getCount();
         this.itemList.remove(pos);
     }
 
