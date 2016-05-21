@@ -61,7 +61,7 @@ public class CartActivity extends AppCompatActivity {
         cartItemAdapter = new CartItemAdapter(getBaseContext());
         lvContent.setAdapter(cartItemAdapter);
 
-        if(cart.getItemCount() == 0){
+        if(cart.getTotalCount() == 0){
             btOrder.setVisibility(View.INVISIBLE);
         } else {
             btOrder.setVisibility(View.VISIBLE);
@@ -139,7 +139,7 @@ public class CartActivity extends AppCompatActivity {
         @Override
         public void onNext(String opt) {
             // adapter.notifyDataSetChanged();
-            if(cart.getItemCount() == 0){
+            if(cart.getTotalCount() == 0){
                 /* the cart is empty */
                 Toast.makeText(getBaseContext(), "the cart is empty!", Toast.LENGTH_LONG).show();
                 btOrder.setVisibility(View.INVISIBLE);
