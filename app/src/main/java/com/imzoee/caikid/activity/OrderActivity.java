@@ -155,7 +155,7 @@ public class OrderActivity extends AppCompatActivity {
 
                     java.text.DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     Call<ResponseBody> order = BaseApp.getHttpClient().getFuncApiInterface().order(BaseApp.getCart().getApiUseJSONString(),
-                                                                                                    addr, phone, name, format.format(receiveDate));
+                                                                                                    addr, phone, name, format.format(receiveDate.getTime()));
 
                     order.enqueue(orderCallback);
 
