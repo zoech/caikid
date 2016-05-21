@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
     }
 
     private void initData() {
-        if(BaseApp.getCart().getItemCount() == 0){
+        if(BaseApp.getCart().getTotalCount() == 0){
             fbCart.setVisibility(View.GONE);
         } else {
             fbCart.setVisibility(View.VISIBLE);
@@ -293,14 +293,14 @@ public class MainActivity extends AppCompatActivity implements RecipeFragment.On
             CaikidCart cart = BaseApp.getCart();
 
             if(opt.equals(CaikidCart.OBSERVE_ADDITEM)){
-                if (cart.getItemCount() == 1){
+                if (cart.getTotalCount() == 1){
                     fbCart.setVisibility(View.VISIBLE);
                     CaikidAnimation.bounceInAnimate(fbCart).start();
                 } else {
-                    CaikidAnimation.tadaAnimator(fbCart);
+                    CaikidAnimation.tadaAnimator(fbCart).start();
                 }
             } else if (opt.equals(CaikidCart.OBSERVE_DELITEM)){
-                if (cart.getItemCount() == 0){
+                if (cart.getTotalCount() == 0){
                     AnimatorSet animatorSet = CaikidAnimation.zoomOutAnimator(fbCart);
                     animatorSet.addListener(
 
