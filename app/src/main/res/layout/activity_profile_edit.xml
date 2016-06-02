@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/anchor_bottom_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/flat_clouds">
+
+        <com.rey.material.widget.Button
+            android:id="@+id/bt_cancel"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_cancel"
+            style="@style/button_material_flat" />
+
+        <LinearLayout
+            android:layout_width="0.5dip"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dip"
+            android:layout_marginBottom="4dip"
+            android:background="@color/flat_silver" />
+
+        <com.rey.material.widget.Button
+            android:id="@+id/bt_ok"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_ok"
+            style="@style/button_material_flat" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/flat_clouds"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dip">
+
+            <TextView
+                android:id="@+id/anchor_user_name"
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="17sp"
+                android:text="@string/editing_user_name"
+                android:layout_alignParentLeft="true"/>
+
+            <EditText
+                android:id="@+id/et_user_name_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/anchor_user_name"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="zoey"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
