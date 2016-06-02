@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.imzoee.caikid.activity.ProfileEditActivity;
 import com.imzoee.caikid.activity.RegisterActivity;
 import com.imzoee.caikid.dao.User;
 import com.imzoee.caikid.utils.misc.ObservablesFactory;
@@ -140,6 +141,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             case R.id.iv_avatar:
                 if(settings.isLogin()) {
                     /* if already login, we start the activity for modified user's preference */
+                    Intent intent = new Intent(getContext(), ProfileEditActivity.class);
+                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);
