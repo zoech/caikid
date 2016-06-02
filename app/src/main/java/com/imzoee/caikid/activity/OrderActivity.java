@@ -41,8 +41,7 @@ import retrofit2.Response;
 public class OrderActivity extends AppCompatActivity {
 
     /* this int define the max time (in days) the user can
-     * select to get the recipe
-     */
+       select to get the recipe */
     public static final int MAX_DAYS_INTERNAL_RECEIVE = 7;
 
 
