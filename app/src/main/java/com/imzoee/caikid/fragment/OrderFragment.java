@@ -9,14 +9,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Subscriber;
 
 import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
+import com.imzoee.caikid.adapter.OrderAdapter;
+import com.imzoee.caikid.convention.ConstConv;
+import com.imzoee.caikid.dao.Order;
 import com.imzoee.caikid.dao.User;
+import com.imzoee.caikid.utils.api.FuncApiInterface;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -37,6 +50,10 @@ public class OrderFragment extends Fragment {
     private View view = null;
     private RelativeLayout rlUnlogin = null;
     private RelativeLayout rlLogin = null;
+    private ListView lvOrders = null;
+
+    private OrderAdapter orderAdapter = null;
+    private List<Order> listOrder= null;
 
     public OrderFragment() {
         // Required empty public constructor
@@ -57,6 +74,7 @@ public class OrderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        listOrder = new ArrayList<>();
 
         instance = this;
     }
@@ -67,6 +85,12 @@ public class OrderFragment extends Fragment {
         view = inflater.inflate(R.layout.tab_main_order, container, false);
         initView();
         initData();
+        initLogic();
+
+        if(BaseApp.getSettings().isLogin()) {
+            getOrderList();
+        }
+
         return view;
     }
 
@@ -97,6 +121,7 @@ public class OrderFragment extends Fragment {
     private void initView(){
         rlLogin = (RelativeLayout) view.findViewById(R.id.rl_login);
         rlUnlogin = (RelativeLayout) view.findViewById(R.id.rl_unlogin);
+        lvOrders = (ListView) view.findViewById(R.id.lv_order);
     }
 
     private void initData(){
@@ -107,6 +132,68 @@ public class OrderFragment extends Fragment {
             rlLogin.setVisibility(View.GONE);
             rlUnlogin.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void initLogic(){
+        orderAdapter = new OrderAdapter(getContext(), listOrder);
+        lvOrders.setAdapter(orderAdapter);
+
+        lvOrders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+    }
+
+    private void getOrderList(){
+        FuncApiInterface i = BaseApp.getHttpClient().getFuncApiInterface();
+        Call<List<Order>> getRecipe = i.getOrderList("date");
+        getRecipe.enqueue(new Callback<List<Order>>(){
+            @Override
+            public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
+                Headers headers = response.headers();
+                String status = headers.get(ConstConv.HEADKEY_RESPONSTATUS);
+
+                Log.i("--------------", headers.toString());
+
+                if (status == null){
+                    Toast.makeText(getContext(),
+                            getString(R.string.msg_status_header_null),
+                            Toast.LENGTH_LONG).show();
+                } else if (status.equals(ConstConv.RET_STATUS_OK)){
+
+                    listOrder = response.body();
+                    orderAdapter.setOrderList(listOrder);
+                    orderAdapter.notifyDataSetChanged();
+
+                } else if (status.equals(ConstConv.RET_STATUS_TIMEOUT)){
+                    Toast.makeText(getContext(),
+                            getString(R.string.msg_time_out),
+                            Toast.LENGTH_LONG).show();
+                }
+
+                else {
+                    Toast.makeText(getContext(),
+                            getString(R.string.msg_unknown_ret_status),
+                            Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Order>> call, Throwable t) {
+
+                if(t instanceof java.net.ConnectException){
+                    CharSequence msg = getString(R.string.msg_connect_error);
+                    Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.i("+++++++++++++++++++++++", t.toString());
+                    t.printStackTrace();
+                }
+            }
+        });
     }
 
     private Subscriber<User> createLoginStateSubscriber(){
@@ -144,6 +231,10 @@ public class OrderFragment extends Fragment {
         @Override
         public void onNext(User user) {
             initData();
+
+            if(user != null){
+                getOrderList();
+            }
         }
 
         @Override
