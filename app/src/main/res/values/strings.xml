@@ -91,6 +91,10 @@
     <string name="editing_password">Password</string>
     <string name="editing_modify">Edit</string>
 
+    <!-- strings for order fragment -->
+    <string name="order_empty">You have no orders!</string>
+    <string name="order_time">Date</string>
+
     <!-- standard cart action msg -->
     <string name="msg_recipe_added_to_cart">the recipe had added to cart successfully!</string>
 
