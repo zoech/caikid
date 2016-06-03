@@ -35,6 +35,7 @@ public class AllDaoGenerator {
         addUser(schema);
         addRecipe(schema);
         addRecipeComments(schema);
+        addOrder(schema);
 
         new DaoGenerator().generateAll(schema,args[0]);
     }
@@ -79,5 +80,18 @@ public class AllDaoGenerator {
         comment.addDoubleProperty("score");
         comment.addStringProperty("content");
         comment.addDateProperty("date");
+    }
+
+    private static void addOrder(Schema schema){
+        Entity order = schema.addEntity("Order");
+
+        order.addIntProperty("orderId");
+        order.addStringProperty("orderNumber");
+        order.addStringProperty("phone");
+        order.addStringProperty("name");
+        order.addDoubleProperty("price");
+        order.addStringProperty("recieveTime");
+        order.addStringProperty("orderTime");
+        order.addStringProperty("orderFlag");
     }
 }
