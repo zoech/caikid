@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/mainBg">
 
+    <!--
     <RelativeLayout
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
@@ -18,6 +19,7 @@
             android:textSize="@dimen/mainActionBarTextSize"/>
 
     </RelativeLayout>
+    -->
 
 
     <RelativeLayout
@@ -34,13 +36,6 @@
             android:layout_gravity="center"
             android:text="@string/please_login_first" />
 
-        <Button
-            android:id="@+id/bt_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_msg"
-            android:text="test"/>
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -50,12 +45,11 @@
         android:gravity="center"
         android:visibility="gone">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:text="you hava login!" />
+        <ListView
+            android:id="@+id/lv_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </RelativeLayout>
 
 </LinearLayout>
