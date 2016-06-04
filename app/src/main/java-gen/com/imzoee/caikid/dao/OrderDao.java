@@ -30,7 +30,8 @@ public class OrderDao extends AbstractDao<Order, Void> {
         public final static Property Price = new Property(4, Double.class, "price", false, "PRICE");
         public final static Property RecieveTime = new Property(5, String.class, "recieveTime", false, "RECIEVE_TIME");
         public final static Property OrderTime = new Property(6, String.class, "orderTime", false, "ORDER_TIME");
-        public final static Property OrderFlag = new Property(7, String.class, "orderFlag", false, "ORDER_FLAG");
+        public final static Property OrderAddress = new Property(7, String.class, "orderAddress", false, "ORDER_ADDRESS");
+        public final static Property OrderFlag = new Property(8, String.class, "orderFlag", false, "ORDER_FLAG");
     };
 
 
@@ -53,7 +54,8 @@ public class OrderDao extends AbstractDao<Order, Void> {
                 "'PRICE' REAL," + // 4: price
                 "'RECIEVE_TIME' TEXT," + // 5: recieveTime
                 "'ORDER_TIME' TEXT," + // 6: orderTime
-                "'ORDER_FLAG' TEXT);"); // 7: orderFlag
+                "'ORDER_ADDRESS' TEXT," + // 7: orderAddress
+                "'ORDER_FLAG' TEXT);"); // 8: orderFlag
     }
 
     /** Drops the underlying database table. */
@@ -102,9 +104,14 @@ public class OrderDao extends AbstractDao<Order, Void> {
             stmt.bindString(7, orderTime);
         }
  
+        String orderAddress = entity.getOrderAddress();
+        if (orderAddress != null) {
+            stmt.bindString(8, orderAddress);
+        }
+ 
         String orderFlag = entity.getOrderFlag();
         if (orderFlag != null) {
-            stmt.bindString(8, orderFlag);
+            stmt.bindString(9, orderFlag);
         }
     }
 
@@ -125,7 +132,8 @@ public class OrderDao extends AbstractDao<Order, Void> {
             cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4), // price
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // recieveTime
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // orderTime
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // orderFlag
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // orderAddress
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // orderFlag
         );
         return entity;
     }
@@ -140,7 +148,8 @@ public class OrderDao extends AbstractDao<Order, Void> {
         entity.setPrice(cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4));
         entity.setRecieveTime(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setOrderTime(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setOrderFlag(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setOrderAddress(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setOrderFlag(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     /** @inheritdoc */
