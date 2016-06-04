@@ -141,7 +141,7 @@ public class CartActivity extends AppCompatActivity {
             // adapter.notifyDataSetChanged();
             if(cart.getTotalCount() == 0){
                 /* the cart is empty */
-                Toast.makeText(getBaseContext(), "the cart is empty!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "the cart is empty!", Toast.LENGTH_LONG).show();
                 btOrder.setVisibility(View.INVISIBLE);
             } else {
                 btOrder.setVisibility(View.VISIBLE);
