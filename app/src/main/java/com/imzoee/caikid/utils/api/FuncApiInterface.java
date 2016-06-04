@@ -1,7 +1,9 @@
 package com.imzoee.caikid.utils.api;
 
+import com.imzoee.caikid.activity.OrderDetailActivity;
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Order;
+import com.imzoee.caikid.model.OrderItem;
 
 import java.util.List;
 
@@ -29,5 +31,8 @@ public interface FuncApiInterface {
                              @Field(ConstConv.RESKEY_ORDER_RECIEVETIME) String date);
 
     @GET("getOrderList.php")
-    Call<List<Order>> getOrderList(@Query("orderBy") String orderType);
+    Call<List<Order>> getOrderList(@Query(ConstConv.RESKEY_GETORDERLIST_ORDERBY) String orderType);
+
+    @GET("getOrderDetail.php")
+    Call<List<OrderItem>> getOrderItems(@Query(ConstConv.RESKEY_GETORDERITEM_ORDERID) int id);
 }
