@@ -7,6 +7,7 @@ import rx.schedulers.Schedulers;
 
 import com.imzoee.caikid.activity.CartActivity;
 import com.imzoee.caikid.activity.MainActivity;
+import com.imzoee.caikid.activity.OrderDetailActivity;
 import com.imzoee.caikid.dao.User;
 import com.imzoee.caikid.fragment.MeFragment;
 import com.imzoee.caikid.fragment.OrderFragment;
@@ -65,7 +66,7 @@ public class ObservablesFactory {
     /**
      * alert those components related to cart action.
      *
-     * @param cart
+     * @param opt
      * CaijkidCart object, representing the current cart status.
      */
     public static void cartActionObservable(final String opt){
@@ -106,6 +107,25 @@ public class ObservablesFactory {
         }
         if (cartSubscriber != null){
             obs.subscribe(cartSubscriber);
+        }
+    }
+
+    public static void orderObservable(final String ignoreStr){
+        Observable<String> cartObservable = Observable.create(new Observable.OnSubscribe<String>(){
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext(ignoreStr);
+                subscriber.onCompleted();
+            }
+        });
+
+        Subscriber<String> homeSubscriber = OrderFragment.getOrderSubscriber();
+        Subscriber<String> detailSubscriber = OrderDetailActivity.getOrderSubscriber();
+        if (homeSubscriber != null){
+            cartObservable.subscribe(homeSubscriber);
+        }
+        if (detailSubscriber != null){
+            cartObservable.subscribe(detailSubscriber);
         }
     }
 }
