@@ -92,6 +92,7 @@ public class AllDaoGenerator {
         order.addDoubleProperty("price");
         order.addStringProperty("recieveTime");
         order.addStringProperty("orderTime");
+        order.addStringProperty("orderAddress");
         order.addStringProperty("orderFlag");
     }
 }
