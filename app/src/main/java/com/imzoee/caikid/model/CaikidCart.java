@@ -112,6 +112,11 @@ public class CaikidCart {
         this.itemList.remove(pos);
     }
 
+    public void clearCart(){
+        itemList.clear();
+        totalCount = 0;
+    }
+
     /**
      * Get a json string that used to send to server in an "order" request.
      * Here, we save only the recipe id and the count, discard the recipe
