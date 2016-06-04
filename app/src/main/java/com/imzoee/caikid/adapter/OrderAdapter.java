@@ -40,7 +40,7 @@ public class OrderAdapter  extends BaseAdapter {
 
     @Override
     public Order getItem(int position){
-        return this.itemList.get(position - 1);
+        return this.itemList.get(position);
     }
 
     @Override
