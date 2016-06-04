@@ -95,6 +95,11 @@
     <string name="order_empty">You have no orders!</string>
     <string name="order_time">Date</string>
 
+    <!-- strings for order detail activity -->
+    <string name="order_pay">Pay</string>
+    <string name="order_confirm">Complete</string>
+    <string name="receiver_info">"Receiver's information :"</string>
+
     <!-- standard cart action msg -->
     <string name="msg_recipe_added_to_cart">the recipe had added to cart successfully!</string>
 
