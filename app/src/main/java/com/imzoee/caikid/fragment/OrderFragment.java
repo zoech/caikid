@@ -1,6 +1,7 @@
 package com.imzoee.caikid.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,8 +21,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Subscriber;
 
+import com.alibaba.fastjson.JSON;
 import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
+import com.imzoee.caikid.activity.OrderDetailActivity;
 import com.imzoee.caikid.adapter.OrderAdapter;
 import com.imzoee.caikid.convention.ConstConv;
 import com.imzoee.caikid.dao.Order;
@@ -141,7 +144,11 @@ public class OrderFragment extends Fragment {
         lvOrders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Order order = orderAdapter.getItem(position);
+                String recipeJsonStr = JSON.toJSONString(order);
+                Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+                intent.putExtra(OrderDetailActivity.INTENT_KEY_ORDER, recipeJsonStr);
+                startActivity(intent);
             }
         });
     }
