@@ -52,8 +52,8 @@ public interface RecipeApiInterface {
      * @return
      * The required recipe.
      */
-    @GET("getRecipeById.php")
-    Call<Recipe> getRecipeById(@Query(ConstConv.RESKEY_ID) int recipeId);
+    @GET("getProductById.php")
+    Call<Recipe> getRecipeById(@Query(ConstConv.RESKEY_PRODUCT_ID) int recipeId);
 
     /**
      *
