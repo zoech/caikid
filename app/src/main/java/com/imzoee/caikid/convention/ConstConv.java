@@ -79,6 +79,10 @@ public class ConstConv {
     public static final String RESRECIPE_ORDERBYCODE_SCORE = "score";
     public static final String RESRECIPE_ORDERBYCODE_PRICE = "price";
 
+	/* request code for recipe comment */
+	public static final String RESCOMMENT_CONTENT = "content";
+	public static final String RESCOMMENT_SCORE = "score";
+
 	/* status for order */
 	public static final String ORDER_STATUS_ORDERED = "待付款";
 	public static final String ORDER_STATUS_CANCELED = "已取消";
