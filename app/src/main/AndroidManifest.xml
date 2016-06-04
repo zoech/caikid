@@ -39,6 +39,7 @@
             android:label="@string/title_activity_login" />
         <activity android:name=".activity.RegisterActivity"/>
         <activity android:name=".activity.ProfileEditActivity"/>
+        <activity android:name=".activity.OrderDetailActivity"/>
     </application>
 
 </manifest>
