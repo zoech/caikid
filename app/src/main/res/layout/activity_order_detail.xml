@@ -3,11 +3,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/lv_order_content"
+    <LinearLayout
+        android:id="@+id/anchor_bottom_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@null"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_operation_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/bt_cancel"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_cancel"
+                style="@style/button_material_flat" />
+
+            <LinearLayout
+                android:layout_width="0.5dip"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dip"
+                android:layout_marginBottom="4dip"
+                android:background="@color/flat_silver" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/bt_ok"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_ok"
+                style="@style/button_material_flat" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_status_inform"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="Canceled"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/anchor_bottom_panel">
+
+        <ListView
+            android:id="@+id/lv_order_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:layout_alignParentTop="true"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
