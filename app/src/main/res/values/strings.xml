@@ -99,6 +99,10 @@
     <string name="order_pay">Pay</string>
     <string name="order_confirm">Complete</string>
     <string name="receiver_info">"Receiver's information :"</string>
+    <string name="comment_on_recipe">Comment</string>
+    <string name="comment_success">Comment successfully!</string>
+    <string name="msg_comment_empty">Please enter comment!</string>
+    <string name="msg_rating_null">Please rate for this recipe!</string>
 
     <!-- standard cart action msg -->
     <string name="msg_recipe_added_to_cart">the recipe had added to cart successfully!</string>
