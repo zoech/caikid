@@ -15,17 +15,16 @@ import com.imzoee.caikid.BaseApp;
 import com.imzoee.caikid.R;
 import com.imzoee.caikid.adapter.OrderCartAdapter;
 import com.imzoee.caikid.convention.ConstConv;
+import com.imzoee.caikid.model.CaikidCart;
+import com.imzoee.caikid.utils.misc.ObservablesFactory;
 import com.rey.material.app.DatePickerDialog;
-import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.TimePickerDialog;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.TextView;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
@@ -152,7 +151,7 @@ public class OrderActivity extends AppCompatActivity {
                         return;
                     }
 
-                    java.text.DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    java.text.DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Call<ResponseBody> order = BaseApp.getHttpClient().getFuncApiInterface().order(BaseApp.getCart().getApiUseJSONString(),
                                                                                                     addr, phone, name, format.format(receiveDate.getTime()));
 
@@ -175,12 +174,12 @@ public class OrderActivity extends AppCompatActivity {
                 int hour = 0;
                 int minute = 0;
                 if(receiveDate != null) {
-                    hour = receiveDate.get(Calendar.HOUR);
+                    hour = receiveDate.get(Calendar.HOUR_OF_DAY);
                     minute = receiveDate.get(Calendar.MINUTE);
                 }
 
                 receiveDate = dialog.getCalendar();
-                receiveDate.set(Calendar.HOUR, hour);
+                receiveDate.set(Calendar.HOUR_OF_DAY, hour);
                 receiveDate.set(Calendar.MINUTE, minute);
                 pickTime();
                 super.onPositiveActionClicked(fragment);
@@ -220,14 +219,14 @@ public class OrderActivity extends AppCompatActivity {
                 int hour = dialog.getHour();
                 int minute = dialog.getMinute();
 
-                receiveDate.set(Calendar.HOUR, hour);
+                receiveDate.set(Calendar.HOUR_OF_DAY, hour);
                 receiveDate.set(Calendar.MINUTE, minute);
 
                 lastPickYear = receiveDate.get(Calendar.YEAR);
                 lastPickMonth = receiveDate.get(Calendar.MONTH);
                 lastPickDate = receiveDate.get(Calendar.DATE);
 
-                java.text.DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm");
+                java.text.DateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
                 tvDate.setText(format.format(receiveDate.getTime()));
                 tvDate.setTextColor(getResources().getColor(R.color.flat_peter_river));
 
@@ -244,7 +243,7 @@ public class OrderActivity extends AppCompatActivity {
         };
 
         if(receiveDate != null){
-            builder.hour(receiveDate.get(Calendar.HOUR)).minute(receiveDate.get(Calendar.MINUTE));
+            builder.hour(receiveDate.get(Calendar.HOUR_OF_DAY)).minute(receiveDate.get(Calendar.MINUTE));
         }
 
         builder.positiveAction(getString(R.string.button_ok))
@@ -274,6 +273,9 @@ public class OrderActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "order id can not translate from body", Toast.LENGTH_LONG).show();
                 }
 
+                BaseApp.getCart().clearCart();
+                ObservablesFactory.cartActionObservable(CaikidCart.OBSERVE_DELITEM);
+                ObservablesFactory.orderObservable(null);
                 finish();
             }
 
