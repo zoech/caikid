@@ -95,6 +95,10 @@ public class OrderDetailActivity extends AppCompatActivity {
         getOrderItems();
     }
 
+    public static OrderDetailActivity getInstance(){
+        return instance;
+    }
+
     public void initView(){
         lvOrderItem = (ListView) findViewById(R.id.lv_order_content);
         llOperation = (LinearLayout) findViewById(R.id.ll_operation_panel);
@@ -111,14 +115,16 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     public void initData(){
         lvOrderItem.addHeaderView(llHeader);
-        orderItemAdapter = new OrderItemAdapter(getBaseContext());
+        orderItemAdapter = new OrderItemAdapter(getBaseContext(), order);
         orderItemAdapter.setOrderList(orderTerms);
         lvOrderItem.setAdapter(orderItemAdapter);
 
         tvReceiverName.setText(order.getName());
-        //tvReceiveAddr.setText(order.get);
+        tvReceiveAddr.setText(order.getOrderAddress());
         tvReceiverPhone.setText(order.getPhone());
         tvReceiveDate.setText(order.getRecieveTime());
+
+        orderItemAdapter.setOrder(order);
 
         if (order.getOrderFlag().equals(ConstConv.ORDER_STATUS_CANCELED)){
             llOperation.setVisibility(View.GONE);
@@ -390,6 +396,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                     } else if (status.equals(ConstConv.RET_STATUS_OK)){
 
                         order = response.body();
+                        orderItemAdapter.setOrder(order);
                         getOrderItems();
 
                         if (order.getOrderFlag().equals(ConstConv.ORDER_STATUS_CANCELED)){
@@ -409,8 +416,6 @@ public class OrderDetailActivity extends AppCompatActivity {
                             tvStatus.setVisibility(View.GONE);
                             btOk.setText(getString(R.string.order_confirm));
                         }
-
-                        orderItemAdapter.notifyDataSetChanged();
 
                     } else if (status.equals(ConstConv.RET_STATUS_TIMEOUT)){
                         Toast.makeText(getBaseContext(),
