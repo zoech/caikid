@@ -54,6 +54,39 @@
             android:textSize="@dimen/cart_item_name_text_size"
             android:text="recipe name" />
 
+        <!--
+        <com.rey.material.widget.LinearLayout
+            android:id="@+id/ll_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:padding="5dip"
+            style="@style/button_material_flat"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/flat_peter_river"
+                android:text="@string/comment_on_recipe" />
+
+        </com.rey.material.widget.LinearLayout>
+        -->
+
+        <com.rey.material.widget.Button
+            android:id="@+id/bt_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/comment_on_recipe"
+            style="@style/button_material_flat"
+            android:visibility="gone"/>
+
 
     </RelativeLayout>
 
