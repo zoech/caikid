@@ -13,12 +13,13 @@ public class Order {
     private Double price;
     private String recieveTime;
     private String orderTime;
+    private String orderAddress;
     private String orderFlag;
 
     public Order() {
     }
 
-    public Order(Integer orderId, String orderNumber, String phone, String name, Double price, String recieveTime, String orderTime, String orderFlag) {
+    public Order(Integer orderId, String orderNumber, String phone, String name, Double price, String recieveTime, String orderTime, String orderAddress, String orderFlag) {
         this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.phone = phone;
@@ -26,6 +27,7 @@ public class Order {
         this.price = price;
         this.recieveTime = recieveTime;
         this.orderTime = orderTime;
+        this.orderAddress = orderAddress;
         this.orderFlag = orderFlag;
     }
 
@@ -83,6 +85,14 @@ public class Order {
 
     public void setOrderTime(String orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public String getOrderAddress() {
+        return orderAddress;
+    }
+
+    public void setOrderAddress(String orderAddress) {
+        this.orderAddress = orderAddress;
     }
 
     public String getOrderFlag() {
