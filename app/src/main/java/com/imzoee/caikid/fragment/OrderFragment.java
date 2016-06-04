@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class OrderFragment extends Fragment {
 
-    private static OrderFragment instance;
+    private static OrderFragment instance = null;
 
     private OnOrderFragmentListener mListener;
 
@@ -214,6 +214,17 @@ public class OrderFragment extends Fragment {
         return instance.createLoginStateSubscriber();
     }
 
+    private Subscriber<String> createOrderSubscriber(){
+        return new OrderSubscriber();
+    }
+
+    public static Subscriber<String> getOrderSubscriber(){
+        if(instance == null){
+            return null;
+        }
+        return instance.createOrderSubscriber();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -242,6 +253,27 @@ public class OrderFragment extends Fragment {
             if(user != null){
                 getOrderList();
             }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Toast.makeText(getContext(), "error in observer", Toast.LENGTH_LONG)
+                    .show();
+            Log.i("----------------------", e.getMessage());
+        }
+
+        @Override
+        public void onCompleted() {
+            if(!isUnsubscribed()) {
+                this.unsubscribe();
+            }
+        }
+    }
+
+    private class OrderSubscriber extends Subscriber<String> {
+        @Override
+        public void onNext(String ignoreStr) {
+            getOrderList();
         }
 
         @Override
