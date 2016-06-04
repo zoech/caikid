@@ -35,4 +35,19 @@ public interface FuncApiInterface {
 
     @GET("getOrderDetail.php")
     Call<List<OrderItem>> getOrderItems(@Query(ConstConv.RESKEY_GETORDERITEM_ORDERID) int id);
+
+    @GET("getOrderById.php")
+    Call<Order> getOrderById(@Query(ConstConv.RESKEY_GETORDERITEM_ORDERID) int id);
+
+    @FormUrlEncoded
+    @POST("pay.php")
+    Call<ResponseBody> pay(@Field(ConstConv.RESKEY_GETORDERITEM_ORDERID) int id);
+
+    @FormUrlEncoded
+    @POST("confirmOrder.php")
+    Call<ResponseBody> confirmOrder(@Field(ConstConv.RESKEY_GETORDERITEM_ORDERID) int id);
+
+    @FormUrlEncoded
+    @POST("cancelOrder.php")
+    Call<ResponseBody> cancelOrder(@Field(ConstConv.RESKEY_GETORDERITEM_ORDERID) int id);
 }
