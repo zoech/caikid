@@ -50,4 +50,11 @@ public interface FuncApiInterface {
     @FormUrlEncoded
     @POST("cancelOrder.php")
     Call<ResponseBody> cancelOrder(@Field(ConstConv.RESKEY_GETORDERITEM_ORDERID) int id);
+
+    @FormUrlEncoded
+    @POST("comment.php")
+    Call<ResponseBody> comment(@Field(ConstConv.RESKEY_GETORDERITEM_ORDERID) int orderId,
+                               @Field(ConstConv.RESKEY_COMMENT_RECIPEID) int productId,
+                               @Field(ConstConv.RESCOMMENT_CONTENT) String content,
+                               @Field(ConstConv.RESCOMMENT_SCORE) int score);
 }
