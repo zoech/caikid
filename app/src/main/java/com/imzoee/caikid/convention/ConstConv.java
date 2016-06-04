@@ -38,6 +38,7 @@ public class ConstConv {
 	public static final String RESKEY_SHOP_ADDR= "recipe-shop";
 	public static final String RESKEY_COMMENT_RECIPEID = "productId";
 	public static final String RESKEY_COMMENT_PAGE = "page";
+	public static final String RESKEY_PRODUCT_ID = "productId";
 
 	/* request key related to order */
 	public static final String RESKEY_ORDER_CART = "cart";
@@ -45,6 +46,10 @@ public class ConstConv {
 	public static final String RESKEY_ORDER_PHONE = "phone";
 	public static final String RESKEY_ORDER_NAME = "name";
 	public static final String RESKEY_ORDER_RECIEVETIME = "receiveTime";
+
+	/* request key related to order activity */
+	public static final String RESKEY_GETORDERLIST_ORDERBY = "orderBy";
+	public static final String RESKEY_GETORDERITEM_ORDERID = "orderId";
 
 	/* response status code */
 	public static final String RET_STATUS_SESSIONNOTEXIST = "session-invalid";
