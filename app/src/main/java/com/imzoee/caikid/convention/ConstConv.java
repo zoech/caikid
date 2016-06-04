@@ -79,6 +79,12 @@ public class ConstConv {
     public static final String RESRECIPE_ORDERBYCODE_SCORE = "score";
     public static final String RESRECIPE_ORDERBYCODE_PRICE = "price";
 
+	/* status for order */
+	public static final String ORDER_STATUS_ORDERED = "待付款";
+	public static final String ORDER_STATUS_CANCELED = "已取消";
+	public static final String ORDER_STATUS_PAYED = "待取菜";
+	public static final String ORDER_STATUS_COMPLETED = "已完成";
+
 
     /*
      * following are some key or value used to debug. These fileds will be
